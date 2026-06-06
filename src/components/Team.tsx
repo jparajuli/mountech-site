@@ -1,4 +1,3 @@
-import React from 'react';
 import { Terminal, Shield, Network, Users } from 'lucide-react';
 
 export default function Team({ summaryOnly, onViewFull }: { summaryOnly?: boolean; onViewFull?: () => void }) {
@@ -69,7 +68,7 @@ export default function Team({ summaryOnly, onViewFull }: { summaryOnly?: boolea
         {members.map((m, idx) => (
           <div key={idx} style={{
             background: 'var(--surface)', border: '1px solid var(--border)', borderRadius: '12px',
-            padding: '32px', display: 'flex', flexDirection: 'column', justify: 'between', height: '240px'
+            padding: '32px', display: 'flex', flexDirection: 'column', justifyContent: 'space-between', height: '240px'
           }}>
             <div>
               <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '14px' }}>
