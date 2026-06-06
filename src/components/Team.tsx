@@ -1,27 +1,39 @@
-import { Terminal, Shield, Network, Users } from 'lucide-react';
+import { Terminal, Shield, Network, Layers, Users, ChevronRight } from 'lucide-react';
 
-export default function Team({ summaryOnly, onViewFull }: { summaryOnly?: boolean; onViewFull?: () => void }) {
+interface TeamProps {
+  summaryOnly?: boolean;
+  onViewFull?: () => void;
+}
+
+export default function Team({ summaryOnly, onViewFull }: TeamProps) {
   const members = [
     {
+      name: "Surya Basnet",
+      role: "Founder",
+      specialty: "Enterprise Digitalization Strategy & Cloud Infrastructure Platforms",
+      icon: <Layers size={18} style={{ color: 'var(--accent)' }} />
+    },
+    {
       name: "Jhanak Parajuli",
-      role: "Founder & Managing Director",
-      specialty: "Distributed Systems & Multi-Agent Architecture Design",
-      icon: <Terminal size={18} style={{ color: 'var(--accent)' }} />
+      role: "Founder",
+      specialty: "Distributed Systems & Multi-Agent Algorithmic Engineering",
+      icon: <Terminal size={18} style={{ color: 'var(--accent2)' }} />
     },
     {
-      name: "Dr. Amit Thapa",
-      role: "Chief AI Systems Scientist",
-      specialty: "Sovereign LLM Fine-Tuning & Algorithmic Design",
-      icon: <Network size={18} style={{ color: 'var(--accent2)' }} />
+      name: "Tej Shahi",
+      role: "Founder",
+      specialty: "Deep Learning Research & Sovereign Language Model Optimization",
+      icon: <Network size={18} style={{ color: 'var(--green)' }} />
     },
     {
-      name: "Elena Vance",
-      role: "Head of GovTech Systems Integration",
-      specialty: "Public Sector Architecture Networks & Compliance Protocols",
-      icon: <Shield size={18} style={{ color: 'var(--green)' }} />
+      name: "Dilip Yogi",
+      role: "Founder",
+      specialty: "High-Performance Compute Clustering & DevSecOps Operations",
+      icon: <Shield size={18} style={{ color: 'var(--accent)' }} />
     }
   ];
 
+  // ──── HOME SUMMARY PREVIEW ────
   if (summaryOnly) {
     return (
       <section id="team-summary" style={{ padding: '90px 24px', background: 'var(--surface)', borderTop: '1px solid var(--border)' }}>
@@ -37,8 +49,8 @@ export default function Team({ summaryOnly, onViewFull }: { summaryOnly?: boolea
             }}>View Full Team Framework →</button>
           </div>
 
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '24px' }}>
-            {members.slice(0, 2).map((m, idx) => (
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: '24px' }}>
+            {members.slice(0, 3).map((m, idx) => (
               <div key={idx} style={{ background: 'var(--card)', border: '1px solid var(--border)', borderRadius: '8px', padding: '24px' }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '12px' }}>
                   {m.icon}
@@ -54,17 +66,18 @@ export default function Team({ summaryOnly, onViewFull }: { summaryOnly?: boolea
     );
   }
 
+  // ──── FULL IDENTITY CANVAS VIEW ────
   return (
     <div style={{ padding: '80px 24px', maxWidth: '1200px', margin: '0 auto' }}>
       <div style={{ textAlign: 'center', marginBottom: '64px' }}>
         <Users size={32} style={{ color: 'var(--green)', marginBottom: '12px' }} />
         <h1 style={{ fontSize: '3rem', fontWeight: 700, letterSpacing: '-0.04em' }}>Our Systems Architects</h1>
         <p style={{ color: 'var(--text-sub)', maxWidth: '500px', margin: '8px auto 0' }}>
-          Meet the operational engineering team managing our multi-agent pipelines and core data clusters.
+          Meet the founding team managing our multi-agent pipelines and core data clusters.
         </p>
       </div>
 
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '24px' }}>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '24px' }}>
         {members.map((m, idx) => (
           <div key={idx} style={{
             background: 'var(--surface)', border: '1px solid var(--border)', borderRadius: '12px',
@@ -75,7 +88,7 @@ export default function Team({ summaryOnly, onViewFull }: { summaryOnly?: boolea
                 <div style={{ background: 'var(--card)', border: '1px solid var(--border)', padding: '8px', borderRadius: '6px' }}>{m.icon}</div>
                 <div>
                   <h2 style={{ fontSize: '1.25rem', fontWeight: 600 }}>{m.name}</h2>
-                  <div style={{ fontSize: '0.85rem', color: 'var(--accent)' }}>{m.role}</div>
+                  <div style={{ fontSize: '0.85rem', color: 'var(--accent)', fontWeight: 600, letterSpacing: '0.05em' }}>{m.role.toUpperCase()}</div>
                 </div>
               </div>
               <p style={{ color: 'var(--text-sub)', fontSize: '0.9rem', lineHeight: 1.6 }}>{m.specialty}</p>
