@@ -1,61 +1,37 @@
-import React from 'react';
 import { ChevronRight } from 'lucide-react';
 import Logo from './Logo';
 
 export default function Hero() {
   return (
-    <section className="grid-bg" id="about" style={{ padding: '120px 24px 100px', borderBottom: '1px solid var(--border)' }}>
-      <div style={{ maxWidth: '850px', margin: '0 auto', textAlign: 'center' }}>
-        
-        {/* Branding Badge Container */}
+    <section className="grid-bg" style={{ borderBottom: '1px solid var(--border)', textAlign: 'center' }}>
+      <div style={{ maxWidth: '900px', margin: '0 auto' }}>
         <div style={{
-          display: 'inline-flex',
-          alignItems: 'center',
-          gap: '10px',
-          background: 'var(--accent-dim)',
-          border: '1px solid rgba(79, 156, 249, 0.2)',
-          padding: '8px 16px',
-          borderRadius: '30px',
-          fontSize: '0.8rem',
-          fontFamily: "'JetBrains Mono', monospace",
-          color: 'var(--accent)',
-          marginBottom: '32px'
+          display: 'inline-flex', alignItems: 'center', gap: '10px',
+          background: 'var(--accent-dim)', border: '1px solid rgba(79, 156, 249, 0.2)',
+          padding: '8px 16px', borderRadius: '30px', fontSize: '0.75rem', color: 'var(--accent)',
+          marginBottom: '24px', flexWrap: 'wrap', justifyContent: 'center'
         }}>
-          <Logo size={18} /> Architecting Intelligence, Securing Infrastructure
+          <Logo size={16} /> <span>Architecting Intelligence, Securing Infrastructure</span>
         </div>
 
-        <h1 style={{
-          fontSize: 'clamp(2.2rem, 5vw, 3.8rem)',
-          fontWeight: 700,
-          letterSpacing: '-0.04em',
-          lineHeight: 1.15,
-          marginBottom: '24px'
-        }}>
-          Digital Transformation Engineered for <br />
+        <h1 style={{ fontWeight: 800, marginBottom: '20px', lineHeight: 1.1 }}>
+          Digital Transformation for <br />
           <span style={{
             backgroundImage: 'linear-gradient(90deg, var(--accent), var(--accent2))',
-            WebkitBackgroundClip: 'text',
-            WebkitTextFillColor: 'transparent'
+            WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent'
           }}>Enterprise Growth Scales</span>
         </h1>
         
-        <p style={{ color: 'var(--text-sub)', fontSize: '1.1rem', maxWidth: '650px', margin: '0 auto 40px', lineHeight: 1.7 }}>
-          MounTech integrates advanced multi-agent configurations, secure cloud data operations, and comprehensive IT advisory matrices to deliver sovereign automation.
+        <p style={{ color: 'var(--text-sub)', fontSize: '1rem', maxWidth: '600px', margin: '0 auto 32px', lineHeight: 1.6 }}>
+          Advanced multi-agent AI, secure cloud operations, and expert advisory designed for sovereign automation.
         </p>
         
-        <div style={{ display: 'flex', justifyContent: 'center' }}>
+        <div style={{ display: 'flex', justifyContent: 'center', gap: '12px', flexWrap: 'wrap' }}>
           <a href="#contact" style={{
-            background: 'var(--accent)',
-            color: '#fff',
-            padding: '14px 28px',
-            borderRadius: '6px',
-            fontWeight: 600,
-            display: 'flex',
-            alignItems: 'center',
-            gap: '8px',
-            boxShadow: '0 4px 20px rgba(79, 156, 249, 0.25)'
+            background: 'var(--accent)', color: '#fff', padding: '14px 24px',
+            borderRadius: '8px', fontWeight: 600, display: 'flex', alignItems: 'center', gap: '8px'
           }}>
-            Initiate Modernization Pipeline <ChevronRight size={16} />
+            Initiate Pipeline <ChevronRight size={18} />
           </a>
         </div>
       </div>
