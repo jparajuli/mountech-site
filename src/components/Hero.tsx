@@ -11,7 +11,7 @@ export default function Hero() {
           padding: '8px 16px', borderRadius: '30px', fontSize: '0.75rem', color: 'var(--accent)',
           marginBottom: '24px', flexWrap: 'wrap', justifyContent: 'center'
         }}>
-          <Logo size={16} /> <span>Architecting Intelligence, Securing Infrastructure</span>
+          <Logo size={16} /> <span>Summiting AI. Securing the Foundations.</span>
         </div>
 
         <h1 style={{ fontWeight: 800, marginBottom: '20px', lineHeight: 1.1 }}>

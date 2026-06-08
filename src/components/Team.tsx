@@ -1,4 +1,4 @@
-import { Terminal, Shield, Network, Layers, Users, ChevronRight } from 'lucide-react';
+import { Terminal, Shield, Network, Layers, Users, BookOpen } from 'lucide-react';
 
 interface TeamProps {
   summaryOnly?: boolean;
@@ -18,6 +18,12 @@ export default function Team({ summaryOnly, onViewFull }: TeamProps) {
       role: "Founder",
       specialty: "Distributed Systems & Multi-Agent Algorithmic Engineering",
       icon: <Terminal size={18} style={{ color: 'var(--accent2)' }} />
+    },
+    {
+      name: "Sarbagya R. Shakya",
+      role: "Founder",
+      specialty: "Educational Infrastructure & Applied Intelligence Frameworks",
+      icon: <BookOpen size={18} style={{ color: 'var(--accent)' }} />
     },
     {
       name: "Tej Shahi",
@@ -50,7 +56,7 @@ export default function Team({ summaryOnly, onViewFull }: TeamProps) {
           </div>
 
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: '24px' }}>
-            {members.slice(0, 3).map((m, idx) => (
+            {members.slice(0, 4).map((m, idx) => (
               <div key={idx} style={{ background: 'var(--card)', border: '1px solid var(--border)', borderRadius: '8px', padding: '24px' }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '12px' }}>
                   {m.icon}

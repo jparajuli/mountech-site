@@ -1,5 +1,5 @@
 import React from 'react';
-import { Brain, Code, Link, Cpu, Terminal, Database, Server, Layers } from 'lucide-react';
+import { Brain, Code, Link, Cpu, Terminal, Database, Server, Layers, Cpu as AiIcon, Activity } from 'lucide-react';
 
 export interface SyllabusModule {
   hours: string;
@@ -42,6 +42,50 @@ export const courses: Course[] = [
       { hours: "Hours 11-20", title: "Advanced RAG & Semantic Context Routing", topics: ["Hierarchical chunking patterns and metadata tracking structures", "Implementing multi-stage semantic re-ranking layers", "Building intent routing logic using semantic similarity vectors"] },
       { hours: "Hours 21-30", title: "Multi-Agent Systems & Orchestration Graphs", topics: ["Transitioning from linear chains to complex Directed Acyclic Graphs (DAGs)", "Managing agent state persistence, shared memories, and human-in-the-loop gates", "Designing specialized agent networks using programmatic graph routing frameworks"] },
       { hours: "Hours 31-40", title: "Production Deployment, Guardrails & MLOps", topics: ["Implementing semantic guardrails to eliminate data hallucinations", "Containerizing complete agent runtimes via Docker", "Deploying low-latency endpoints to cloud layers with real-time logging"] }
+    ]
+  },
+  {
+    id: "generative-ai-transformers",
+    title: "Generative AI & Transformer Architectures",
+    instructor: "Dr. Amit Thapa (Chief AI Systems Scientist)",
+    methodology: "Deep mathematical derivation of attention matrices combined with raw PyTorch construction of structural transformer blocks from absolute zero-dependency modules.",
+    costLocal: "NPR 40,000",
+    costGlobal: "USD 400",
+    accentColor: "var(--accent2)",
+    icon: <AiIcon size={22} style={{ color: 'var(--accent2)' }} />,
+    learn: [
+      "Building multi-head self-attention mechanisms and causal mask blocks from vanilla tensor arrays.",
+      "Fine-tuning foundational frontier models using parameter-efficient fine-tuning (PEFT, LoRA, QLoRA).",
+      "Optimizing KV-caching configurations and low-bit computational quantization mechanics."
+    ],
+    achieve: "You will write a custom generative transformer block from scratch, train it on localized data targets, and partition it for low-latency local edge computing inference loops.",
+    syllabus: [
+      { hours: "Hours 01-10", title: "Sequence Vector Foundations & Raw Attention Mechanics", topics: ["Mathematical tracking of sequence matrices, embeddings, and matrix operations", "Deconstructing dot-product attention pipelines step-by-step", "Analyzing gradient degradation models inside recurrent architectures"] },
+      { hours: "Hours 11-20", title: "Compiling the Complete Transformer Engine", topics: ["Writing multi-head positional scaling matrices from structural tensor dimensions", "Configuring layer normalization layouts and feed-forward linear layers", "Compiling causal mask constraints for absolute token insulation"] },
+      { hours: "Hours 21-30", title: "Parameter-Efficient Adaptations (PEFT/LoRA)", topics: ["Mathematical proof lines for matrix rank dimension downsizing", "Injecting and tracking low-rank adapters inside weights checkpoints", "Quantizing large models to 4-bit configurations while preserving model accuracy metrics"] },
+      { hours: "Hours 31-40", title: "Alignment Protocols & Inference Speed Fine-Tuning", topics: ["Programming Direct Preference Optimization (DPO) routines inside training runs", "Implementing FlashAttention kernel hooks into standard tensor arrays", "Exporting optimized checkpoints to streaming production runtimes"] }
+    ]
+  },
+  {
+    id: "mlops-production-lifecycle",
+    title: "Production MLOps Lifecycle Engineering",
+    instructor: "Ecosystem Data Platform Core",
+    methodology: "Production-grade automated model testing cycles. 100% focused on continuous execution flows, drift telemetry assertion tracking, and isolated champion/challenger rollouts.",
+    costLocal: "NPR 38,000",
+    costGlobal: "USD 380",
+    accentColor: "var(--accent2)",
+    icon: <Activity size={22} style={{ color: 'var(--accent2)' }} />,
+    learn: [
+      "Structuring completely automated model assembly and pipeline validation scripts.",
+      "Deploying online and offline feature store layers with automated data lineage version logs.",
+      "Configuring live data drift tracking webhooks to trigger retraining engines dynamically."
+    ],
+    achieve: "You will build a responsive, containerized model pipeline that handles live log traffic, detects accuracy drift metrics via telemetry, and handles canary code deployments with automated rollbacks.",
+    syllabus: [
+      { hours: "Hours 01-10", title: "Feature Engineering Infrastructure & Data Tracking", topics: ["Configuring online database layers via automated Feature Stores (Feast Frameworks)", "Tracking raw target file lineages with Data Version Control (DVC)", "Assembling isolated data inspection validation boundaries inside CI/CD blocks"] },
+      { hours: "Hours 11-20", title: "Experiment Pipelines & Model Gate Management", topics: ["Orchestrating model parameter recording maps within decoupled MLflow instances", "Structuring schema version validations for model artifacts container nodes", "Configuring metric checkpoint monitors inside custom Airflow DAG configurations"] },
+      { hours: "Hours 21-30", title: "High-Throughput Serving Matrices & Container Runs", topics: ["Wrapping deep tensor weights arrays inside high-performance Triton serving engines", "Configuring load balancing rules over concurrent model processing cells", "Writing traffic mirror templates to split incoming requests into production shadow tracks"] },
+      { hours: "Hours 31-40", title: "Observability Metrics & Retraining Automation Loops", topics: ["Writing mathematical calculations to trace and flag data profile divergence errors", "Connecting Prometheus metrics to flag live performance degradation events", "Constructing zero-downtime model swap routines with absolute safety fallbacks"] }
     ]
   },
   {

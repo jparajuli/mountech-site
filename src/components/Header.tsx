@@ -16,13 +16,13 @@ export default function Header({ route, setRoute }: HeaderProps) {
     { id: 'consulting', label: 'Consulting' },
     { id: 'school', label: 'Academy' },
     { id: 'datascience', label: 'Data Science' },
-    { id: 'about', label: 'Identity' },
-    { id: 'team', label: 'Team' },
+    { id: 'community', label: 'Community' },
+    { id: 'about', label: 'About' },
   ];
 
   const handleNav = (id: string) => {
     setRoute({ page: id, courseId: route.courseId });
-    setIsOpen(false);
+    if (isOpen) setIsOpen(false);
   };
 
   return (
@@ -35,31 +35,30 @@ export default function Header({ route, setRoute }: HeaderProps) {
         maxWidth: '1200px', margin: '0 auto', padding: '12px 20px',
         display: 'flex', justifyContent: 'space-between', alignItems: 'center'
       }}>
-        {/* Logo */}
         <div onClick={() => handleNav('home')} style={{ display: 'flex', alignItems: 'center', gap: '10px', cursor: 'pointer' }}>
           <Logo size={26} />
           <span style={{ fontSize: '1.1rem', fontWeight: 700, letterSpacing: '-0.02em' }}>
-            MOUNTECH<span style={{ color: 'var(--accent)' }}>.NP</span>
+            MOUNTECH SOLUTION <span style={{ color: 'var(--accent)' }}>(MTS)</span>
           </span>
         </div>
 
-        {/* Desktop Nav */}
+        {/* Desktop Navbar Row */}
         <nav className="desktop-only" style={{ display: 'none', gap: '16px' }}>
           {navItems.map((item) => (
             <button key={item.id} onClick={() => handleNav(item.id)}
-              style={{ background: 'none', border: 'none', color: route.page === item.id ? 'var(--accent)' : 'var(--text-sub)', fontWeight: 500 }}>
+              style={{ background: 'none', border: 'none', color: route.page === item.id ? 'var(--accent)' : 'var(--text-sub)', fontWeight: 500, padding: '4px 8px' }}>
               {item.label}
             </button>
           ))}
         </nav>
 
-        {/* Mobile Toggle */}
+        {/* Mobile Menu Icon Toggle */}
         <button onClick={() => setIsOpen(!isOpen)} style={{ background: 'none', border: 'none', color: '#fff' }} className="mobile-only">
           {isOpen ? <X size={24} /> : <Menu size={24} />}
         </button>
       </div>
 
-      {/* Mobile Menu Drawer */}
+      {/* Mobile Drawer Overlay */}
       {isOpen && (
         <div style={{
           position: 'fixed', top: '56px', left: 0, right: 0, bottom: 0,
@@ -79,7 +78,7 @@ export default function Header({ route, setRoute }: HeaderProps) {
       )}
 
       <style>{`
-        @media (min-width: 900px) {
+        @media (min-width: 960px) {
           .desktop-only { display: flex !important; }
           .mobile-only { display: none !important; }
         }
