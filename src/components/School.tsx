@@ -1,20 +1,20 @@
 import React, { useState } from 'react';
 import { 
-  Sliders, CheckCircle, Wallet, CreditCard, 
-  X, Globe, ChevronRight, BookOpen, Mail, Search, Briefcase, Tag
+  Sliders, CheckCircle, Wallet, CreditCard, ArrowLeft,
+  X, Globe, ChevronRight, BookOpen, Mail, Search, Briefcase, Tag, Clock
 } from 'lucide-react';
 import { courses } from '../data/courses';
 
 interface SchoolProps {
   summaryOnly?: boolean;
+  detailOnly?: boolean;
   route: { page: string; courseId: string };
   setRoute: (route: { page: string; courseId: string }) => void;
 }
 
-export default function School({ summaryOnly, route, setRoute }: SchoolProps) {
+export default function School({ summaryOnly, detailOnly, route, setRoute }: SchoolProps) {
   const [showModal, setShowModal] = useState(false);
   const [modalStep, setModalStep] = useState<'form' | 'payment' | 'success' | 'instructor_form' | 'instructor_success'>('form');
-  const [paymentRegion, setPaymentRegion] = useState<'nepal' | 'global'>('nepal');
   
   const [studentForm, setStudentForm] = useState({ name: '', email: '', phone: '' });
   const [instructorForm, setInstructorForm] = useState({ name: '', email: '', portfolio: '', proposal: '' });
@@ -23,7 +23,6 @@ export default function School({ summaryOnly, route, setRoute }: SchoolProps) {
   const [searchQuery, setSearchQuery] = useState('');
   const [activeCategory, setActiveCategory] = useState('All Domains');
 
-  // Classified routing dictionary updated with newly designed AI tokens
   const getCourseCategory = (id: string): string => {
     switch(id) {
       case 'ai-agents':
@@ -61,7 +60,7 @@ export default function School({ summaryOnly, route, setRoute }: SchoolProps) {
     return matchesSearch && matchesCategory;
   });
 
-  const currentCourse = filteredCourses.find(c => c.id === route.courseId) || filteredCourses[0];
+  const currentCourse = courses.find(c => c.id === route.courseId) || courses[0];
 
   const handleStudentSubmission = (e: React.FormEvent) => {
     e.preventDefault();
@@ -91,15 +90,7 @@ export default function School({ summaryOnly, route, setRoute }: SchoolProps) {
     setModalStep('success');
   };
 
-  const handleCategoryChange = (cat: string) => {
-    setActiveCategory(cat);
-    const matches = courses.filter(c => cat === 'All Domains' || getCourseCategory(c.id) === cat);
-    if (matches.length > 0) {
-      setRoute({ page: 'school', courseId: matches[0].id });
-    }
-  };
-
-  // ──── HOME PREVIEW (TOP 3) ────
+  // ──── VIEW MODE A: HOMEPAGE SNAPSHOT ROW ────
   if (summaryOnly) {
     return (
       <section style={{ borderTop: '1px solid var(--border)' }}>
@@ -109,11 +100,11 @@ export default function School({ summaryOnly, route, setRoute }: SchoolProps) {
               <span style={{ fontSize: '0.8rem', color: 'var(--accent)', fontFamily: 'monospace' }}>MOUNTECH ACADEMY</span>
               <h2>Active Tracks</h2>
             </div>
-            <button onClick={() => setRoute({ page: 'school', courseId: route.courseId })} style={{ background: 'none', border: '1px solid var(--border)', color: 'var(--accent)', padding: '8px 16px', borderRadius: '6px' }}>View All Tracks →</button>
+            <button onClick={() => setRoute({ page: 'school', courseId: route.courseId })} style={{ background: 'none', border: '1px solid var(--border)', color: 'var(--accent)', padding: '8px 16px', borderRadius: '6px', fontWeight: 600 }}>View All Tracks →</button>
           </div>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '16px' }}>
             {courses.slice(0, 3).map(c => (
-              <div key={c.id} onClick={() => setRoute({ page: 'school', courseId: c.id })} style={{ background: 'var(--surface)', padding: '24px', borderRadius: '12px', border: '1px solid var(--border)', cursor: 'pointer' }}>
+              <div key={c.id} onClick={() => setRoute({ page: 'course-detail', courseId: c.id })} style={{ background: 'var(--surface)', padding: '24px', borderRadius: '12px', border: '1px solid var(--border)', cursor: 'pointer' }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>{c.icon} <div><h3 style={{ fontSize: '1rem' }}>{c.title}</h3><p style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>{getCourseCategory(c.id)}</p></div></div>
               </div>
             ))}
@@ -123,206 +114,241 @@ export default function School({ summaryOnly, route, setRoute }: SchoolProps) {
     );
   }
 
-  // ──── FULL ACADEMY DASHBOARD VIEW ────
-  return (
-    <section style={{ maxWidth: '1200px', margin: '0 auto' }}>
-      <div style={{ textAlign: 'center', marginBottom: '32px' }}>
-        <span style={{ fontFamily: "'JetBrains Mono', monospace", color: 'var(--accent)', fontSize: '0.85rem' }}>TRAINING ACADEMY FRAMEWORK</span>
-        <h1 style={{ marginTop: '8px' }}>Practical Knowledge Specialization Clusters</h1>
-      </div>
-
-      {/* Domain Category Selector Tabs */}
-      <div style={{ display: 'flex', justifyContent: 'center', gap: '8px', marginBottom: '24px', overflowX: 'auto', paddingBottom: '8px', WebkitOverflowScrolling: 'touch' }}>
-        {categories.map(cat => (
-          <button
-            key={cat}
-            onClick={() => handleCategoryChange(cat)}
-            style={{
-              flexShrink: 0, padding: '10px 18px', borderRadius: '30px', fontSize: '0.85rem', fontWeight: 600,
-              background: activeCategory === cat ? 'var(--accent-dim)' : 'var(--surface)',
-              border: `1px solid ${activeCategory === cat ? 'var(--accent)' : 'var(--border)'}`,
-              color: activeCategory === cat ? 'var(--accent)' : 'var(--text-sub)',
-              display: 'flex', alignItems: 'center', gap: '6px', transition: '0.15s'
-            }}
-          >
-            <Tag size={12} /> {cat}
-          </button>
-        ))}
-      </div>
-
-      {/* Deep Filter Input Field */}
-      <div style={{ maxWidth: '500px', margin: '0 auto 40px', position: 'relative' }}>
-        <div style={{ position: 'absolute', top: '50%', left: '16px', transform: 'translateY(-50%)', color: 'var(--text-muted)', display: 'flex', alignItems: 'center' }}><Search size={18} /></div>
-        <input 
-          type="text" 
-          value={searchQuery}
-          onChange={(e) => setSearchQuery(e.target.value)}
-          placeholder={`Search inside ${activeCategory.toLowerCase()}...`} 
-          style={{ width: '100%', padding: '14px 16px 14px 48px', background: 'var(--surface)', border: '1px solid var(--border)', borderRadius: '10px', color: '#fff', fontSize: '0.95rem', outline: 'none' }}
-        />
-        {searchQuery && (<button onClick={() => setSearchQuery('')} style={{ position: 'absolute', top: '50%', right: '16px', transform: 'translateY(-50%)', background: 'none', border: 'none', color: 'var(--text-muted)' }}><X size={16} /></button>)}
-      </div>
-
-      {filteredCourses.length === 0 ? (
-        <div style={{ textAlign: 'center', padding: '64px 20px', background: 'var(--surface)', borderRadius: '12px', border: '1px solid var(--border)' }}>
-          <Search size={36} style={{ color: 'var(--text-muted)', marginBottom: '16px' }} />
-          <h3>No Operational Configurations Match the Matrix Parameters</h3>
+  // ──── VIEW MODE B: DETAILED INDIVIDUAL COURSE LANDING PAGE ────
+  if (detailOnly) {
+    return (
+      <div style={{ background: 'var(--bg)', minHeight: '100vh' }}>
+        <div style={{ borderBottom: '1px solid var(--border)', background: 'rgba(255,255,255,0.01)' }}>
+          <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '16px 20px' }}>
+            <button 
+              onClick={() => setRoute({ page: 'school', courseId: currentCourse.id })}
+              style={{ background: 'none', border: 'none', color: 'var(--text-sub)', display: 'inline-flex', alignItems: 'center', gap: '8px', cursor: 'pointer', fontWeight: 500, fontSize: '0.9rem' }}
+            >
+              <ArrowLeft size={16} /> Back to Academy Catalog
+            </button>
+          </div>
         </div>
-      ) : (
-        <>
-          {/* Sub-tier Specific Filtered Course Tabs Selector */}
-          <div style={{ display: 'flex', gap: '8px', marginBottom: '32px', overflowX: 'auto', paddingBottom: '10px' }}>
-            {filteredCourses.map(c => (
-              <button key={c.id} onClick={() => setRoute({ page: 'school', courseId: c.id })}
-                style={{ 
-                  flexShrink: 0, padding: '10px 16px', borderRadius: '8px', fontSize: '0.85rem', fontWeight: 500,
-                  background: route.courseId === c.id ? 'var(--surface)' : 'transparent',
-                  border: `1px solid ${route.courseId === c.id ? c.accentColor : 'var(--border)'}`, color: route.courseId === c.id ? '#fff' : 'var(--text-sub)'
-                }}>{c.title}</button>
-            ))}
+
+        <section style={{ background: 'var(--surface)', borderBottom: '1px solid var(--border)', padding: '64px 20px' }}>
+          <div style={{ maxWidth: '1200px', margin: '0 auto', display: 'flex', flexDirection: 'column', gap: '16px' }}>
+            <span style={{ fontSize: '0.8rem', textTransform: 'uppercase', fontFamily: 'monospace', fontWeight: 700, color: currentCourse.accentColor, width: 'fit-content', background: 'rgba(255,255,255,0.03)', padding: '4px 10px', borderRadius: '4px', border: '1px solid rgba(255,255,255,0.05)' }}>
+              {getCourseCategory(currentCourse.id)} Specialization
+            </span>
+            <h1 style={{ fontSize: '2.8rem', fontWeight: 800, color: '#fff', lineHeight: 1.2, margin: 0 }}>
+              {currentCourse.title}
+            </h1>
+            <p style={{ color: 'var(--text-sub)', fontSize: '1.1rem', maxWidth: '800px', lineHeight: 1.6, margin: '8px 0 24px' }}>
+              {currentCourse.methodology}
+            </p>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '24px', flexWrap: 'wrap', fontSize: '0.9rem', color: 'var(--text-muted)' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}><Clock size={16} /> <span><strong>Duration:</strong> 40 Hours</span></div>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}><BookOpen size={16} /> <span><strong>Format:</strong> Production Hands-on Labs</span></div>
+            </div>
+          </div>
+        </section>
+
+        <div style={{ maxWidth: '1200px', margin: '56px auto', padding: '0 20px', display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '40px', alignItems: 'start' }}>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '32px' }}>
+            <div style={{ background: 'var(--surface)', border: '1px solid var(--border)', borderRadius: '12px', padding: '32px' }}>
+              <h3 style={{ fontSize: '1.2rem', fontWeight: 700, marginBottom: '20px', color: '#fff', display: 'flex', alignItems: 'center', gap: '8px' }}>
+                <Sliders size={18} /> What You'll Learn
+              </h3>
+              <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: '14px' }}>
+                {currentCourse.learn.map((item, idx) => (
+                  <li key={idx} style={{ fontSize: '0.9rem', color: 'var(--text-sub)', display: 'flex', gap: '10px', alignItems: 'start', lineHeight: 1.5 }}>
+                    <CheckCircle size={16} style={{ color: 'var(--green)', flexShrink: 0, marginTop: '3px' }} />
+                    <span>{item}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            <div style={{ background: 'var(--surface)', border: `1px solid ${currentCourse.accentColor}`, borderRadius: '12px', padding: '32px' }}>
+              <h3 style={{ fontSize: '1.2rem', fontWeight: 700, marginBottom: '8px' }}>Registration Portal</h3>
+              <p style={{ color: 'var(--text-muted)', fontSize: '0.85rem', marginBottom: '20px' }}>Select your path. Telemetry is routed directly to aimldsn@gmail.com.</p>
+              
+              <div style={{ background: 'var(--bg)', border: '1px solid var(--border)', padding: '16px', borderRadius: '8px', marginBottom: '24px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                <div><span style={{ fontSize: '1.1rem', fontWeight: 700, color: 'var(--green)' }}>10000 NPR</span></div>
+                <div style={{ height: '20px', borderLeft: '1px solid var(--border)' }}></div>
+                <div><span style={{ fontSize: '1.1rem', fontWeight: 700, color: 'var(--accent)' }}>100 USD</span></div>
+              </div>
+
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+                <button onClick={() => { setModalStep('form'); setShowModal(true); }} style={{ width: '100%', padding: '14px', background: currentCourse.accentColor, border: 'none', borderRadius: '6px', color: '#fff', fontWeight: 700, cursor: 'pointer' }}>
+                  Enroll as Student
+                </button>
+                <button onClick={() => { setModalStep('instructor_form'); setShowModal(true); }} style={{ width: '100%', padding: '12px', background: 'transparent', border: `1px solid ${currentCourse.accentColor}`, borderRadius: '6px', color: '#fff', fontWeight: 600, cursor: 'pointer' }}>
+                  Apply as Course Instructor
+                </button>
+              </div>
+            </div>
           </div>
 
-          {/* Main Layout Container */}
-          {currentCourse && (
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '24px', alignItems: 'start' }}>
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
-                <div style={{ background: 'var(--surface)', padding: '24px', borderRadius: '12px', border: '1px solid var(--border)' }}>
-                  
-                  {/* Faculty Accreditation block completely omitted from this layout layer */}
-                  
-                  <div style={{ marginBottom: '20px' }}>
-                    <span style={{ fontSize: '0.7rem', color: 'var(--text-muted)', fontFamily: 'monospace' }}>CLASSIFICATION TAG</span>
-                    <div style={{ fontSize: '0.85rem', color: 'var(--accent)', fontWeight: 600, marginTop: '4px' }}>{getCourseCategory(currentCourse.id).toUpperCase()}</div>
-                  </div>
-                  <div style={{ marginBottom: '24px' }}>
-                    <span style={{ fontSize: '0.7rem', color: 'var(--text-muted)', fontFamily: 'monospace' }}>METHODOLOGY</span>
-                    <p style={{ fontSize: '0.9rem', color: 'var(--text-sub)', marginTop: '4px', lineHeight: 1.6 }}>{currentCourse.methodology}</p>
-                  </div>
-                  <div style={{ background: 'var(--bg)', border: '1px solid var(--border)', padding: '16px', borderRadius: '8px', marginBottom: '24px', display: 'flex', justifyContent: 'space-between' }}>
-                    <div><span style={{ fontSize: '1.1rem', fontWeight: 700, color: 'var(--green)' }}>{currentCourse.costLocal}</span></div>
-                    <div><span style={{ fontSize: '1.1rem', fontWeight: 700, color: 'var(--accent)' }}>{currentCourse.costGlobal}</span></div>
-                  </div>
-                  
-                  <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
-                    <button onClick={() => { setModalStep('form'); setShowModal(true); }} style={{ width: '100%', padding: '14px', background: currentCourse.accentColor, border: 'none', borderRadius: '8px', color: '#fff', fontWeight: 600 }}>
-                      Enroll as Student
-                    </button>
-                    <button onClick={() => { setModalStep('instructor_form'); setShowModal(true); }} style={{ width: '100%', padding: '12px', background: 'transparent', border: `1px solid ${currentCourse.accentColor}`, borderRadius: '8px', color: '#fff', fontWeight: 600 }}>
-                      Apply as Course Instructor
-                    </button>
-                  </div>
-                </div>
-
-                <div style={{ background: 'var(--surface)', padding: '24px', borderRadius: '12px', border: '1px solid var(--border)' }}>
-                  <h3 style={{ fontSize: '1.05rem', marginBottom: '16px', display: 'flex', alignItems: 'center', gap: '8px' }}><Sliders size={16} /> Competencies Acquired</h3>
-                  <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: '10px' }}>
-                    {currentCourse.learn.map((item, idx) => (
-                      <li key={idx} style={{ fontSize: '0.85rem', color: 'var(--text-sub)', display: 'flex', gap: '8px', alignItems: 'start' }}>
-                        <CheckCircle size={14} style={{ color: 'var(--green)', flexShrink: 0, marginTop: '2px' }} /> {item}
-                      </li>
+          <div style={{ background: 'var(--surface)', border: '1px solid var(--border)', borderRadius: '12px', padding: '32px' }}>
+            <h3 style={{ fontSize: '1.2rem', fontWeight: 700, marginBottom: '24px', display: 'flex', alignItems: 'center', gap: '8px' }}>
+              <BookOpen size={18} /> Course Syllabus
+            </h3>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
+              {currentCourse.syllabus.map((s, i) => (
+                <div key={i} style={{ paddingBottom: '16px', paddingLeft: '16px', borderLeft: `2px solid ${currentCourse.accentColor}` }}>
+                  <div style={{ fontSize: '0.75rem', color: currentCourse.accentColor, fontFamily: 'monospace', fontWeight: 700 }}>{s.hours}</div>
+                  <div style={{ fontSize: '1rem', fontWeight: 600, color: '#fff', marginTop: '2px' }}>{s.title}</div>
+                  <ul style={{ listStyle: 'none', marginTop: '8px', padding: 0, display: 'flex', flexDirection: 'column', gap: '4px' }}>
+                    {s.topics.map((topic, tIdx) => (
+                      <li key={tIdx} style={{ fontSize: '0.85rem', color: 'var(--text-muted)', lineHeight: 1.4 }}>• {topic}</li>
                     ))}
                   </ul>
                 </div>
-              </div>
-
-              <div style={{ background: 'var(--surface)', padding: '24px', borderRadius: '12px', border: '1px solid var(--border)' }}>
-                <h3 style={{ fontSize: '1.1rem', marginBottom: '20px', display: 'flex', alignItems: 'center', gap: '8px' }}><BookOpen size={18} /> 40-Hour Practical Curriculum Blueprint</h3>
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-                  {currentCourse.syllabus.map((s, i) => (
-                    <div key={i} style={{ paddingBottom: '12px', paddingLeft: '12px', borderLeft: `2px solid ${currentCourse.accentColor}` }}>
-                      <div style={{ fontSize: '0.7rem', color: currentCourse.accentColor, fontFamily: 'monospace' }}>{s.hours}</div>
-                      <div style={{ fontSize: '0.9rem', fontWeight: 600, color: '#fff', marginTop: '2px' }}>{s.title}</div>
-                      <ul style={{ listStyle: 'none', marginTop: '6px' }}>
-                        {s.topics.map((topic, tIdx) => (
-                          <li key={tIdx} style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}>• {topic}</li>
-                        ))}
-                      </ul>
-                    </div>
-                  ))}
-                </div>
-              </div>
+              ))}
             </div>
-          )}
-        </>
-      )}
-
-      {/* Overlay Modal Systems */}
-      {showModal && (
-        <div style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.9)', zIndex: 2000, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '16px' }}>
-          <div style={{ background: 'var(--card)', width: '100%', maxWidth: '450px', padding: '24px', borderRadius: '16px', position: 'relative' }}>
-            {!isSubmitting && <button onClick={() => setShowModal(false)} style={{ position: 'absolute', top: '16px', right: '16px', background: 'none', border: 'none', color: '#fff' }}><X /></button>}
-            
-            {modalStep === 'form' && (
-              <form onSubmit={handleStudentSubmission} style={{ display: 'flex', flexDirection: 'column', gap: '15px' }}>
-                <h3>Student Registry Hub</h3>
-                <input type="text" placeholder="Full Legal Name" required style={{ padding: '12px', background: 'var(--bg)', border: '1px solid var(--border)', color: '#fff', borderRadius: '6px' }} onChange={e => setStudentForm({...studentForm, name: e.target.value})} />
-                <input type="email" placeholder="Email Endpoint" required style={{ padding: '12px', background: 'var(--bg)', border: '1px solid var(--border)', color: '#fff', borderRadius: '6px' }} onChange={e => setStudentForm({...studentForm, email: e.target.value})} />
-                <input type="tel" placeholder="Contact Phone Number" required style={{ padding: '12px', background: 'var(--bg)', border: '1px solid var(--border)', color: '#fff', borderRadius: '6px' }} onChange={e => setStudentForm({...studentForm, phone: e.target.value})} />
-                <button type="submit" style={{ padding: '14px', background: currentCourse.accentColor, border: 'none', borderRadius: '6px', color: '#fff', fontWeight: 600 }}>Proceed to Settlement</button>
-              </form>
-            )}
-            
-            {modalStep === 'payment' && (
-               <div style={{ textAlign: 'center' }}>
-                 <h3>Select Transaction Gateway</h3>
-                 <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', marginTop: '20px' }}>
-                   <button onClick={() => handleFinalTransaction('Digital Wallet API Matrix')} style={{ padding: '14px', background: 'var(--surface)', border: '1px solid var(--border)', color: '#fff', borderRadius: '8px' }}>Nepal Wallet Infrastructure (eSewa/Khalti)</button>
-                   <button onClick={() => handleFinalTransaction('Stripe Global Integration Node')} style={{ padding: '14px', background: 'var(--surface)', border: '1px solid var(--border)', color: '#fff', borderRadius: '8px' }}>International Cards (Stripe API)</button>
-                 </div>
-               </div>
-            )}
-            
-            {modalStep === 'success' && (
-              <div style={{ textAlign: 'center' }}>
-                <CheckCircle size={50} style={{ color: "var(--green)", margin: '0 auto 15px' }} />
-                <h3>Enrollment Matrix Synchronized</h3>
-                <div style={{ background: 'var(--surface)', border: '1px solid var(--border)', padding: '12px', borderRadius: '6px', textAlign: 'left', marginTop: '16px', fontSize: '0.85rem' }}>
-                  <div style={{ color: 'var(--accent)', fontWeight: 600, fontFamily: 'monospace', marginBottom: '4px' }}>OUTBOUND TELEMETRY LOG:</div>
-                  <div style={{ color: 'var(--text-sub)' }}>A data pipeline notification packet has been transmitted to:</div>
-                  <div style={{ color: '#fff', fontWeight: 600, margin: '4px 0' }}>aimldsn@gmail.com</div>
-                </div>
-                <button onClick={() => setShowModal(false)} style={{ marginTop: '20px', width: '100%', padding: '12px', background: 'var(--surface)', border: '1px solid var(--border)', color: '#fff', borderRadius: '6px' }}>Close Terminal</button>
-              </div>
-            )}
-
-            {modalStep === 'instructor_form' && (
-              <form onSubmit={handleInstructorSubmission} style={{ display: 'flex', flexDirection: 'column', gap: '15px' }}>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                  <Briefcase style={{ color: currentCourse.accentColor }} size={22} />
-                  <h3 style={{ margin: 0 }}>Faculty Onboarding Matrix</h3>
-                </div>
-                <p style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}>Target domain track: <strong>{currentCourse.title}</strong></p>
-                
-                <input type="text" placeholder="Full Legal Name" required style={{ padding: '12px', background: 'var(--bg)', border: '1px solid var(--border)', color: '#fff', borderRadius: '6px' }} onChange={e => setInstructorForm({...instructorForm, name: e.target.value})} />
-                <input type="email" placeholder="Professional Email Endpoint" required style={{ padding: '12px', background: 'var(--bg)', border: '1px solid var(--border)', color: '#fff', borderRadius: '6px' }} onChange={e => setInstructorForm({...instructorForm, email: e.target.value})} />
-                <input type="url" placeholder="Portfolio / LinkedIn / GitHub Path" required style={{ padding: '12px', background: 'var(--bg)', border: '1px solid var(--border)', color: '#fff', borderRadius: '6px' }} onChange={e => setInstructorForm({...instructorForm, portfolio: e.target.value})} />
-                <textarea placeholder="Summarize your engineering background or technical instructional metrics..." required rows={3} style={{ padding: '12px', background: 'var(--bg)', border: '1px solid var(--border)', color: '#fff', borderRadius: '6px', fontFamily: 'inherit', resize: 'none' }} onChange={e => setInstructorForm({...instructorForm, proposal: e.target.value})} />
-                
-                <button type="submit" style={{ padding: '14px', background: currentCourse.accentColor, border: 'none', borderRadius: '6px', color: '#fff', fontWeight: 600 }}>
-                  {isSubmitting ? 'Syncing Schema logs...' : 'Submit Faculty Application'}
-                </button>
-              </form>
-            )}
-
-            {modalStep === 'instructor_success' && (
-              <div style={{ textAlign: 'center', padding: '10px 0' }}>
-                <CheckCircle size={52} style={{ color: "var(--green)", margin: '0 auto 16px' }} />
-                <h3>Faculty Log Matrix Deployed</h3>
-                <p style={{ color: 'var(--text-sub)', fontSize: '0.85rem', marginTop: '8px', lineHeight: 1.5 }}>
-                  Your portfolio profile submission packet has been successfully verified.
-                </p>
-                <div style={{ background: 'var(--surface)', border: '1px solid var(--border)', padding: '12px', borderRadius: '6px', textAlign: 'left', marginTop: '16px', fontSize: '0.85rem' }}>
-                  <div style={{ color: 'var(--accent2)', fontWeight: 600, fontFamily: 'monospace', marginBottom: '4px' }}>ROUTING DATA TARGET:</div>
-                  <div style={{ color: 'var(--text-sub)' }}>Full resume data metrics and proposals routed to:</div>
-                  <div style={{ color: '#fff', fontWeight: 600, margin: '4px 0' }}>aimldsn@gmail.com</div>
-                </div>
-                <button onClick={() => setShowModal(false)} style={{ marginTop: '24px', width: '100%', padding: '12px', background: 'var(--surface)', border: '1px solid var(--border)', color: '#fff', borderRadius: '6px', fontWeight: 600 }}>Dismiss Interface Terminal</button>
-              </div>
-            )}
-
           </div>
         </div>
-      )}
+      </div>
+    );
+  }
+
+  // ──── VIEW MODE C: CATALOG DASHBOARD (DEEPLEARNING.AI SIDEBAR SPECIFICATION) ────
+  return (
+    <section style={{ maxWidth: '1200px', margin: '0 auto', padding: '40px 20px' }}>
+      
+      {/* ── UNIFIED WRAPPER FOR SIDEBAR SPLIT LAYOUT ── */}
+      <div className="academy-split-layout" style={{ display: 'flex', gap: '40px', alignItems: 'start' }}>
+        
+        {/* ── LEFT SIDEBAR PANEL (Sticky Search + Category Node Architecture) ── */}
+        <aside className="academy-sidebar-node" style={{ flexShrink: 0, display: 'flex', flexDirection: 'column', gap: '28px' }}>
+          
+          {/* Section Heading Group */}
+          <div>
+            <h1 style={{ fontSize: '2.2rem', fontWeight: 800, letterSpacing: '-0.03em', margin: '0 0 4px 0' }}>Courses</h1>
+            <p style={{ color: 'var(--text-muted)', fontSize: '0.85rem', margin: 0 }}>Summiting AI. Securing Foundations.</p>
+          </div>
+
+          {/* Sidebar Part 1: Real-Time Input Query Tracker */}
+          <div style={{ position: 'relative' }}>
+            <div style={{ position: 'absolute', top: '50%', left: '14px', transform: 'translateY(-50%)', color: 'var(--text-muted)', display: 'flex', alignItems: 'center' }}>
+              <Search size={16} />
+            </div>
+            <input 
+              type="text" 
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              placeholder="Search courses..." 
+              style={{ 
+                width: '100%', padding: '12px 14px 12px 40px', background: 'var(--surface)', 
+                border: '1px solid var(--border)', borderRadius: '6px', color: '#fff', fontSize: '0.9rem', outline: 'none' 
+              }}
+            />
+            {searchQuery && (
+              <button onClick={() => setSearchQuery('')} style={{ position: 'absolute', top: '50%', right: '14px', transform: 'translateY(-50%)', background: 'none', border: 'none', color: 'var(--text-muted)', cursor: 'pointer' }}>
+                <X size={14} />
+              </button>
+            )}
+          </div>
+
+          {/* Sidebar Part 2: Vertical Stack Filters */}
+          <div>
+            <div style={{ fontSize: '0.75rem', fontFamily: 'monospace', fontWeight: 700, color: 'var(--text-muted)', letterSpacing: '0.1em', marginBottom: '12px', textTransform: 'uppercase' }}>
+              Filter By Domain
+            </div>
+            <div className="sidebar-categories-stack" style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
+              {categories.map(cat => {
+                const isSelected = activeCategory === cat;
+                return (
+                  <button
+                    key={cat}
+                    onClick={() => setActiveCategory(cat)}
+                    className="sidebar-filter-btn"
+                    style={{
+                      width: '100%', textAlign: 'left', padding: '12px 16px', borderRadius: '6px', fontSize: '0.88rem', fontWeight: 600,
+                      background: isSelected ? 'var(--accent-dim)' : 'transparent',
+                      border: `1px solid ${isSelected ? 'var(--accent)' : 'transparent'}`,
+                      color: isSelected ? 'var(--accent)' : 'var(--text-sub)',
+                      cursor: 'pointer', transition: 'all 0.15s'
+                    }}
+                  >
+                    {cat}
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+        </aside>
+
+        {/* ── RIGHT MAIN DISPLAY COLUMN (Catalog Dashboard Grid Grid) ── */}
+        <div style={{ flex: 1, minWidth: '300px' }}>
+          {filteredCourses.length === 0 ? (
+            <div style={{ textAlign: 'center', padding: '64px 20px', background: 'var(--surface)', borderRadius: '12px', border: '1px solid var(--border)' }}>
+              <Search size={32} style={{ color: 'var(--text-muted)', marginBottom: '16px' }} />
+              <h3 style={{ margin: 0 }}>No Specializations Match Your Query</h3>
+              <p style={{ color: 'var(--text-muted)', fontSize: '0.85rem', marginTop: '6px' }}>Try selecting an alternate filter matrix or clearing your text criteria.</p>
+            </div>
+          ) : (
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '20px' }}>
+              {filteredCourses.map(c => (
+                <div 
+                  key={c.id}
+                  onClick={() => setRoute({ page: 'course-detail', courseId: c.id })}
+                  style={{
+                    background: 'var(--surface)', border: '1px solid var(--border)', borderRadius: '8px',
+                    padding: '24px', cursor: 'pointer', display: 'flex', flexDirection: 'column',
+                    justifyContent: 'space-between', transition: 'all 0.2s'
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.transform = 'translateY(-2px)';
+                    e.currentTarget.style.borderColor = c.accentColor;
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.transform = 'translateY(0)';
+                    e.currentTarget.style.borderColor = 'var(--border)';
+                  }}
+                >
+                  <div>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px' }}>
+                      <span style={{ fontSize: '0.65rem', textTransform: 'uppercase', fontFamily: 'monospace', fontWeight: 700, color: c.accentColor, background: 'rgba(255,255,255,0.02)', padding: '4px 6px', borderRadius: '4px' }}>
+                        {getCourseCategory(c.id)}
+                      </span>
+                      <div style={{ color: c.accentColor }}>{c.icon}</div>
+                    </div>
+
+                    <h3 style={{ fontSize: '1.2rem', fontWeight: 700, marginBottom: '8px', color: '#fff', lineHeight: 1.3 }}>
+                      {c.title}
+                    </h3>
+                    
+                    <p style={{ color: 'var(--text-sub)', fontSize: '0.82rem', lineHeight: 1.5, marginBottom: '16px', display: '-webkit-box', WebkitLineClamp: 3, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>
+                      {c.methodology}
+                    </p>
+                  </div>
+
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderTop: '1px solid var(--border)', paddingTop: '12px', marginTop: '8px' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '0.78rem', color: 'var(--text-muted)' }}>
+                      <Clock size={12} /> <span>40 Hours • Core Track</span>
+                    </div>
+                    <div style={{ fontSize: '0.8rem', fontWeight: 600, color: c.accentColor, display: 'flex', alignItems: 'center', gap: '2px' }}>
+                      Explore Syllabus <ChevronRight size={12} />
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+
+      </div>
+
+      {/* Embedded Global Stylesheet Override to handle absolute UI media-query transitions dynamically */}
+      <style>{`
+        @media (min-width: 900px) {
+          .academy-split-layout { flex-direction: row !important; }
+          .academy-sidebar-node { width: 260px !important; position: sticky !important; top: 90px; }
+          .sidebar-categories-stack { flex-direction: column !important; }
+        }
+        @media (max-width: 899px) {
+          .academy-split-layout { flex-direction: column !important; gap: 32px !important; }
+          .academy-sidebar-node { width: 100% !important; }
+          .sidebar-categories-stack { flex-direction: row !important; overflow-x: auto !important; padding-bottom: 6px; -webkit-overflow-scrolling: touch; }
+          .sidebar-filter-btn { width: auto !important; flex-shrink: 0 !important; white-space: nowrap !important; padding: 8px 14px !important; }
+        }
+      `}</style>
     </section>
   );
 }

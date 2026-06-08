@@ -15,7 +15,7 @@ export default function App() {
 
   useEffect(() => {
     window.scrollTo(0, 0);
-  }, [route.page]);
+  }, [route.page, route.courseId]);
 
   return (
     <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
@@ -45,7 +45,12 @@ export default function App() {
         )}
 
         {route.page === 'school' && (
-          <div><School summaryOnly={false} route={route} setRoute={setRoute} /><Contact /></div>
+          <div><School route={route} setRoute={setRoute} /><Contact /></div>
+        )}
+
+        {/* ── SEPARATE DEDICATED INDIVIDUAL COURSE DETAIL PAGE ── */}
+        {route.page === 'course-detail' && (
+          <div><School detailOnly={true} route={route} setRoute={setRoute} /><Contact /></div>
         )}
 
         {route.page === 'datascience' && (

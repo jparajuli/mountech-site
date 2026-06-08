@@ -1,5 +1,8 @@
 import React from 'react';
-import { Brain, Code, Link, Cpu, Terminal, Database, Server, Layers, Cpu as AiIcon, Activity } from 'lucide-react';
+import { 
+  Brain, Code, Link, Cpu, Terminal, Database, Server, Layers, 
+  Cpu as AiIcon, Activity, Shield, Lock 
+} from 'lucide-react';
 
 export interface SyllabusModule {
   hours: string;
@@ -27,8 +30,8 @@ export const courses: Course[] = [
     title: "Agentic AI & Multi-Agent Systems",
     instructor: "Jhanak Parajuli (Founder & Multi-Agent Systems Architect)",
     methodology: "Case-study driven engineering paired with deep sandbox notebook implementation. 30% theory and conceptual boundaries, 70% direct programmatic orchestration and deployment.",
-    costLocal: "NPR 35,000",
-    costGlobal: "USD 350",
+    costLocal: "10000 NPR",
+    costGlobal: "100 USD",
     accentColor: "var(--accent2)",
     icon: <Brain size={22} style={{ color: 'var(--accent2)' }} />,
     learn: [
@@ -49,8 +52,8 @@ export const courses: Course[] = [
     title: "Generative AI & Transformer Architectures",
     instructor: "Dr. Amit Thapa (Chief AI Systems Scientist)",
     methodology: "Deep mathematical derivation of attention matrices combined with raw PyTorch construction of structural transformer blocks from absolute zero-dependency modules.",
-    costLocal: "NPR 40,000",
-    costGlobal: "USD 400",
+    costLocal: "10000 NPR",
+    costGlobal: "100 USD",
     accentColor: "var(--accent2)",
     icon: <AiIcon size={22} style={{ color: 'var(--accent2)' }} />,
     learn: [
@@ -71,8 +74,8 @@ export const courses: Course[] = [
     title: "Production MLOps Lifecycle Engineering",
     instructor: "Ecosystem Data Platform Core",
     methodology: "Production-grade automated model testing cycles. 100% focused on continuous execution flows, drift telemetry assertion tracking, and isolated champion/challenger rollouts.",
-    costLocal: "NPR 38,000",
-    costGlobal: "USD 380",
+    costLocal: "10000 NPR",
+    costGlobal: "100 USD",
     accentColor: "var(--accent2)",
     icon: <Activity size={22} style={{ color: 'var(--accent2)' }} />,
     learn: [
@@ -89,12 +92,56 @@ export const courses: Course[] = [
     ]
   },
   {
+    id: "sovereign-defense",
+    title: "Sovereign Infrastructure Defense & Threat Hunting",
+    instructor: "MTS Cybersecurity Assurance Lab",
+    methodology: "100% blue-team laboratory simulation environment. Focuses on setting up real-time endpoint observability, kernel-level logging auditing, and automated incident mitigation playbooks.",
+    costLocal: "10000 NPR",
+    costGlobal: "100 USD",
+    accentColor: "var(--accent)",
+    icon: <Shield size={22} style={{ color: 'var(--accent)' }} />,
+    learn: [
+      "Configuring zero-trust network boundary rules and micro-segmenting container grids.",
+      "Writing advanced SIEM correlations to discover low-and-slow root access exploits.",
+      "Conducting live volatile RAM forensics and pulling process indicators of compromise (IoC)."
+    ],
+    achieve: "You will configure, harden, and continuously audit a multi-node company server against live background exploit script injections under zero-trust conditions.",
+    syllabus: [
+      { hours: "Hours 01-10", title: "Linux Hardening & Enterprise Zero-Trust Architecture", topics: ["Configuring rigid PAM policies, SSH restrictions, and system integrity boundaries", "Micro-segmenting software container interactions using network policies", "Implementing zero-trust access loops and managing local credential matrices safely"] },
+      { hours: "Hours 11-20", title: "Telemetry Gathering & Log Pipeline Aggregations", topics: ["Deploying OSquery, Sysmon, and Auditd tracking agents across remote endpoints", "Structuring high-volume security pipeline indexing rules via Elasticsearch and Logstash", "Writing custom Sigma rules to intercept unusual execution behavior indicators"] },
+      { hours: "Hours 21-30", title: "Active Threat Hunting & Memory Forensics", topics: ["Analyzing memory structures using Volatility frameworks to capture active processes", "Discovering advanced rootkits and tracking hidden background thread loops", "Tracing shell commands, evaluating malicious payloads, and pulling process signatures"] },
+      { hours: "Hours 31-40", title: "Incident Response Playbooks & Threat Isolation Automation", topics: ["Writing bash/python automation tasks to isolate compromised cluster pods dynamically", "Configuring software firewalls to drop target malicious command indicators", "Constructing absolute forensic analysis audit logs for regulatory oversight review"] }
+    ]
+  },
+  {
+    id: "offensive-penetration",
+    title: "Offensive Security & Advanced Penetration Testing",
+    instructor: "MTS Offensive Operations Cell",
+    methodology: "Tactile red-team sandbox capture-the-flag environments. Moving from automated web perimeter assessments into advanced scripting of zero-dependency manual exploit payloads.",
+    costLocal: "10000 NPR",
+    costGlobal: "100 USD",
+    accentColor: "var(--accent)",
+    icon: <Lock size={22} style={{ color: 'var(--accent)' }} />,
+    learn: [
+      "Discovering logical configuration bypass flows across complex microservice token maps.",
+      "Compiling tailored shellcode payloads that avoid static signature detection layers.",
+      "Executing deep-tier network pivoting sequences over multi-homed subnets."
+    ],
+    achieve: "You will successfully compromise and elevate system rights over an isolated target corporate environment maze containing modern security barriers.",
+    syllabus: [
+      { hours: "Hours 01-10", title: "Advanced Reconnaissance & Attack Vector Mapping", topics: ["Advanced port configuration analysis and tracking perimeter surface changes", "Writing custom automation tasks to discover vulnerable software variants", "Mapping identity authorization graphs across directory servers"] },
+      { hours: "Hours 11-20", title: "Web Application Flaws & API Security Evasions", topics: ["Exploiting server-side requests (SSRF) and broken object authorization models", "Bypassing intermediate security gateways and API token validation loops", "Injecting customized SQL data queries inside filtered database backend stacks"] },
+      { hours: "Hours 21-30", title: "Payload Compilation & Evasion Engineering", topics: ["Writing reverse shell code in vanilla C and Go without library blocks", "Using basic encoders to disguise file properties against processing filters", "Executing memory injections inside decoupled runtime memory scopes"] },
+      { hours: "Hours 31-40", title: "Subnet Pivoting & Active Directory Exploit Sequences", topics: ["Setting up multi-stage port proxies to slide traffic into hidden subnets", "Exploiting network trust configurations to capture group management rights", "Writing professional vulnerability review reports with step-by-step resolution scripts"] }
+    ]
+  },
+  {
     id: "adv-software",
     title: "Advanced Software Engineering & Scale",
     instructor: "Er. Sunil Pokhrel (Principal Systems Infrastructure Engineer)",
     methodology: "Low-level system sandbox compilation combined with continuous peer-reviewed code auditing. Focused entirely on backend architecture resilience, zero-dependency engineering, and concurrency safety.",
-    costLocal: "NPR 25,000",
-    costGlobal: "USD 250",
+    costLocal: "10000 NPR",
+    costGlobal: "100 USD",
     accentColor: "var(--accent)",
     icon: <Code size={22} style={{ color: 'var(--accent)' }} />,
     learn: [
@@ -105,7 +152,7 @@ export const courses: Course[] = [
     achieve: "You will engineer and benchmark an independent concurrent telemetry streaming engine processing 50,000+ operations per second with sub-10ms response margins.",
     syllabus: [
       { hours: "Hours 01-10", title: "Low-Level Memory Management & Compilers", topics: ["Pointers, stack vs heap allocations, and garbage collection mechanisms", "Writing highly performant, type-safe structures in Go and Rust", "Profiling CPU bottlenecks and handling memory leak diagnostic cycles"] },
-      { hours: "Hours 11-20", title: "High-Concurrency Paradigms & Thread Safety", topics: ["Asynchronous runtimes, event loops, and green thread abstractions", "Managing mutual exclusions, race conditions, and synchronization primitives", "Designing thread-safe channels for real-time computational pooling"] },
+      { hours: "Hours 11-20", title: "High-Concurrency Paradigms & Thread Safety", topics: ["Asynchronous runtimes, event loops, and green thread abstractions", "Managing manual exclusions, race conditions, and synchronization primitives", "Designing thread-safe channels for real-time computational pooling"] },
       { hours: "Hours 21-30", title: "Distributed Data Frameworks & Caching", topics: ["Architecting low-latency transactional layers with Redis and Memcached", "Database connection pool fine-tuning and write-ahead log structures", "Implementing data sharding and partition schemes across large datasets"] },
       { hours: "Hours 31-40", title: "Production Network Engines & Benchmarking", topics: ["Engineering high-throughput gRPC services and binary streaming endpoints", "Writing system load tests using automated traffic injection scripts", "Configuring reverse proxies, connection multiplexing, and SSL/TLS handshakes"] }
     ]
@@ -115,8 +162,8 @@ export const courses: Course[] = [
     title: "Blockchain Technologies & Consensus Engines",
     instructor: "Dr. Ramesh Adhikari (Principal Ledger Researcher)",
     methodology: "Cryptographic sandbox assembly combined with rigorous gas-optimization profiling. 100% focused on smart contract design, network verification, and zero-knowledge proof applications.",
-    costLocal: "NPR 30,000",
-    costGlobal: "USD 300",
+    costLocal: "10000 NPR",
+    costGlobal: "100 USD",
     accentColor: "var(--accent)",
     icon: <Link size={22} style={{ color: 'var(--accent)' }} />,
     learn: [
@@ -137,8 +184,8 @@ export const courses: Course[] = [
     title: "Quantum Computing Foundations",
     instructor: "Prof. Kiran Sharma (Quantum Physics & Mathematical Computation Specialist)",
     methodology: "Mathematical modeling verified via remote programmatic execution on absolute physical IBM Quantum processing arrays. Focused on quantum logic gate implementation and simulation runtimes.",
-    costLocal: "NPR 45,000",
-    costGlobal: "USD 450",
+    costLocal: "10000 NPR",
+    costGlobal: "100 USD",
     accentColor: "var(--green)",
     icon: <Cpu size={22} style={{ color: 'var(--green)' }} />,
     learn: [
@@ -159,8 +206,8 @@ export const courses: Course[] = [
     title: "Programming Basics & Algorithmic Logic",
     instructor: "Er. Sunil Pokhrel (Principal Systems Infrastructure Engineer)",
     methodology: "Zero-slide, immediate tactile terminal interaction. Building continuous code construction mechanics from core principles, avoiding automated block tools or copy-paste tutorials.",
-    costLocal: "NPR 15,000",
-    costGlobal: "USD 150",
+    costLocal: "10000 NPR",
+    costGlobal: "100 USD",
     accentColor: "var(--accent)",
     icon: <Terminal size={22} style={{ color: 'var(--accent)' }} />,
     learn: [
@@ -181,8 +228,8 @@ export const courses: Course[] = [
     title: "Data Engineering & Production Pipelines",
     instructor: "Anjali Shrestha (Lead Data Platform Architect)",
     methodology: "Tactile data architecture simulation. Setting up distributed logging infrastructures, high-throughput aggregation steps, and data validations inside an isolated workspace context.",
-    costLocal: "NPR 28,000",
-    costGlobal: "USD 280",
+    costLocal: "10000 NPR",
+    costGlobal: "100 USD",
     accentColor: "var(--green)",
     icon: <Database size={22} style={{ color: 'var(--green)' }} />,
     learn: [
@@ -203,8 +250,8 @@ export const courses: Course[] = [
     title: "Cloud-Native Operations & DevSecOps",
     instructor: "Er. Sunil Pokhrel (Principal Systems Infrastructure Engineer)",
     methodology: "Declarative infrastructure configuration execution. Zero application dashboard mouse clicks; everything is automated via terminal scripts, strict text manifest structures, and monitoring webhooks.",
-    costLocal: "NPR 32,000",
-    costGlobal: "USD 320",
+    costLocal: "10000 NPR",
+    costGlobal: "100 USD",
     accentColor: "var(--accent)",
     icon: <Server size={22} style={{ color: 'var(--accent)' }} />,
     learn: [
@@ -225,8 +272,8 @@ export const courses: Course[] = [
     title: "Advanced Full-Stack Engineering (React & Node.js)",
     instructor: "Elena Vance (Head of GovTech Systems Integration)",
     methodology: "Tactile production ecosystem optimization. Building production applications focused heavily on bundle shrinking, data caching protocols, and event tracking loops.",
-    costLocal: "NPR 24,000",
-    costGlobal: "USD 240",
+    costLocal: "10000 NPR",
+    costGlobal: "100 USD",
     accentColor: "var(--accent2)",
     icon: <Layers size={22} style={{ color: 'var(--accent2)' }} />,
     learn: [
