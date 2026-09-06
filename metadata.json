@@ -1,0 +1,6 @@
+{
+  "name": "MounTech Solutions",
+  "description": "IT consulting, AI solutions, digital transformation, and professional technology training platform.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
