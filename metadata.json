@@ -1,0 +1,6 @@
+{
+  "name": "MounTech Solutions",
+  "description": "Applied AI & Data Science Infrastructure for Nepal: sovereign LLMs, enterprise multi-agent workflows, corporate upskilling, and AI disaster management framework.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
