@@ -1,174 +1,140 @@
-import React, { useState, useEffect } from 'react';
-import { 
-  Menu, X, ChevronRight, Sparkles, Terminal, 
-  BookOpen, Shield, Layers, Users, PhoneCall, Search 
-} from 'lucide-react';
+import React, { useState } from 'react';
 import Logo from './Logo';
+import { Menu, X, ArrowUpRight, ChevronDown } from 'lucide-react';
 
 interface HeaderProps {
   route: { page: string; courseId: string };
   setRoute: (route: { page: string; courseId: string }) => void;
-  onOpenSearch?: () => void;
 }
 
-export default function Header({ route, setRoute, onOpenSearch }: HeaderProps) {
-  const [isOpen, setIsOpen] = useState(false);
-  const [scrolled, setScrolled] = useState(false);
-
-  useEffect(() => {
-    const handleScroll = () => {
-      setScrolled(window.scrollY > 20);
-    };
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
+export default function Header({ route, setRoute }: HeaderProps) {
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   const navItems = [
-    { id: 'home', label: 'Home' },
-    { id: 'ai', label: 'AI Solutions', badge: 'Core' },
-    { id: 'consulting', label: 'Consulting' },
-    { id: 'school', label: 'Academy', badge: '40h' },
-    { id: 'datascience', label: 'Data Science' },
-    { id: 'community', label: 'Community', badge: 'MLDSN' },
-    { id: 'about', label: 'About & Brand' },
+    { label: "Sovereign AI", page: "ai" },
+    { label: "Consulting", page: "consulting" },
+    { label: "Academy (40h)", page: "school" },
+    { label: "Data Science", page: "datascience" },
+    { label: "Community", page: "community" },
+    { label: "About", page: "about" },
   ];
 
-  const handleNav = (id: string) => {
-    setRoute({ page: id, courseId: route.courseId });
-    if (isOpen) setIsOpen(false);
+  const handleNavClick = (page: string) => {
+    setRoute({ page, courseId: route.courseId });
+    setMobileMenuOpen(false);
   };
 
   return (
-    <header className={`sticky top-0 z-50 transition-all duration-300 ${
-      scrolled 
-        ? 'bg-[#080c10]/95 backdrop-blur-md border-b border-white/10 shadow-2xl shadow-black/50 py-2.5' 
-        : 'bg-[#080c10]/80 backdrop-blur-sm border-b border-white/5 py-3.5'
-    }`}>
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center">
-        
-        {/* Brand Logo & Lockup */}
-        <button 
-          onClick={() => handleNav('home')} 
-          className="flex items-center gap-3 text-left group focus:outline-none"
-          aria-label="MounTech Solution Home"
-        >
-          <div className="relative p-1 rounded-lg bg-surface/80 border border-white/10 group-hover:border-accent/40 transition-colors shadow-inner">
-            <Logo size={28} animated={true} />
-          </div>
-          <div className="flex flex-col">
-            <div className="flex items-center gap-1.5 font-bold tracking-tight text-white leading-none">
-              <span className="text-base sm:text-lg font-extrabold tracking-[-0.03em]">MOUNTECH</span>
-              <span className="text-xs font-mono font-bold px-1.5 py-0.5 rounded bg-accent-dim text-accent border border-accent/20">
-                MTS
-              </span>
-            </div>
-            <span className="text-[10px] font-mono tracking-wider text-text-muted mt-0.5 hidden sm:inline-block">
-              Sovereign AI & Digital Architecture
-            </span>
-          </div>
-        </button>
-
-        {/* Desktop Navigation Links */}
-        <nav className="hidden lg:flex items-center gap-1 bg-surface/60 p-1 rounded-full border border-white/8 shadow-inner">
-          {navItems.map((item) => {
-            const isActive = route.page === item.id;
-            return (
-              <button
-                key={item.id}
-                onClick={() => handleNav(item.id)}
-                className={`relative px-3.5 py-1.5 rounded-full text-xs font-medium transition-all flex items-center gap-1.5 ${
-                  isActive 
-                    ? 'bg-accent text-white shadow-lg shadow-accent/25 font-semibold' 
-                    : 'text-text-sub hover:text-white hover:bg-white/5'
-                }`}
-              >
-                {item.label}
-                {item.badge && !isActive && (
-                  <span className="text-[9px] font-mono px-1 py-0.2 rounded bg-white/10 text-accent font-normal">
-                    {item.badge}
-                  </span>
-                )}
-              </button>
-            );
-          })}
-        </nav>
-
-        {/* Right CTA Area & Quick Actions */}
-        <div className="flex items-center gap-2.5">
-          {/* System Status Ping */}
-          <div className="hidden xl:flex items-center gap-2 px-2.5 py-1 rounded-md bg-white/5 border border-white/5 text-[11px] font-mono text-text-sub">
-            <span className="w-2 h-2 rounded-full bg-green animate-pulse" />
-            <span>Nodes Online</span>
-          </div>
-
-          {/* Quick Contact / Consultation Action */}
-          <button
-            onClick={() => handleNav('contact')}
-            className="hidden sm:inline-flex items-center gap-2 px-3.5 py-1.5 rounded-lg bg-gradient-to-r from-accent to-blue-600 hover:from-blue-500 hover:to-accent text-white text-xs font-semibold shadow-md shadow-accent/20 border border-blue-400/30 active:scale-95"
+    <header className="sticky top-0 z-50 bg-[#fbfbfa]/90 backdrop-blur-md border-b border-black/[0.06] transition-all">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="flex items-center justify-between h-16 sm:h-18">
+          
+          {/* Logo Brand Lockup */}
+          <button 
+            onClick={() => handleNavClick('home')}
+            className="flex items-center gap-2 text-left focus:outline-none"
           >
-            <span>Initiate Contact</span>
-            <ChevronRight size={14} />
+            <Logo size={28} showText={true} />
           </button>
 
-          {/* Mobile Menu Toggle */}
-          <button
-            onClick={() => setIsOpen(!isOpen)}
-            className="lg:hidden p-2 rounded-lg bg-surface border border-white/10 text-white hover:text-accent focus:outline-none"
-            aria-label="Toggle Navigation Menu"
-          >
-            {isOpen ? <X size={20} /> : <Menu size={20} />}
-          </button>
-        </div>
-      </div>
-
-      {/* Mobile Drawer Overlay */}
-      {isOpen && (
-        <div className="lg:hidden fixed inset-x-0 top-[57px] bottom-0 bg-bg/95 backdrop-blur-xl border-t border-white/10 p-5 flex flex-col justify-between overflow-y-auto z-50 animate-in fade-in slide-in-from-top-2 duration-200">
-          <div className="space-y-2">
-            <div className="text-[11px] font-mono text-text-muted uppercase px-2 mb-3">
-              Navigation Index
-            </div>
+          {/* Desktop Navigation Links */}
+          <nav className="hidden md:flex items-center gap-1 lg:gap-2">
             {navItems.map((item) => {
-              const isActive = route.page === item.id;
+              const isActive = route.page === item.page;
               return (
                 <button
-                  key={item.id}
-                  onClick={() => handleNav(item.id)}
-                  className={`w-full flex items-center justify-between p-3 rounded-xl border text-sm font-medium transition-all ${
-                    isActive
-                      ? 'bg-accent/15 border-accent text-accent font-semibold shadow-sm'
-                      : 'bg-surface/70 border-white/5 text-text hover:bg-surface hover:border-white/15'
+                  key={item.page}
+                  onClick={() => handleNavClick(item.page)}
+                  className={`px-3.5 py-1.5 rounded-full text-[13px] font-medium transition-all ${
+                    isActive 
+                      ? 'text-cohere-ink bg-black/[0.05] font-semibold' 
+                      : 'text-cohere-slate hover:text-cohere-ink hover:bg-black/[0.03]'
                   }`}
                 >
-                  <div className="flex items-center gap-3">
-                    <span className="text-left">{item.label}</span>
-                    {item.badge && (
-                      <span className="text-[10px] font-mono px-1.5 py-0.5 rounded bg-white/10 text-accent">
-                        {item.badge}
-                      </span>
-                    )}
-                  </div>
-                  <ChevronRight size={16} className={isActive ? 'text-accent' : 'text-text-muted'} />
+                  {item.label}
                 </button>
               );
             })}
+          </nav>
+
+          {/* Right Action Callouts (Pill CTAs) */}
+          <div className="hidden sm:flex items-center gap-3">
+            <a
+              href="https://mldsnnepal.org"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-[12px] font-mono text-cohere-slate hover:text-cohere-ink flex items-center gap-1 px-3 py-1.5 transition-colors"
+            >
+              <span>mldsnnepal.org</span>
+              <ArrowUpRight size={12} />
+            </a>
+
+            <button
+              onClick={() => {
+                const el = document.getElementById('contact');
+                if (el) {
+                  el.scrollIntoView({ behavior: 'smooth' });
+                } else {
+                  handleNavClick('home');
+                  setTimeout(() => {
+                    document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' });
+                  }, 100);
+                }
+              }}
+              className="rounded-full px-5 py-2 text-xs font-semibold bg-cohere-ink hover:bg-black text-white shadow-sm transition-all active:scale-95"
+            >
+              Contact Advisory
+            </button>
           </div>
 
-          <div className="pt-6 border-t border-white/10 space-y-3">
+          {/* Mobile Menu Trigger */}
+          <div className="md:hidden flex items-center gap-2">
             <button
-              onClick={() => handleNav('contact')}
-              className="w-full py-3 rounded-xl bg-accent text-white font-semibold text-center text-sm shadow-lg shadow-accent/25 flex items-center justify-center gap-2"
+              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+              className="p-2 rounded-full text-cohere-ink hover:bg-black/5"
+              aria-label="Toggle navigation menu"
             >
-              <PhoneCall size={16} />
-              <span>Schedule Architecture Consultation</span>
+              {mobileMenuOpen ? <X size={20} /> : <Menu size={20} />}
             </button>
-            <div className="flex items-center justify-between text-xs font-mono text-text-muted px-2">
-              <span>MounTech Solution (MTS)</span>
-              <span className="flex items-center gap-1.5">
-                <span className="w-1.5 h-1.5 rounded-full bg-green" />
-                Active Sync v2.4
-              </span>
-            </div>
+          </div>
+
+        </div>
+      </div>
+
+      {/* Mobile Drawer */}
+      {mobileMenuOpen && (
+        <div className="md:hidden border-b border-black/[0.08] bg-[#fbfbfa] px-4 pt-3 pb-6 space-y-2 animate-in slide-in-from-top-2 duration-200">
+          {navItems.map((item) => (
+            <button
+              key={item.page}
+              onClick={() => handleNavClick(item.page)}
+              className={`block w-full text-left px-4 py-2.5 rounded-xl text-sm font-medium ${
+                route.page === item.page ? 'bg-black/5 text-cohere-ink font-semibold' : 'text-cohere-slate'
+              }`}
+            >
+              {item.label}
+            </button>
+          ))}
+          
+          <div className="pt-4 border-t border-black/[0.06] flex flex-col gap-2">
+            <a
+              href="https://mldsnnepal.org"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-xs font-mono text-cohere-slate flex items-center gap-1 px-4 py-2"
+            >
+              <span>MLDSN Community Hub</span>
+              <ArrowUpRight size={13} />
+            </a>
+            <button
+              onClick={() => {
+                setMobileMenuOpen(false);
+                document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' });
+              }}
+              className="w-full rounded-full py-2.5 text-xs font-semibold bg-cohere-ink text-white text-center"
+            >
+              Contact Advisory
+            </button>
           </div>
         </div>
       )}

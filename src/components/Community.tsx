@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { 
-  Users, Award, Globe, Rocket, BookOpen, 
-  ExternalLink, Calendar, CheckCircle2, HeartHandshake, ArrowRight
+  Users, Globe, BookOpen, ExternalLink, 
+  CheckCircle2, ArrowRight, Calendar
 } from 'lucide-react';
 
 interface CommunityProps {
@@ -23,25 +23,25 @@ export default function Community({ summaryOnly, setRoute }: CommunityProps) {
 
   const pillars = [
     {
-      icon: <Users size={20} className="text-accent" />,
+      icon: <Users size={20} className="text-cohere-ink" />,
       title: "Community & Flagship Events",
-      desc: "Building a powerful networking matrix for AI, ML, and Data Science enthusiasts across Nepal and globally through impactful workshops, hackathons, and technical bootcamps."
+      desc: "Building an expansive networking matrix for AI, ML, and Data Science enthusiasts across Nepal and globally through workshops, hackathons, and technical bootcamps."
     },
     {
-      icon: <BookOpen size={20} className="text-accent2" />,
+      icon: <BookOpen size={20} className="text-cohere-coral" />,
       title: "Applied Research & Publications",
-      desc: "Driving regional academic excellence via peer-reviewed paper support, technical blogs, and bridging gaps between data science industry tracks and local research bodies."
+      desc: "Driving regional academic excellence via peer-reviewed paper support, technical blogs, and bridging data science industry tracks with regional universities."
     },
     {
-      icon: <Globe size={20} className="text-green" />,
+      icon: <Globe size={20} className="text-cohere-teal" />,
       title: "Digital Nepal & Rural Inclusion",
-      desc: "Actively working to bridge the urban-rural technological divide by promoting data literacy, tech-driven localization solutions, and rural digital infrastructure inclusion."
+      desc: "Actively working to bridge the technological divide by promoting data literacy, tech-driven localization solutions, and rural digital infrastructure inclusion."
     }
   ];
 
   const milestones = [
-    { label: "Community Members", value: "10,000+" },
-    { label: "Founded Year", value: "2018" },
+    { label: "Active Network Members", value: "10,000+" },
+    { label: "Established Year", value: "2018" },
     { label: "Workshops & Hackathons", value: "65+" },
     { label: "Research Fellowships", value: "30+" }
   ];
@@ -49,94 +49,94 @@ export default function Community({ summaryOnly, setRoute }: CommunityProps) {
   // ──── HOME PREVIEW WIDGET (SUMMARY VIEW) ────
   if (summaryOnly) {
     return (
-      <section id="community-summary" className="py-20 bg-surface/80 border-t border-white/10 relative">
+      <section id="community-summary" className="py-20 sm:py-28 bg-cohere-canvas border-b border-black/[0.06]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
-            
+          
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
             <div className="lg:col-span-6 space-y-4">
-              <span className="font-mono text-xs text-green uppercase tracking-wider">
+              <span className="font-mono text-xs text-cohere-slate uppercase tracking-widest">
                 ECOSYSTEM ALLIANCE • EST. 2018
               </span>
-              <h2 className="text-2xl sm:text-4xl font-extrabold text-white tracking-tight">
+              <h2 className="font-display text-3xl sm:text-4xl font-extrabold text-cohere-ink tracking-tight">
                 MLDSN Nepal Community Hub
               </h2>
-              <p className="text-text-sub text-sm sm:text-base leading-relaxed">
+              <p className="text-cohere-subtle text-base leading-relaxed">
                 Associated directly with MounTech Solution (MTS), Machine Learning and Data Science Network (MLDSN) Nepal is a premier non-profit platform advancing localized engineering discovery, data science literacy, and technical accessibility.
               </p>
               
               <div className="pt-2 flex flex-wrap gap-3">
                 <button 
                   onClick={() => setRoute({ page: 'community', courseId: 'ai-agents' })}
-                  className="px-5 py-2.5 rounded-xl bg-accent hover:bg-blue-600 text-white font-semibold text-sm shadow-lg shadow-accent/25 flex items-center gap-2"
+                  className="rounded-full px-6 py-3 text-xs font-semibold bg-cohere-ink hover:bg-black text-white shadow-sm flex items-center gap-2 transition-all"
                 >
                   <span>Explore Community Hub</span>
-                  <ArrowRight size={15} />
+                  <ArrowRight size={14} />
                 </button>
                 <a
                   href="https://mldsnnepal.org"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="px-4 py-2.5 rounded-xl bg-surface hover:bg-white/5 border border-white/15 text-white font-semibold text-xs flex items-center gap-1.5"
+                  className="rounded-full px-5 py-3 text-xs font-mono font-semibold bg-cohere-stone hover:bg-[#e4e2dc] text-cohere-ink border border-black/[0.08] flex items-center gap-1.5 transition-all"
                 >
                   <span>mldsnnepal.org</span>
-                  <ExternalLink size={13} />
+                  <ExternalLink size={12} />
                 </a>
               </div>
             </div>
 
-            <div className="lg:col-span-6 space-y-3">
+            <div className="lg:col-span-6 space-y-4">
               {pillars.slice(0, 2).map((p, i) => (
-                <div key={i} className="bg-card/90 border border-white/8 hover:border-accent/30 p-5 rounded-2xl transition-all">
-                  <div className="flex items-center gap-3 mb-2">
-                    <div className="p-2 rounded-lg bg-surface border border-white/5">{p.icon}</div>
-                    <strong className="text-sm font-bold text-white">{p.title}</strong>
+                <div key={i} className="p-6 rounded-2xl bg-cohere-stone/60 border border-black/[0.08] hover:border-black/[0.2] transition-all space-y-2">
+                  <div className="flex items-center gap-2.5">
+                    {p.icon}
+                    <h3 className="text-base font-bold text-cohere-ink">{p.title}</h3>
                   </div>
-                  <p className="text-text-muted text-xs leading-relaxed">{p.desc}</p>
+                  <p className="text-xs text-cohere-subtle leading-relaxed">{p.desc}</p>
                 </div>
               ))}
             </div>
-
           </div>
+
         </div>
       </section>
     );
   }
 
-  // ──── FULL DEDICATED CANVAS VIEW ────
+  // ──── FULL DEDICATED COMMUNITY VIEW ────
   return (
     <div className="py-16 sm:py-24 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-16">
       
       {/* Brand Header */}
-      <div className="text-center max-w-3xl mx-auto space-y-4">
-        <span className="font-mono text-xs text-accent uppercase tracking-wider">
+      <div className="max-w-3xl space-y-4">
+        <span className="font-mono text-xs text-cohere-slate uppercase tracking-widest">
           NON-PROFIT AFFILIATE LAYER
         </span>
-        <h1 className="text-3xl sm:text-5xl font-extrabold text-white tracking-tight">
+        <h1 className="font-display text-4xl sm:text-6xl font-extrabold text-cohere-ink tracking-tight">
           Machine Learning & Data Science Network
         </h1>
-        <p className="text-text-sub text-sm sm:text-base leading-relaxed">
-          Nepal's leading sovereign tech community dedicated to advancing artificial intelligence, deep learning mechanics, and inclusive structural digitalization since 2018.
+        <p className="text-lg text-cohere-subtle leading-relaxed">
+          Nepal's premier sovereign tech community dedicated to advancing artificial intelligence, deep learning mechanics, and inclusive structural digitalization since 2018.
         </p>
         
-        <div className="pt-2 flex justify-center">
+        <div className="pt-2">
           <a 
             href="https://mldsnnepal.org" 
             target="_blank" 
             rel="noopener noreferrer"
-            className="px-6 py-3 rounded-xl bg-accent hover:bg-blue-600 text-white font-semibold text-sm shadow-xl shadow-accent/25 flex items-center gap-2 transition-all active:scale-95"
+            className="rounded-full px-7 py-3.5 text-xs font-bold bg-cohere-ink hover:bg-black text-white shadow-sm inline-flex items-center gap-2"
           >
             <span>Visit Official Site: mldsnnepal.org</span>
-            <ExternalLink size={16} />
+            <ExternalLink size={14} />
           </a>
         </div>
       </div>
 
       {/* Community Milestones Counter */}
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-4xl mx-auto text-center">
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
         {milestones.map((m, i) => (
-          <div key={i} className="p-5 rounded-2xl bg-surface border border-white/10">
-            <div className="text-2xl sm:text-3xl font-extrabold text-white font-mono">{m.value}</div>
-            <div className="text-xs text-text-muted mt-1">{m.label}</div>
+          <div key={i} className="p-6 rounded-2xl bg-cohere-stone/70 border border-black/[0.08] text-center space-y-1">
+            <div className="text-3xl font-extrabold text-cohere-ink font-mono">{m.value}</div>
+            <div className="text-xs text-cohere-slate">{m.label}</div>
           </div>
         ))}
       </div>
@@ -144,46 +144,43 @@ export default function Community({ summaryOnly, setRoute }: CommunityProps) {
       {/* Core Objectives Metric Grid */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         {pillars.map((p, idx) => (
-          <div key={idx} className="bg-surface/80 border border-white/10 p-7 rounded-2xl space-y-4">
-            <div className="p-3 rounded-xl bg-card border border-white/5 w-fit">
+          <div key={idx} className="p-8 rounded-2xl bg-white border border-black/[0.08] space-y-3 shadow-sm">
+            <div className="p-3 rounded-xl bg-cohere-stone w-fit">
               {p.icon}
             </div>
-            <h3 className="text-lg font-bold text-white">{p.title}</h3>
-            <p className="text-text-sub text-xs sm:text-sm leading-relaxed">{p.desc}</p>
+            <h3 className="text-lg font-bold text-cohere-ink">{p.title}</h3>
+            <p className="text-xs text-cohere-subtle leading-relaxed">{p.desc}</p>
           </div>
         ))}
       </div>
 
-      {/* Community Newsletter & Event Alerts */}
-      <div className="bg-gradient-to-b from-surface to-card border border-white/10 rounded-2xl p-6 sm:p-10 shadow-2xl max-w-3xl mx-auto text-center space-y-4">
-        <div className="w-12 h-12 rounded-xl bg-accent-dim text-accent flex items-center justify-center mx-auto">
-          <Calendar size={22} />
-        </div>
-        <h3 className="text-xl font-bold text-white">Join MLDSN Community Circles</h3>
-        <p className="text-text-sub text-xs sm:text-sm max-w-lg mx-auto">
-          Receive notifications on upcoming physical hackathons, guest research lectures, and open-source project sprints in Kathmandu and virtual hubs.
+      {/* Newsletter / Circle Alerts */}
+      <div className="p-8 sm:p-12 rounded-2xl bg-cohere-stone/60 border border-black/[0.08] max-w-2xl mx-auto text-center space-y-4">
+        <h3 className="font-display text-2xl font-bold text-cohere-ink">Join MLDSN Community Circles</h3>
+        <p className="text-xs sm:text-sm text-cohere-subtle max-w-md mx-auto">
+          Get notified about upcoming in-person hackathons, guest research lectures, and open-source project sprints in Kathmandu.
         </p>
 
         {subscribed ? (
-          <div className="p-4 rounded-xl bg-green/10 border border-green/30 text-green font-mono text-xs flex items-center justify-center gap-2">
+          <div className="p-4 rounded-xl bg-white border border-cohere-teal/30 text-cohere-teal font-mono text-xs flex items-center justify-center gap-2 shadow-sm">
             <CheckCircle2 size={16} />
-            <span>Telemetry subscription logged! You will receive future event invites.</span>
+            <span>Registration logged! You will receive future event notifications.</span>
           </div>
         ) : (
-          <form onSubmit={handleSubscribe} className="flex flex-col sm:flex-row gap-2.5 max-w-md mx-auto pt-2">
+          <form onSubmit={handleSubscribe} className="flex flex-col sm:flex-row gap-2 max-w-md mx-auto pt-2">
             <input
               type="email"
               required
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               placeholder="Enter your email address..."
-              className="flex-1 px-4 py-2.5 rounded-xl bg-black/50 border border-white/10 text-white text-xs focus:outline-none focus:border-accent"
+              className="flex-1 px-4 py-2.5 rounded-full bg-white border border-black/[0.1] text-xs text-cohere-ink focus:outline-none focus:border-cohere-ink"
             />
             <button
               type="submit"
-              className="px-5 py-2.5 rounded-xl bg-accent hover:bg-blue-600 text-white font-semibold text-xs whitespace-nowrap transition-colors"
+              className="rounded-full px-6 py-2.5 bg-cohere-ink hover:bg-black text-white font-bold text-xs shadow-sm transition-all"
             >
-              Get Event Invites
+              Join Circles
             </button>
           </form>
         )}

@@ -290,3 +290,14 @@ export const courses: Course[] = [
     ]
   }
 ];
+
+export const getCourseById = (id: string): Course | undefined => {
+  return courses.find(c => c.id === id);
+};
+
+export const categories: string[] = [
+  "All",
+  "Agentic AI & Systems",
+  "Cloud & DevSecOps",
+  "Full-Stack Engineering"
+];

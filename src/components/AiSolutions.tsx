@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
 import { 
-  Terminal, Shield, BrainCircuit, Layers, ArrowRight, 
-  FolderOpen, ShieldAlert, Cpu, Database, Activity, Network, Sliders,
-  CheckCircle, Play, RefreshCw, Lock, Sparkles, Server
+  Bot, Shield, Terminal, ArrowRight, CheckCircle2, 
+  Cpu, Lock, Sparkles, Layers, RefreshCw, Server
 } from 'lucide-react';
 
 interface AiSolutionsProps {
@@ -11,326 +10,237 @@ interface AiSolutionsProps {
 }
 
 export default function AiSolutions({ summaryOnly, onViewFull }: AiSolutionsProps) {
-  const [activeStep, setActiveStep] = useState(1);
-  const [simInput, setSimInput] = useState('Client Surya B. (ID: NP-8842, Email: surya@client.org) requests automated audit of Q3 cloud ledger.');
-  const [isSimulating, setIsSimulating] = useState(false);
-  const [simResult, setSimResult] = useState<{
-    redacted: string;
-    chunks: number;
-    tokens: number;
+  const [inputText, setInputText] = useState('Account holder Dilip Yogi (NID: 994-01-2281) requested wire transfer authorization of $48,000 for server cluster expansion.');
+  const [pipelineState, setPipelineState] = useState<{
+    processed: boolean;
+    redactedText: string;
+    tokensCount: number;
     latency: string;
-    verified: boolean;
-  } | null>(null);
+    leakageRisk: string;
+  }>({
+    processed: false,
+    redactedText: '',
+    tokensCount: 0,
+    latency: '0ms',
+    leakageRisk: '0.00%'
+  });
+  const [isSimulating, setIsSimulating] = useState(false);
 
-  const runSimulation = () => {
+  const handleSimulate = () => {
     setIsSimulating(true);
     setTimeout(() => {
-      // Deterministic PII Masking simulation
-      const masked = simInput
-        .replace(/[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}/gi, '[REDACTED_EMAIL]')
-        .replace(/ID:\s*[A-Z0-9-]+/gi, 'ID: [REDACTED_ID]')
-        .replace(/Surya B\./gi, '[REDACTED_NAME]');
-
-      setSimResult({
-        redacted: masked,
-        chunks: Math.ceil(simInput.length / 40),
-        tokens: Math.ceil(simInput.length / 4),
-        latency: '18.4 ms',
-        verified: true,
+      // Simulate zero-trust regex & PII masking
+      const masked = inputText
+        .replace(/Dilip Yogi/g, '[REDACTED_IDENTITY_01]')
+        .replace(/994-01-2281/g, '[REDACTED_NID_HASH]')
+        .replace(/\$48,000/g, '[QUANTITY_BAND_SECURE]');
+      
+      setPipelineState({
+        processed: true,
+        redactedText: masked,
+        tokensCount: Math.round(inputText.length / 3.8),
+        latency: '11.4ms',
+        leakageRisk: '0.00% (Air-Gapped Enclave)'
       });
       setIsSimulating(false);
     }, 600);
   };
 
-  const enterpriseServices = [
+  const capabilities = [
     {
-      icon: <Network size={22} className="text-accent2" />,
-      title: "Multi-Agent Pipelines & Engineering",
-      desc: "Architecting stateful, decentralized execution graphs with human-in-the-loop validation gates to handle multi-layered transaction processing automatically."
+      tag: "CORE CAPABILITY 01",
+      title: "Multi-Agent DAG Execution Graphs",
+      desc: "Decomposing complex enterprise workflows into supervised, deterministic agentic nodes with human-in-the-loop consensus protocols."
     },
     {
-      icon: <Cpu size={22} className="text-accent" />,
-      title: "Custom Inference Layers",
-      desc: "Configuring quantized, low-memory 4-bit open-weight models (Llama, Mistral) engineered explicitly for offline-first localized execution fabrics."
+      tag: "CORE CAPABILITY 02",
+      title: "Sovereign Low-Bit Quantization",
+      desc: "Deploying 4-bit and 8-bit quantized models optimized for on-premise edge hardware without reliance on foreign API endpoints."
     },
     {
-      icon: <Shield size={22} className="text-green" />,
-      title: "Private Data Guardrails",
-      desc: "Deploying rigid semantic firewalls and cryptographic token regex tokenizers that intercept data matrices to strip PII before storage indexing."
-    },
-    {
-      icon: <Layers size={22} className="text-white" />,
-      title: "Small-Scale Systems Solutions",
-      desc: "Deploying high-performance containerized automation modules and real-time telemetry analytics pipelines for secure local office centers."
+      tag: "CORE CAPABILITY 03",
+      title: "Air-Gapped Knowledge Retrieval (RAG)",
+      desc: "Sub-second hybrid vector search and neural reranking operating entirely inside your corporate firewall and localized VPC."
     }
   ];
 
-  const technicalSpecs = [
+  const enterpriseTracks = [
     {
-      icon: <FolderOpen size={20} className="text-accent" />,
-      title: "Folder Watcher Daemon",
-      desc: "Monitors secure file directories in real time, auto-parsing raw text strings from newly appended paperwork with zero manual interactions."
+      sector: "Fintech & Banking",
+      spec: "Real-time AML, balance reconciliation, and fraud detection with encrypted PII telemetry."
     },
     {
-      icon: <ShieldAlert size={20} className="text-green" />,
-      title: "Deterministic Parsing Cells",
-      desc: "Intercepts data arrays using a secure regex compliance proxy to mask passwords, IDs, and financial indicators instantly."
+      sector: "Healthcare & Clinical Systems",
+      spec: "Diagnostic report summarization and EHR knowledge graphs under strict patient data privacy."
     },
     {
-      icon: <Database size={20} className="text-accent2" />,
-      title: "Embedded Chunk Topologies",
-      desc: "Slices data strings into 512-character token blocks with a 10% structural overlap, mapping vectors directly into Qdrant index layouts."
-    },
-    {
-      icon: <Sliders size={20} className="text-white" />,
-      title: "Zero-Hallucination Prompts",
-      desc: "Enforces strict system prompt conditions bounding local models to processed context, aborting the workflow if files do not match query maps."
+      sector: "Sovereign Governance",
+      spec: "Devanagari NLP tokenization and localized civil records automated indexing with zero cloud leaks."
     }
   ];
 
-  const pipelineSteps = [
-    {
-      step: 1,
-      title: "1. Local Ingestion",
-      sub: "Watchdog Directory Daemon",
-      icon: <FolderOpen size={20} className="text-accent" />,
-      details: "Monitors raw file buffers in isolated local memory; supports PDF, DOCX, CSV, and tabular dumps."
-    },
-    {
-      step: 2,
-      title: "2. Private Guardrail",
-      sub: "Regex / Token PII Masking",
-      icon: <ShieldAlert size={20} className="text-green" />,
-      details: "Deterministic masking sanitizes government IDs, names, and contact vectors before embeddings are generated."
-    },
-    {
-      step: 3,
-      title: "3. Vector Indexing",
-      sub: "Qdrant Chunk Topologies",
-      icon: <Database size={20} className="text-accent2" />,
-      details: "512-token chunks with 10% overlap indexed locally with bge-small or custom local embedding models."
-    },
-    {
-      step: 4,
-      title: "4. Sovereign Inference",
-      sub: "Offline Quantized Models",
-      icon: <Cpu size={20} className="text-white" />,
-      details: "4-bit quantized Llama 3 / Mistral execution with strictly bounded system prompts and zero cloud calls."
-    }
-  ];
-
-  // ──── HOME PREVIEW WIDGET ────
+  // ──── HOME PREVIEW WIDGET (SUMMARY VIEW) ────
   if (summaryOnly) {
     return (
-      <section id="ai-summary" className="py-20 bg-bg border-t border-white/10 relative">
+      <section className="py-20 sm:py-28 bg-[#f5f4f0] border-b border-black/[0.06]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
-            
-            <div className="lg:col-span-6 space-y-4">
-              <span className="font-mono text-xs text-accent uppercase tracking-wider">
-                COMPUTATIONAL CORE
+          
+          <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6">
+            <div className="max-w-2xl space-y-3">
+              <span className="font-mono text-xs text-cohere-coral font-semibold uppercase tracking-widest">
+                ENTERPRISE CAPABILITIES
               </span>
-              <h2 className="text-2xl sm:text-4xl font-extrabold text-white tracking-tight">
-                MounTech AI Solutions
+              <h2 className="font-display text-3xl sm:text-4xl font-extrabold text-cohere-ink tracking-tight">
+                Sovereign AI Systems Architecture
               </h2>
-              <p className="text-text-sub text-sm sm:text-base leading-relaxed">
-                Engineering decentralized algorithmic systems designed to bridge sovereign technological security boundaries with resilient enterprise lifecycle automation.
+              <p className="text-cohere-subtle text-sm sm:text-base leading-relaxed">
+                Transform enterprise workflows with multi-agent topologies and air-gapped language models designed for total data privacy.
               </p>
-              
-              <div className="pt-2">
-                <button 
-                  onClick={onViewFull}
-                  className="px-5 py-2.5 rounded-xl bg-accent hover:bg-blue-600 text-white font-semibold text-sm shadow-lg shadow-accent/25 flex items-center gap-2"
-                >
-                  <span>Analyze Architecture Blueprints</span>
-                  <ArrowRight size={16} />
-                </button>
-              </div>
-            </div>
-            
-            <div className="lg:col-span-6 grid grid-cols-1 sm:grid-cols-2 gap-4">
-              {enterpriseServices.slice(0, 2).map((service, i) => (
-                <div key={i} className="bg-surface/90 border border-white/8 hover:border-accent/30 p-5 rounded-2xl transition-all">
-                  <div className="flex items-center gap-3 mb-2.5">
-                    <div className="p-2 rounded-lg bg-card border border-white/5">{service.icon}</div>
-                    <strong className="text-sm font-bold text-white">{service.title}</strong>
-                  </div>
-                  <p className="text-text-muted text-xs leading-relaxed">{service.desc}</p>
-                </div>
-              ))}
             </div>
 
+            <button
+              onClick={onViewFull}
+              className="rounded-full px-6 py-3 text-xs font-semibold bg-cohere-ink hover:bg-black text-white shadow-sm flex items-center gap-2 self-start md:self-auto transition-all"
+            >
+              <span>Explore AI Solutions</span>
+              <ArrowRight size={14} />
+            </button>
           </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {capabilities.map((cap, idx) => (
+              <div 
+                key={idx}
+                className="p-7 rounded-2xl bg-white border border-black/[0.06] hover:border-black/[0.15] transition-all space-y-4 shadow-sm"
+              >
+                <div className="font-mono text-[11px] text-cohere-slate">{cap.tag}</div>
+                <h3 className="text-lg font-bold text-cohere-ink leading-snug">{cap.title}</h3>
+                <p className="text-xs text-cohere-subtle leading-relaxed">{cap.desc}</p>
+                <div className="pt-2 flex items-center text-xs font-mono font-semibold text-cohere-coral gap-1">
+                  <span>Air-gapped boundary</span>
+                  <CheckCircle2 size={13} />
+                </div>
+              </div>
+            ))}
+          </div>
+
         </div>
       </section>
     );
   }
 
-  // ──── FULL DEDICATED LAB CANVAS VIEW ────
+  // ──── FULL DEDICATED SOVEREIGN AI VIEW ────
   return (
     <div className="py-16 sm:py-24 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-20">
       
-      {/* Header Block */}
-      <div className="text-center max-w-3xl mx-auto space-y-4">
-        <div className="inline-flex p-3 rounded-2xl bg-surface border border-accent/20 text-accent mb-2">
-          <BrainCircuit size={32} />
-        </div>
-        <h1 className="text-3xl sm:text-5xl font-extrabold text-white tracking-tight">
-          Sovereign AI Systems Framework
+      {/* Header */}
+      <div className="max-w-3xl space-y-4">
+        <span className="font-mono text-xs text-cohere-coral font-semibold uppercase tracking-widest">
+          PROJECT ALPINE ARCHITECTURE
+        </span>
+        <h1 className="font-display text-4xl sm:text-6xl font-extrabold text-cohere-ink tracking-tight">
+          Sovereign AI for regulated enterprises.
         </h1>
-        <p className="text-text-sub text-sm sm:text-base leading-relaxed">
-          Comprehensive capability matrix combining zero-trust cloud engineering partitions with localized operational execution nodes.
+        <p className="text-lg text-cohere-subtle leading-relaxed">
+          Full-stack local models, deterministic agents, and zero-egress data enclaves engineered to replace fragile external cloud APIs.
         </p>
       </div>
 
-      {/* Enterprise Core Pillars */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        {enterpriseServices.map((service, idx) => (
-          <div key={idx} className="bg-surface/80 border border-white/8 hover:border-accent/40 p-6 rounded-2xl transition-all space-y-3">
-            <div className="w-10 h-10 rounded-xl bg-card border border-white/5 flex items-center justify-center">
-              {service.icon}
-            </div>
-            <h3 className="text-base font-bold text-white">{service.title}</h3>
-            <p className="text-text-sub text-xs leading-relaxed">{service.desc}</p>
-          </div>
-        ))}
-      </div>
-
-      {/* ── INTERACTIVE CASE STUDY DEMO: PROJECT ALPINE ARCHITECTURE ── */}
-      <div className="bg-gradient-to-b from-surface to-card border border-white/10 rounded-2xl p-6 sm:p-10 shadow-2xl space-y-8">
-        
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-white/10 pb-5">
+      {/* ── INTERACTIVE SOVEREIGN PIPELINE SIMULATOR ── */}
+      <div className="rounded-2xl bg-[#0d1117] text-white border border-white/10 p-6 sm:p-10 shadow-2xl space-y-8">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-white/10 pb-6">
           <div className="space-y-1">
-            <div className="flex items-center gap-2">
-              <Activity size={18} className="text-accent" />
-              <h3 className="text-xl font-bold text-white">Project Alpine: Architecture Blueprint</h3>
-            </div>
-            <p className="text-text-muted text-xs">Offline sovereign pipeline with deterministic privacy and vector routing.</p>
+            <span className="font-mono text-xs text-cohere-teal uppercase">INTERACTIVE SANDBOX</span>
+            <h2 className="text-xl font-bold text-white flex items-center gap-2">
+              <Terminal size={20} className="text-cohere-coral" />
+              <span>Project Alpine: Zero-Leakage Pipeline Simulator</span>
+            </h2>
           </div>
 
-          <div className="flex items-center gap-2 px-3 py-1 rounded-full bg-green/10 border border-green/30 text-green font-mono text-xs self-start sm:self-auto">
-            <span className="w-2 h-2 rounded-full bg-green animate-pulse" />
-            <span>OFFLINE PROTOCOL ACTIVE (ZERO CLOUD LEAKS)</span>
+          <div className="flex items-center gap-2 text-xs font-mono text-white/60">
+            <span className="px-2.5 py-1 rounded bg-white/10 text-cohere-teal font-semibold">
+              TLS 1.3 Air-Gapped
+            </span>
           </div>
         </div>
 
-        {/* Step Visualizer */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-          {pipelineSteps.map((step) => {
-            const isSelected = activeStep === step.step;
-            return (
-              <div 
-                key={step.step}
-                onClick={() => setActiveStep(step.step)}
-                className={`p-5 rounded-2xl border cursor-pointer transition-all text-center relative ${
-                  isSelected 
-                    ? 'bg-card border-accent shadow-lg shadow-accent/15' 
-                    : 'bg-surface/70 border-white/5 hover:border-white/20'
-                }`}
-              >
-                <div className="w-12 h-12 rounded-xl bg-black/40 border border-white/10 flex items-center justify-center mx-auto mb-3">
-                  {step.icon}
-                </div>
-                <div className="text-sm font-bold text-white mb-1">{step.title}</div>
-                <div className="text-xs text-text-muted font-mono mb-2">{step.sub}</div>
-                <p className="text-xs text-text-sub text-left">{step.details}</p>
-                {isSelected && (
-                  <span className="absolute top-2.5 right-2.5 text-[10px] font-mono px-1.5 py-0.5 rounded bg-accent text-white font-bold">
-                    ACTIVE
-                  </span>
-                )}
-              </div>
-            );
-          })}
+        {/* Input Text Area */}
+        <div className="space-y-3">
+          <label className="text-xs font-mono text-white/60 block">
+            SIMULATION PAYLOAD (ENTERPRISE TRANSACTION WITH SENSITIVE IDENTIFIERS)
+          </label>
+          <textarea
+            rows={3}
+            value={inputText}
+            onChange={(e) => setInputText(e.target.value)}
+            className="w-full p-4 rounded-xl bg-black/50 border border-white/10 text-white font-mono text-xs focus:outline-none focus:border-cohere-coral resize-none"
+          />
+
+          <button
+            onClick={handleSimulate}
+            disabled={isSimulating}
+            className="rounded-full px-6 py-2.5 text-xs font-mono font-bold bg-cohere-coral hover:bg-[#ff6340] text-white flex items-center gap-2 transition-all disabled:opacity-50"
+          >
+            {isSimulating ? (
+              <>
+                <RefreshCw size={13} className="animate-spin" />
+                <span>Running Zero-Trust Pipeline...</span>
+              </>
+            ) : (
+              <>
+                <Cpu size={13} />
+                <span>Simulate Ingestion & PII Masking</span>
+              </>
+            )}
+          </button>
         </div>
 
-        {/* ── LIVE INTERACTIVE SOVEREIGN PIPELINE SIMULATOR ── */}
-        <div className="bg-black/50 border border-white/10 rounded-xl p-5 sm:p-6 space-y-4 font-mono">
-          <div className="flex flex-wrap items-center justify-between gap-3 text-xs border-b border-white/5 pb-3">
-            <div className="flex items-center gap-2 text-accent font-semibold">
-              <Play size={14} />
-              <span>Interactive Pipeline Simulator</span>
+        {/* Pipeline Output Result */}
+        {pipelineState.processed && (
+          <div className="p-6 rounded-xl bg-black/70 border border-white/10 space-y-4 animate-in fade-in duration-300">
+            <div className="flex items-center justify-between text-xs font-mono text-cohere-teal border-b border-white/10 pb-2">
+              <span>ZERO-TRUST OUTPUT TRANSCRIPTION</span>
+              <span>Latency: {pipelineState.latency}</span>
             </div>
-            <span className="text-text-muted text-[11px]">Test redaction & vector chunking in real-time</span>
-          </div>
 
-          <div className="space-y-2">
-            <label className="text-xs text-text-muted block">INPUT PAYLOAD (SIMULATED SECURE INGESTION):</label>
-            <div className="flex flex-col sm:flex-row gap-2">
-              <input
-                type="text"
-                value={simInput}
-                onChange={(e) => setSimInput(e.target.value)}
-                className="flex-1 px-3 py-2 rounded-lg bg-surface border border-white/10 text-white text-xs font-mono focus:outline-none focus:border-accent"
-                placeholder="Type or paste payload with emails, IDs, names..."
-              />
-              <button
-                onClick={runSimulation}
-                disabled={isSimulating}
-                className="px-4 py-2 rounded-lg bg-accent hover:bg-blue-600 text-white text-xs font-semibold flex items-center justify-center gap-2 transition-colors disabled:opacity-50"
-              >
-                {isSimulating ? <RefreshCw size={14} className="animate-spin" /> : <Play size={14} />}
-                <span>Process Pipeline</span>
-              </button>
+            <div className="font-mono text-xs text-white/90 leading-relaxed bg-black/40 p-4 rounded-lg border border-white/5">
+              {pipelineState.redactedText}
+            </div>
+
+            <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 font-mono text-[11px] pt-2">
+              <div className="p-2.5 rounded bg-white/5">
+                <div className="text-white/40">External Leakage</div>
+                <div className="text-cohere-teal font-bold">{pipelineState.leakageRisk}</div>
+              </div>
+              <div className="p-2.5 rounded bg-white/5">
+                <div className="text-white/40">Tokens Processed</div>
+                <div className="text-white font-bold">{pipelineState.tokensCount} tokens</div>
+              </div>
+              <div className="p-2.5 rounded bg-white/5 col-span-2 sm:col-span-1">
+                <div className="text-white/40">Execution Node</div>
+                <div className="text-cohere-coral font-bold">Local Kathmandu Cluster</div>
+              </div>
             </div>
           </div>
-
-          {/* Results Output */}
-          {simResult && (
-            <div className="mt-4 p-4 rounded-lg bg-surface/90 border border-white/10 space-y-3 animate-in fade-in duration-200">
-              <div className="flex flex-wrap items-center justify-between gap-2 text-xs">
-                <span className="text-green flex items-center gap-1.5 font-bold">
-                  <CheckCircle size={14} /> DETERMINISTIC PRIVACY PASS
-                </span>
-                <span className="text-text-muted text-[11px]">Latency: {simResult.latency}</span>
-              </div>
-
-              <div className="space-y-1">
-                <span className="text-[11px] text-text-muted">SANITIZED CONTEXT EMBEDDING BUFFER:</span>
-                <div className="p-2.5 rounded bg-black/70 border border-white/5 text-xs text-green break-all">
-                  {simResult.redacted}
-                </div>
-              </div>
-
-              <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 pt-1 text-[11px]">
-                <div className="p-2 rounded bg-black/40 border border-white/5">
-                  <span className="text-text-muted block">CHUNKS</span>
-                  <span className="text-white font-bold">{simResult.chunks} blocks</span>
-                </div>
-                <div className="p-2 rounded bg-black/40 border border-white/5">
-                  <span className="text-text-muted block">TOKENS</span>
-                  <span className="text-accent font-bold">~{simResult.tokens}</span>
-                </div>
-                <div className="p-2 rounded bg-black/40 border border-white/5">
-                  <span className="text-text-muted block">VECTOR ENGINE</span>
-                  <span className="text-accent2 font-bold">Qdrant Local</span>
-                </div>
-                <div className="p-2 rounded bg-black/40 border border-white/5">
-                  <span className="text-text-muted block">EXTERNAL LEAKS</span>
-                  <span className="text-green font-bold">0.00% (Air-Gapped)</span>
-                </div>
-              </div>
-            </div>
-          )}
-        </div>
-
+        )}
       </div>
 
-      {/* Operational Core Tech Specs Breakdown */}
-      <div className="space-y-8">
-        <div className="text-center space-y-2">
-          <h2 className="text-2xl sm:text-3xl font-bold text-white">Granular Operational Tech Specs</h2>
-          <p className="text-text-muted text-sm">Deep technical behaviors structuring the Project Alpine engine architecture loops.</p>
+      {/* ── INDUSTRY BLUEPRINTS ── */}
+      <div className="space-y-6">
+        <div>
+          <span className="font-mono text-xs text-cohere-slate uppercase tracking-widest">
+            PROVEN TRACKS
+          </span>
+          <h2 className="font-display text-2xl font-bold text-cohere-ink mt-1">
+            Enterprise Deployment Profiles
+          </h2>
         </div>
-        
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-          {technicalSpecs.map((f, idx) => (
-            <div key={idx} className="bg-surface/80 border border-white/8 hover:border-accent/40 p-6 rounded-2xl transition-all space-y-3">
-              <div className="w-10 h-10 rounded-xl bg-card border border-white/5 flex items-center justify-center">
-                {f.icon}
-              </div>
-              <h3 className="text-base font-bold text-white">{f.title}</h3>
-              <p className="text-text-sub text-xs leading-relaxed">{f.desc}</p>
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          {enterpriseTracks.map((track, idx) => (
+            <div key={idx} className="p-6 rounded-2xl bg-cohere-stone/60 border border-black/[0.08] space-y-2">
+              <div className="font-mono text-xs text-cohere-coral font-bold uppercase">{track.sector}</div>
+              <p className="text-xs text-cohere-subtle leading-relaxed">{track.spec}</p>
             </div>
           ))}
         </div>

@@ -38,57 +38,57 @@ export default function DataScience() {
   ];
 
   return (
-    <section id="datascience" className="py-20 sm:py-28 bg-surface/80 border-t border-white/10 relative">
+    <section id="datascience" className="py-20 sm:py-28 bg-[#f5f4f0] border-b border-black/[0.06]">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* Header Block */}
-        <div className="text-center max-w-3xl mx-auto mb-16 space-y-3">
-          <span className="font-mono text-xs text-green uppercase tracking-wider">
-            ANALYTICS & CORE INTELLIGENCE
+        <div className="max-w-3xl mb-12 space-y-3">
+          <span className="font-mono text-xs text-cohere-slate uppercase tracking-widest">
+            ANALYTICS & INTELLIGENCE MATRIX
           </span>
-          <h2 className="text-3xl sm:text-4xl font-extrabold text-white tracking-tight">
-            Enterprise Data Science Matrix
+          <h2 className="font-display text-3xl sm:text-4xl font-extrabold text-cohere-ink tracking-tight">
+            Enterprise Data Science & Storage Tiers
           </h2>
-          <p className="text-text-sub text-sm sm:text-base leading-relaxed">
+          <p className="text-cohere-subtle text-sm sm:text-base leading-relaxed">
             Delivering robust data engineering, automated visualization metrics, and deterministic predictive models structured for diverse organizational complexities.
           </p>
         </div>
 
         {/* Scalability Tiers Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
           {scales.map((s, idx) => {
             const isSelected = selectedTier === idx;
             return (
               <div 
                 key={idx} 
                 onClick={() => setSelectedTier(idx)}
-                className={`p-6 sm:p-7 rounded-2xl border cursor-pointer transition-all ${
+                className={`p-7 rounded-2xl border cursor-pointer transition-all ${
                   isSelected 
-                    ? 'bg-card border-green shadow-xl shadow-green/10 -translate-y-1' 
-                    : 'bg-card/60 border-white/8 hover:border-white/20'
+                    ? 'bg-white border-cohere-ink shadow-md -translate-y-0.5' 
+                    : 'bg-white/70 border-black/[0.08] hover:border-black/[0.2]'
                 }`}
               >
                 <div className="flex items-center justify-between mb-3">
-                  <span className="text-[10px] font-mono text-text-muted uppercase">SCALE FACTOR 0{idx + 1}</span>
+                  <span className="text-[10px] font-mono text-cohere-slate uppercase">TIER 0{idx + 1}</span>
                   {isSelected && (
-                    <span className="text-[10px] font-mono font-bold px-2 py-0.5 rounded bg-green/15 text-green border border-green/30">
+                    <span className="text-[10px] font-mono font-bold px-2.5 py-0.5 rounded-full bg-cohere-ink text-white">
                       SELECTED
                     </span>
                   )}
                 </div>
                 
-                <h3 className="text-lg font-bold text-white mb-1">{s.title}</h3>
-                <div className="text-accent text-xs font-semibold mb-3">{s.target}</div>
-                <p className="text-text-sub text-xs leading-relaxed mb-4">{s.solution}</p>
+                <h3 className="text-lg font-bold text-cohere-ink mb-1">{s.title}</h3>
+                <div className="text-cohere-coral text-xs font-semibold mb-3">{s.target}</div>
+                <p className="text-cohere-subtle text-xs leading-relaxed mb-4">{s.solution}</p>
 
-                <div className="pt-3 border-t border-white/5 space-y-1.5 text-[11px] font-mono">
-                  <div className="flex justify-between text-text-muted">
+                <div className="pt-3 border-t border-black/[0.06] space-y-1.5 text-[11px] font-mono">
+                  <div className="flex justify-between text-cohere-slate">
                     <span>Throughput:</span>
-                    <span className="text-white font-semibold">{s.throughput}</span>
+                    <span className="text-cohere-ink font-semibold">{s.throughput}</span>
                   </div>
-                  <div className="flex justify-between text-text-muted">
-                    <span>Engine Stack:</span>
-                    <span className="text-green">{s.storage.split('+')[0]}</span>
+                  <div className="flex justify-between text-cohere-slate">
+                    <span>Storage Stack:</span>
+                    <span className="text-cohere-teal font-semibold">{s.storage.split('+')[0]}</span>
                   </div>
                 </div>
               </div>
@@ -97,62 +97,36 @@ export default function DataScience() {
         </div>
 
         {/* Selected Tier Deep-Dive Architecture Inspector */}
-        <div className="bg-black/50 border border-white/10 rounded-2xl p-6 sm:p-8 space-y-4">
-          <div className="flex items-center justify-between flex-wrap gap-4 border-b border-white/5 pb-4">
+        <div className="bg-white border border-black/[0.08] rounded-2xl p-6 sm:p-8 space-y-4 shadow-sm">
+          <div className="flex items-center justify-between flex-wrap gap-4 border-b border-black/[0.06] pb-4">
             <div className="flex items-center gap-3">
-              <div className="p-2.5 rounded-xl bg-green/10 text-green border border-green/20">
+              <div className="p-2.5 rounded-xl bg-cohere-stone text-cohere-ink">
                 <Database size={20} />
               </div>
               <div>
-                <h4 className="text-base font-bold text-white">
+                <h4 className="text-base font-bold text-cohere-ink">
                   {scales[selectedTier].title} Architecture Blueprint
                 </h4>
-                <div className="text-xs font-mono text-text-muted">
+                <div className="text-xs font-mono text-cohere-slate">
                   Configured Storage Stack: {scales[selectedTier].storage}
                 </div>
               </div>
             </div>
 
-            <div className="flex items-center gap-3 text-xs font-mono">
-              <span className="px-2.5 py-1 rounded-lg bg-surface border border-white/10 text-white">
-                Latency: <strong className="text-green">{scales[selectedTier].latency}</strong>
+            <div className="flex items-center gap-2 text-xs font-mono">
+              <span className="px-3 py-1 rounded-full bg-cohere-stone text-cohere-ink">
+                Latency: <strong className="text-cohere-teal">{scales[selectedTier].latency}</strong>
               </span>
-              <span className="px-2.5 py-1 rounded-lg bg-surface border border-white/10 text-white">
-                Capacity: <strong className="text-accent">{scales[selectedTier].throughput}</strong>
+              <span className="px-3 py-1 rounded-full bg-cohere-stone text-cohere-ink">
+                Throughput: <strong className="text-cohere-coral">{scales[selectedTier].throughput}</strong>
               </span>
             </div>
           </div>
 
-          <p className="text-xs text-text-sub leading-relaxed">
-            <strong className="text-white">Optimal Use Cases: </strong>
+          <p className="text-xs text-cohere-subtle leading-relaxed">
+            <strong className="text-cohere-ink">Optimal Target Applications: </strong>
             {scales[selectedTier].useCase}
           </p>
-        </div>
-
-        {/* End-to-End Core Framework Feature Banner */}
-        <div className="mt-8 bg-card/90 border border-green/20 rounded-2xl p-6 sm:p-8 flex flex-col md:flex-row items-center justify-between gap-6 shadow-xl">
-          <div className="space-y-2 max-w-xl">
-            <h3 className="text-lg font-bold text-white flex items-center gap-2">
-              <Sliders size={20} className="text-green" />
-              <span>End-to-End ML & BI Systems Support</span>
-            </h3>
-            <p className="text-text-sub text-xs sm:text-sm leading-relaxed">
-              We construct everything from data ingestion layers and validation pipelines up to localized deployment frameworks and rich Business Intelligence arrays.
-            </p>
-          </div>
-
-          <div className="flex items-center gap-4 w-full sm:w-auto">
-            <div className="p-3.5 rounded-xl bg-surface border border-white/10 text-center flex-1 sm:flex-initial">
-              <Database size={20} className="text-accent mx-auto mb-1" />
-              <div className="text-xs font-bold text-white">Robust MLOps</div>
-              <div className="text-[10px] text-text-muted font-mono">DVC & MLflow</div>
-            </div>
-            <div className="p-3.5 rounded-xl bg-surface border border-white/10 text-center flex-1 sm:flex-initial">
-              <BarChart3 size={20} className="text-accent2 mx-auto mb-1" />
-              <div className="text-xs font-bold text-white">Live BI Hubs</div>
-              <div className="text-[10px] text-text-muted font-mono">Sub-second Sync</div>
-            </div>
-          </div>
         </div>
 
       </div>

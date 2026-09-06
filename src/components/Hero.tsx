@@ -1,254 +1,295 @@
 import React, { useState } from 'react';
 import { 
-  ChevronRight, Terminal, Shield, Cpu, Activity, 
-  Layers, CheckCircle, ArrowUpRight, Sparkles, Server, Database
+  ArrowRight, Terminal, Shield, Cpu, Activity, 
+  Layers, Lock, Sparkles, Check, Copy, Play, ArrowUpRight
 } from 'lucide-react';
-import Logo from './Logo';
 
 interface HeroProps {
-  setRoute: (route: { page: string; courseId: string }) => void;
+  setRoute?: (route: { page: string; courseId: string }) => void;
 }
 
 export default function Hero({ setRoute }: HeroProps) {
-  const [activeTab, setActiveTab] = useState<'agents' | 'rag' | 'cloud'>('agents');
+  const [activeTab, setActiveTab] = useState<'agents' | 'rag' | 'security'>('agents');
+  const [copied, setCopied] = useState(false);
+  const [isRunning, setIsRunning] = useState(false);
+  const [telemetryLogs, setTelemetryLogs] = useState<string[]>([
+    "[09:14:02.102] DAG Router: Initiating sovereign pipeline handshake...",
+    "[09:14:02.145] Auth: Enclave verified • Hardware token valid",
+    "[09:14:02.189] Rerank: Cosine similarity matched 8 candidate passages",
+    "[09:14:02.240] Synthesis: Streaming 124 tokens/sec on local node"
+  ]);
+
+  const handleRunSimulation = () => {
+    setIsRunning(true);
+    const newLog = `[${new Date().toLocaleTimeString()}.${Math.floor(Math.random() * 900 + 100)}] Query dispatched -> Multi-agent node completed in 14.8ms`;
+    setTimeout(() => {
+      setTelemetryLogs(prev => [newLog, ...prev.slice(0, 4)]);
+      setIsRunning(false);
+    }, 400);
+  };
+
+  const handleCopyInstall = () => {
+    navigator.clipboard.writeText('npm install @mountech/sovereign-agent');
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
+  };
 
   return (
-    <section className="relative overflow-hidden pt-12 pb-20 lg:pt-20 lg:pb-28 border-b border-white/10 grid-bg">
-      {/* Subtle background ambient glows */}
-      <div className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[350px] bg-accent/10 rounded-full blur-[120px] pointer-events-none" />
-      <div className="absolute top-1/3 right-10 w-[300px] h-[300px] bg-accent2/10 rounded-full blur-[100px] pointer-events-none" />
+    <section className="relative overflow-hidden bg-cohere-canvas pt-14 pb-20 sm:pt-20 sm:pb-28 border-b border-black/[0.06]">
+      {/* Subtle Cohere Grid & Atmospheric Gradient */}
+      <div className="absolute inset-0 cohere-grid-bg opacity-70 pointer-events-none" />
+      <div className="absolute top-0 right-1/4 w-96 h-96 bg-cohere-coral/[0.04] rounded-full blur-3xl pointer-events-none" />
+      <div className="absolute top-1/3 left-10 w-80 h-80 bg-[#7c3aed]/[0.03] rounded-full blur-3xl pointer-events-none" />
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
-        {/* Top Announcement Pill */}
-        <div className="flex justify-center mb-6">
-          <div className="inline-flex items-center gap-2.5 px-3.5 py-1.5 rounded-full bg-surface/90 border border-accent/25 text-xs text-text shadow-lg backdrop-blur-md">
-            <span className="flex h-2 w-2 relative">
-              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-accent opacity-75"></span>
-              <span className="relative inline-flex rounded-full h-2 w-2 bg-accent"></span>
-            </span>
-            <span className="font-mono text-accent font-semibold text-[11px] tracking-wide">MOUNTECH SOLUTION</span>
-            <span className="text-white/20">•</span>
-            <span className="text-text-sub text-[11px] hidden sm:inline">Summiting AI. Securing the Foundations.</span>
-            <span className="text-text-sub text-[11px] sm:hidden">Enterprise AI & Cloud</span>
-            <ChevronRight size={12} className="text-accent" />
-          </div>
-        </div>
-
-        {/* Hero Title & Subheading */}
-        <div className="text-center max-w-4xl mx-auto mb-10">
-          <h1 className="text-3xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-white leading-[1.15] mb-6">
-            Sovereign AI Systems & <br />
-            <span className="bg-gradient-to-r from-blue-400 via-accent to-accent2 bg-clip-text text-transparent">
-              Digital Infrastructure Foundations
-            </span>
-          </h1>
+        {/* ── MONUMENTAL COHERE-STYLE TYPOGRAPHIC HERO ── */}
+        <div className="max-w-4xl space-y-6">
           
-          <p className="text-base sm:text-lg text-text-sub max-w-2xl mx-auto leading-relaxed">
-            MounTech Solution (MTS) engineers decentralized multi-agent architectures, sovereign inference fabrics, and enterprise cloud operations designed for uncompromised resilience.
+          {/* Status Capsule Pill */}
+          <div className="inline-flex items-center gap-2.5 px-3.5 py-1.5 rounded-full bg-black/[0.04] border border-black/[0.08] text-[11px] font-mono text-cohere-slate">
+            <span className="w-2 h-2 rounded-full bg-cohere-teal animate-pulse" />
+            <span className="font-semibold text-cohere-ink uppercase tracking-wider">
+              SOVEREIGN TECH MATRIX 2026
+            </span>
+            <span className="text-black/30">•</span>
+            <span>Kathmandu Nodes Active</span>
+          </div>
+
+          {/* Monumental Headline */}
+          <h1 className="font-display text-4xl sm:text-6xl lg:text-7xl font-extrabold text-cohere-ink tracking-[-0.04em] leading-[1.06]">
+            Sovereign AI built for <br className="hidden sm:inline" />
+            enterprise reality.
+          </h1>
+
+          {/* Restrained Editorial Body Text */}
+          <p className="text-lg sm:text-xl text-cohere-subtle max-w-2xl font-normal leading-relaxed">
+            MounTech Solution engineers multi-agent execution graphs, localized LLM inferencing fabrics, and sovereign cloud architectures. Zero cloud leaks, deterministic accuracy.
           </p>
 
-          {/* Action CTAs */}
-          <div className="mt-8 flex flex-wrap justify-center items-center gap-3.5">
+          {/* Cohere Signature Pill Action Buttons */}
+          <div className="pt-2 flex flex-wrap items-center gap-3.5">
             <button
-              onClick={() => setRoute({ page: 'school', courseId: 'ai-agents' })}
-              className="px-6 py-3 rounded-xl bg-accent hover:bg-blue-600 text-white font-semibold text-sm shadow-xl shadow-accent/25 flex items-center gap-2 active:scale-95 transition-transform"
+              onClick={() => setRoute?.({ page: 'ai', courseId: 'ai-agents' })}
+              className="rounded-full px-7 py-3.5 text-sm font-semibold bg-cohere-ink hover:bg-black text-white shadow-md shadow-black/10 transition-all flex items-center gap-2 group active:scale-95"
             >
-              <span>Explore Tech Academy (40h)</span>
-              <ChevronRight size={16} />
+              <span>Explore Sovereign AI</span>
+              <ArrowRight size={15} className="group-hover:translate-x-0.5 transition-transform" />
             </button>
 
             <button
-              onClick={() => setRoute({ page: 'ai', courseId: 'ai-agents' })}
-              className="px-6 py-3 rounded-xl bg-surface hover:bg-card text-white font-semibold text-sm border border-white/10 hover:border-accent/40 flex items-center gap-2 shadow-sm transition-colors"
+              onClick={() => setRoute?.({ page: 'school', courseId: 'ai-agents' })}
+              className="rounded-full px-7 py-3.5 text-sm font-semibold bg-cohere-stone hover:bg-[#e4e2dc] text-cohere-ink border border-black/[0.08] transition-all active:scale-95"
             >
-              <Cpu size={16} className="text-accent" />
-              <span>Analyze AI Blueprints</span>
+              40-Hour Applied Academy
             </button>
 
             <button
-              onClick={() => setRoute({ page: 'consulting', courseId: 'ai-agents' })}
-              className="px-5 py-3 rounded-xl bg-transparent hover:bg-white/5 text-text-sub hover:text-white font-medium text-sm flex items-center gap-1.5 transition-colors"
+              onClick={() => setRoute?.({ page: 'about', courseId: 'ai-agents' })}
+              className="px-4 py-3 text-xs font-mono text-cohere-slate hover:text-cohere-ink flex items-center gap-1.5 transition-colors"
             >
-              <span>Consulting Services</span>
-              <ArrowUpRight size={15} />
+              <span>Brand Architecture & Team</span>
+              <ArrowUpRight size={13} />
             </button>
           </div>
+
         </div>
 
-        {/* ── INTERACTIVE LIVE ARCHITECTURE TELEMETRY TERMINAL ── */}
-        <div className="max-w-4xl mx-auto mt-6 rounded-2xl bg-surface/90 border border-white/10 shadow-2xl backdrop-blur-xl overflow-hidden">
+        {/* ── COHERE-STYLE INTERACTIVE DEVELOPER PLAYGROUND CONSOLE ── */}
+        <div className="mt-14 sm:mt-18 rounded-2xl bg-[#0d1117] text-white border border-white/10 shadow-2xl overflow-hidden">
           
-          {/* Terminal Top Bar */}
-          <div className="px-4 py-3 bg-[#080c10]/90 border-b border-white/10 flex flex-wrap items-center justify-between gap-3">
-            <div className="flex items-center gap-2">
-              <div className="flex gap-1.5">
-                <span className="w-3 h-3 rounded-full bg-red-500/80 inline-block" />
-                <span className="w-3 h-3 rounded-full bg-yellow-500/80 inline-block" />
-                <span className="w-3 h-3 rounded-full bg-green-500/80 inline-block" />
-              </div>
-              <span className="text-xs font-mono text-text-muted ml-2">mts-orchestrator@sovereign-node:~</span>
-            </div>
-
-            {/* Terminal View Tabs */}
-            <div className="flex items-center gap-1 bg-black/40 p-1 rounded-lg border border-white/5 text-xs font-mono">
-              <button 
+          {/* Top Control Bar with Tabs */}
+          <div className="px-4 sm:px-6 py-3.5 border-b border-white/10 flex flex-wrap items-center justify-between gap-4 bg-[#12161f]">
+            
+            {/* Console Tabs */}
+            <div className="flex items-center gap-1.5">
+              <button
                 onClick={() => setActiveTab('agents')}
-                className={`px-2.5 py-1 rounded-md transition-all ${
-                  activeTab === 'agents' ? 'bg-accent text-white font-semibold' : 'text-text-muted hover:text-white'
+                className={`px-3.5 py-1.5 rounded-lg text-xs font-mono transition-all flex items-center gap-2 ${
+                  activeTab === 'agents'
+                    ? 'bg-white/10 text-white font-semibold'
+                    : 'text-white/60 hover:text-white hover:bg-white/5'
                 }`}
               >
-                Multi-Agent Graph
+                <Cpu size={14} className="text-cohere-coral" />
+                <span>Multi-Agent Router</span>
               </button>
-              <button 
+
+              <button
                 onClick={() => setActiveTab('rag')}
-                className={`px-2.5 py-1 rounded-md transition-all ${
-                  activeTab === 'rag' ? 'bg-accent text-white font-semibold' : 'text-text-muted hover:text-white'
+                className={`px-3.5 py-1.5 rounded-lg text-xs font-mono transition-all flex items-center gap-2 ${
+                  activeTab === 'rag'
+                    ? 'bg-white/10 text-white font-semibold'
+                    : 'text-white/60 hover:text-white hover:bg-white/5'
                 }`}
               >
-                Sovereign RAG
+                <Layers size={14} className="text-[#38bdf8]" />
+                <span>Sovereign RAG</span>
               </button>
-              <button 
-                onClick={() => setActiveTab('cloud')}
-                className={`px-2.5 py-1 rounded-md transition-all ${
-                  activeTab === 'cloud' ? 'bg-accent text-white font-semibold' : 'text-text-muted hover:text-white'
+
+              <button
+                onClick={() => setActiveTab('security')}
+                className={`px-3.5 py-1.5 rounded-lg text-xs font-mono transition-all flex items-center gap-2 ${
+                  activeTab === 'security'
+                    ? 'bg-white/10 text-white font-semibold'
+                    : 'text-white/60 hover:text-white hover:bg-white/5'
                 }`}
               >
-                DevSecOps Mesh
+                <Shield size={14} className="text-cohere-teal" />
+                <span>Zero-Trust Enclave</span>
               </button>
             </div>
+
+            {/* Quick Trigger Actions */}
+            <div className="flex items-center gap-2">
+              <button
+                onClick={handleRunSimulation}
+                disabled={isRunning}
+                className="px-3 py-1.5 rounded-md bg-cohere-coral hover:bg-[#ff6340] text-white text-xs font-mono font-semibold flex items-center gap-1.5 transition-all active:scale-95 disabled:opacity-50"
+              >
+                <Play size={12} className={isRunning ? 'animate-spin' : ''} />
+                <span>{isRunning ? 'Synthesizing...' : 'Run Simulation'}</span>
+              </button>
+
+              <button
+                onClick={handleCopyInstall}
+                className="hidden sm:flex items-center gap-1 px-2.5 py-1.5 rounded-md bg-white/5 hover:bg-white/10 text-white/70 text-[11px] font-mono border border-white/5 transition-colors"
+                title="Copy package command"
+              >
+                {copied ? <Check size={12} className="text-cohere-teal" /> : <Copy size={12} />}
+                <span>{copied ? 'Copied' : 'SDK'}</span>
+              </button>
+            </div>
+
           </div>
 
-          {/* Terminal Body Content */}
-          <div className="p-5 sm:p-6 font-mono text-xs">
-            {activeTab === 'agents' && (
-              <div className="space-y-4">
-                <div className="flex items-center justify-between text-text-muted border-b border-white/5 pb-2">
-                  <span className="text-green flex items-center gap-1.5">
-                    <Activity size={14} className="animate-pulse" /> DAG Execution Engine Active
-                  </span>
-                  <span>Cluster: KTM-AP-01 [Sovereign Edge]</span>
-                </div>
-                
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
-                  <div className="p-3 rounded-lg bg-black/40 border border-white/5 space-y-1">
-                    <div className="text-accent text-[11px] font-bold uppercase">Node 01: Intent Router</div>
-                    <div className="text-text-sub text-[11px]">Semantic vector similarity: 0.942</div>
-                    <div className="text-green text-[10px]">STATUS: COMPLETED (3.2ms)</div>
-                  </div>
-                  <div className="p-3 rounded-lg bg-black/40 border border-accent/30 space-y-1 shadow-inner">
-                    <div className="text-accent2 text-[11px] font-bold uppercase">Node 02: Synthesis Agent</div>
-                    <div className="text-text-sub text-[11px]">Context window caching: 87.4% hit</div>
-                    <div className="text-yellow-400 text-[10px] animate-pulse">STATUS: IN-TRANSIT (11ms)</div>
-                  </div>
-                  <div className="p-3 rounded-lg bg-black/40 border border-white/5 space-y-1">
-                    <div className="text-green text-[11px] font-bold uppercase">Node 03: Guardrail Gate</div>
-                    <div className="text-text-sub text-[11px]">Deterministic regex: 0 PII leak</div>
-                    <div className="text-text-muted text-[10px]">STATUS: STANDBY</div>
-                  </div>
-                </div>
+          {/* Console Body: 2-Column Grid */}
+          <div className="grid grid-cols-1 lg:grid-cols-12 divide-y lg:divide-y-0 lg:divide-x divide-white/10">
+            
+            {/* Left Column: Interactive Telemetry State */}
+            <div className="lg:col-span-7 p-5 sm:p-7 space-y-4">
+              <div className="flex items-center justify-between text-xs font-mono text-white/50 border-b border-white/5 pb-3">
+                <span>PIPELINE DISPATCH WORKBENCH</span>
+                <span className="text-cohere-teal flex items-center gap-1">
+                  <span className="w-1.5 h-1.5 rounded-full bg-cohere-teal inline-block" />
+                  Latency: 14.8ms
+                </span>
+              </div>
 
-                <div className="p-2.5 rounded bg-black/60 text-text-sub text-[11px] leading-relaxed flex items-center justify-between flex-wrap gap-2">
-                  <div className="flex items-center gap-2">
-                    <span className="text-accent">$</span>
-                    <span>mts agent dispatch --policy=sovereign --latency-target=25ms</span>
+              {activeTab === 'agents' && (
+                <div className="space-y-3 font-mono text-xs">
+                  <div className="p-3 rounded-lg bg-black/40 border border-white/5 text-white/80">
+                    <span className="text-cohere-coral font-bold">Input Context: </span>
+                    "Reconcile Q4 balance ledger against localized microservice transactions with PII masking."
                   </div>
-                  <span className="text-green font-bold">200 OK • All Guardrails Verified</span>
+
+                  <div className="space-y-1.5 text-[11px]">
+                    <div className="flex items-center gap-2 text-white/70">
+                      <span className="text-cohere-teal">✓</span>
+                      <span>Supervisor Node: DAG decomposed into 3 sub-tasks</span>
+                    </div>
+                    <div className="flex items-center gap-2 text-white/70">
+                      <span className="text-cohere-teal">✓</span>
+                      <span>Masking Agent: Redacted 14 Nepali citizenship / account IDs</span>
+                    </div>
+                    <div className="flex items-center gap-2 text-white/70">
+                      <span className="text-cohere-teal">✓</span>
+                      <span>Ledger Agent: Deterministic arithmetic check validated</span>
+                    </div>
+                  </div>
+                </div>
+              )}
+
+              {activeTab === 'rag' && (
+                <div className="space-y-3 font-mono text-xs">
+                  <div className="p-3 rounded-lg bg-black/40 border border-white/5 text-white/80">
+                    <span className="text-[#38bdf8] font-bold">Vector Strategy: </span>
+                    "Hybrid BM25 + Devanagari/English Cross-Encoder Reranker"
+                  </div>
+
+                  <div className="grid grid-cols-2 gap-2 text-[11px]">
+                    <div className="p-2 rounded bg-white/5">
+                      <div className="text-white/40">Recall Accuracy</div>
+                      <div className="text-white font-bold text-sm">99.4% Top-3</div>
+                    </div>
+                    <div className="p-2 rounded bg-white/5">
+                      <div className="text-white/40">Chunking Overlap</div>
+                      <div className="text-white font-bold text-sm">128 tokens / 15%</div>
+                    </div>
+                  </div>
+                </div>
+              )}
+
+              {activeTab === 'security' && (
+                <div className="space-y-3 font-mono text-xs">
+                  <div className="p-3 rounded-lg bg-black/40 border border-white/5 text-white/80">
+                    <span className="text-cohere-teal font-bold">Boundary Defense: </span>
+                    "Zero External Egress • On-Premise GPU Inference Gateway"
+                  </div>
+
+                  <div className="space-y-1 text-[11px] text-white/70">
+                    <div>• Air-gapped model weights in encrypted NVMe array</div>
+                    <div>• Localized tokenizers preventing telemetry exfiltration</div>
+                    <div>• Compliant with Nepal Data Governance & GDPR protocols</div>
+                  </div>
+                </div>
+              )}
+
+              {/* Stream Logs Output */}
+              <div className="pt-2 border-t border-white/5">
+                <div className="text-[10px] font-mono text-white/40 uppercase mb-1.5">Live Telemetry Terminal</div>
+                <div className="p-3 rounded-lg bg-black/60 font-mono text-[11px] text-white/70 space-y-1 h-28 overflow-y-auto">
+                  {telemetryLogs.map((log, idx) => (
+                    <div key={idx} className={idx === 0 ? "text-cohere-coral" : "text-white/60"}>
+                      {log}
+                    </div>
+                  ))}
                 </div>
               </div>
-            )}
+            </div>
 
-            {activeTab === 'rag' && (
-              <div className="space-y-4">
-                <div className="flex items-center justify-between text-text-muted border-b border-white/5 pb-2">
-                  <span className="text-accent flex items-center gap-1.5">
-                    <Database size={14} /> Qdrant Index Mesh • 512d Dense Vectors
-                  </span>
-                  <span>Encrypted in Transit (TLS 1.3 + ChaCha20)</span>
-                </div>
+            {/* Right Column: Key Metric Pillars */}
+            <div className="lg:col-span-5 p-5 sm:p-7 bg-[#10141d] flex flex-col justify-between space-y-6">
+              <div>
+                <span className="text-[10px] font-mono text-white/40 uppercase tracking-widest block mb-4">
+                  PERFORMANCE SPECS
+                </span>
 
-                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-3 text-center">
-                  <div className="p-3 rounded-lg bg-black/40 border border-white/5">
-                    <div className="text-text-muted text-[10px]">EMBEDDING LATENCY</div>
-                    <div className="text-white text-base font-bold mt-1">4.2 ms</div>
-                    <div className="text-green text-[10px]">bge-small-en-v1.5</div>
+                <div className="space-y-5">
+                  <div>
+                    <div className="flex items-baseline justify-between">
+                      <span className="text-3xl sm:text-4xl font-extrabold font-mono text-white tracking-tight">100%</span>
+                      <span className="text-xs font-mono text-cohere-teal font-semibold">ZERO LEAKAGE</span>
+                    </div>
+                    <p className="text-xs text-white/50 mt-1">Data sovereignty compliance with air-gapped boundary execution.</p>
                   </div>
-                  <div className="p-3 rounded-lg bg-black/40 border border-white/5">
-                    <div className="text-text-muted text-[10px]">COSINE RECALL</div>
-                    <div className="text-accent text-base font-bold mt-1">98.7%</div>
-                    <div className="text-text-sub text-[10px]">Top-K = 5 + Rerank</div>
-                  </div>
-                  <div className="p-3 rounded-lg bg-black/40 border border-white/5">
-                    <div className="text-text-muted text-[10px]">PII MASKING</div>
-                    <div className="text-green text-base font-bold mt-1">100%</div>
-                    <div className="text-text-sub text-[10px]">Zero Leak Guarantee</div>
-                  </div>
-                  <div className="p-3 rounded-lg bg-black/40 border border-white/5">
-                    <div className="text-text-muted text-[10px]">TOKEN REUSE</div>
-                    <div className="text-accent2 text-base font-bold mt-1">4.6x</div>
-                    <div className="text-text-sub text-[10px]">Prompt Cache Matrix</div>
-                  </div>
-                </div>
 
-                <div className="p-2.5 rounded bg-black/60 text-text-sub text-[11px]">
-                  <span className="text-accent">$</span> query: "Extract tax schedule obligations from encrypted ledger" → 0 hallucinations detected.
+                  <div className="border-t border-white/5 pt-4">
+                    <div className="flex items-baseline justify-between">
+                      <span className="text-3xl sm:text-4xl font-extrabold font-mono text-white tracking-tight">&lt; 15ms</span>
+                      <span className="text-xs font-mono text-cohere-coral font-semibold">P99 LATENCY</span>
+                    </div>
+                    <p className="text-xs text-white/50 mt-1">Direct kernel quantization on localized edge and cluster compute.</p>
+                  </div>
+
+                  <div className="border-t border-white/5 pt-4">
+                    <div className="flex items-baseline justify-between">
+                      <span className="text-3xl sm:text-4xl font-extrabold font-mono text-white tracking-tight">10,000+</span>
+                      <span className="text-xs font-mono text-[#38bdf8] font-semibold">MLDSN NETWORK</span>
+                    </div>
+                    <p className="text-xs text-white/50 mt-1">Ecosystem engineering partnership across Nepal since 2018.</p>
+                  </div>
                 </div>
               </div>
-            )}
 
-            {activeTab === 'cloud' && (
-              <div className="space-y-4">
-                <div className="flex items-center justify-between text-text-muted border-b border-white/5 pb-2">
-                  <span className="text-green flex items-center gap-1.5">
-                    <Server size={14} /> DevSecOps Infrastructure Pipeline
-                  </span>
-                  <span>High-Availability Kubernetes Pods</span>
-                </div>
-
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
-                  <div className="p-3 rounded-lg bg-black/40 border border-white/5">
-                    <div className="text-white font-bold text-[11px]">Cluster Availability</div>
-                    <div className="text-green text-lg font-bold">99.99%</div>
-                    <div className="text-text-muted text-[10px]">Multi-zone redundancy</div>
-                  </div>
-                  <div className="p-3 rounded-lg bg-black/40 border border-white/5">
-                    <div className="text-white font-bold text-[11px]">Container Security</div>
-                    <div className="text-accent text-lg font-bold">Trivy 0 CVE</div>
-                    <div className="text-text-muted text-[10px]">Hardened Alpine Base</div>
-                  </div>
-                  <div className="p-3 rounded-lg bg-black/40 border border-white/5">
-                    <div className="text-white font-bold text-[11px]">Compliance Mesh</div>
-                    <div className="text-accent2 text-lg font-bold">ISO / SOC2</div>
-                    <div className="text-text-muted text-[10px]">Local Data Sovereignty</div>
-                  </div>
-                </div>
-
-                <div className="p-2.5 rounded bg-black/60 text-text-sub text-[11px]">
-                  <span className="text-green">$</span> automated blue-green rolling rollout completed across all distributed ingress gateways.
-                </div>
+              <div className="pt-4 border-t border-white/10 flex items-center justify-between text-xs font-mono text-white/60">
+                <span>Cluster State: NOMINAL</span>
+                <span className="text-cohere-teal">● Active TLS 1.3</span>
               </div>
-            )}
-          </div>
-        </div>
+            </div>
 
-        {/* Trust Proof Pillars Row */}
-        <div className="mt-14 grid grid-cols-2 md:grid-cols-4 gap-4 max-w-4xl mx-auto text-center">
-          <div className="p-3 rounded-xl bg-surface/40 border border-white/5">
-            <div className="text-xl sm:text-2xl font-extrabold text-white">40h+</div>
-            <div className="text-xs text-text-muted font-mono mt-0.5">Applied Curriculum</div>
           </div>
-          <div className="p-3 rounded-xl bg-surface/40 border border-white/5">
-            <div className="text-xl sm:text-2xl font-extrabold text-accent">5 Architects</div>
-            <div className="text-xs text-text-muted font-mono mt-0.5">Core Leadership</div>
-          </div>
-          <div className="p-3 rounded-xl bg-surface/40 border border-white/5">
-            <div className="text-xl sm:text-2xl font-extrabold text-green">100% Sovereign</div>
-            <div className="text-xs text-text-muted font-mono mt-0.5">Local Data Integrity</div>
-          </div>
-          <div className="p-3 rounded-xl bg-surface/40 border border-white/5">
-            <div className="text-xl sm:text-2xl font-extrabold text-accent2">Since 2018</div>
-            <div className="text-xs text-text-muted font-mono mt-0.5">MLDSN Ecosystem</div>
-          </div>
+
         </div>
 
       </div>
