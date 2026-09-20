@@ -1,103 +1,63 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Course } from '../data/courses';
 import { 
   EmailVerificationService, 
-  EmailValidationResult, 
-  DispatchedEmailPreview 
+  EmailValidationResult 
 } from '../services/emailVerification';
 import { 
   PaymentVerificationService, 
-  GATEWAY_METADATA, 
-  VerificationProgressStep 
+  GATEWAY_METADATA 
 } from '../services/paymentVerification';
 import { DatabaseService } from '../services/database';
 import { 
-  EmailVerificationState, 
   PaymentGatewayType, 
-  PaymentVerificationResult, 
   EnrollmentRecord 
 } from '../types';
-import EmailInboxPreviewModal from './EmailInboxPreviewModal';
 import { 
   X, CheckCircle2, ShieldCheck, ArrowRight, Lock, 
-  Mail, RefreshCw, AlertCircle, Sparkles, ExternalLink,
-  CreditCard, Copy, Check, Clock, Download, Printer, Database
+  RefreshCw, AlertCircle, Printer, Calendar, MessageSquare, 
+  Upload, FileText, Check, Copy, ChevronRight, User, CreditCard, Mail
 } from 'lucide-react';
 
 interface SecureEnrollmentModalProps {
   course: Course | null;
   isOpen: boolean;
   onClose: () => void;
-  onOpenLedger?: () => void;
 }
 
-type ModalStep = 'info' | 'email_verify' | 'payment_select' | 'payment_verifying' | 'success';
+type ModalStep = 'details' | 'payment' | 'verifying' | 'confirmed';
 
 export default function SecureEnrollmentModal({
   course,
   isOpen,
-  onClose,
-  onOpenLedger
+  onClose
 }: SecureEnrollmentModalProps) {
-  // Navigation / Step state
-  const [step, setStep] = useState<ModalStep>('info');
+  const [step, setStep] = useState<ModalStep>('details');
 
-  // Form Fields
+  // Candidate Details
   const [form, setForm] = useState({
     name: '',
     email: '',
     phone: '',
-    experience: 'Intermediate (1-3 years)'
+    experience: 'Intermediate (1-3 years)',
+    organization: '',
+    notes: ''
   });
 
-  // Email Validation state
+  // Validation
   const [emailValidation, setEmailValidation] = useState<EmailValidationResult>({ isValid: false });
   const [emailTouched, setEmailTouched] = useState(false);
 
-  // Email Verification Code state
-  const [emailVerifyState, setEmailVerifyState] = useState<EmailVerificationState | null>(null);
-  const [emailPreview, setEmailPreview] = useState<DispatchedEmailPreview | null>(null);
-  const [enteredCode, setEnteredCode] = useState('');
-  const [codeError, setCodeError] = useState('');
-  const [isVerifyingCode, setIsVerifyingCode] = useState(false);
-  const [isDispatchingEmail, setIsDispatchingEmail] = useState(false);
-  const [secondsRemaining, setSecondsRemaining] = useState(600);
-  const [isInboxModalOpen, setIsInboxModalOpen] = useState(false);
-  const [resendCooldown, setResendCooldown] = useState(0);
-
-  // Payment state
+  // Payment Selection & Reference
   const [gateway, setGateway] = useState<PaymentGatewayType>('esewa');
   const [transactionRef, setTransactionRef] = useState('');
   const [refError, setRefError] = useState('');
-  const [verificationSteps, setVerificationSteps] = useState<VerificationProgressStep[]>([]);
-  const [isVerifyingPayment, setIsVerifyingPayment] = useState(false);
-  const [paymentResult, setPaymentResult] = useState<PaymentVerificationResult | null>(null);
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  const [isVerifying, setIsVerifying] = useState(false);
   const [savedEnrollment, setSavedEnrollment] = useState<EnrollmentRecord | null>(null);
-  const [copiedHash, setCopiedHash] = useState(false);
+  const [copiedPassId, setCopiedPassId] = useState(false);
 
-  // Countdown timer for email code expiry
-  useEffect(() => {
-    let timer: ReturnType<typeof setTimeout>;
-    if (step === 'email_verify' && emailVerifyState && secondsRemaining > 0) {
-      timer = setInterval(() => {
-        setSecondsRemaining(prev => Math.max(0, prev - 1));
-      }, 1000);
-    }
-    return () => clearInterval(timer);
-  }, [step, emailVerifyState, secondsRemaining]);
-
-  // Resend cooldown timer
-  useEffect(() => {
-    let timer: ReturnType<typeof setTimeout>;
-    if (resendCooldown > 0) {
-      timer = setInterval(() => {
-        setResendCooldown(prev => Math.max(0, prev - 1));
-      }, 1000);
-    }
-    return () => clearInterval(timer);
-  }, [resendCooldown]);
-
-  // Validate email whenever email changes
+  // Email Validation on change
   useEffect(() => {
     if (form.email) {
       const res = EmailVerificationService.validate(form.email);
@@ -109,8 +69,8 @@ export default function SecureEnrollmentModal({
 
   if (!isOpen || !course) return null;
 
-  // Step 1: Handle Candidate Info -> Trigger Email Dispatch
-  const handleProceedToEmailVerification = async (e: React.FormEvent) => {
+  // Step 1 -> Step 2
+  const handleProceedToPayment = (e: React.FormEvent) => {
     e.preventDefault();
     setEmailTouched(true);
 
@@ -120,124 +80,48 @@ export default function SecureEnrollmentModal({
       return;
     }
 
-    if (!form.name.trim()) return;
-
-    setIsDispatchingEmail(true);
-    try {
-      const { state, emailPreview: preview } = await EmailVerificationService.dispatchConfirmation(
-        form.email,
-        form.name,
-        course.title
-      );
-      setEmailVerifyState(state);
-      setEmailPreview(preview);
-      setSecondsRemaining(600);
-      setResendCooldown(30);
-      setEnteredCode('');
-      setCodeError('');
-      setStep('email_verify');
-      // Automatically pop open the email simulation modal so user sees the code
-      setIsInboxModalOpen(true);
-    } catch (err) {
-      console.error('Email dispatch error:', err);
-    } finally {
-      setIsDispatchingEmail(false);
-    }
-  };
-
-  // Resend Email Code
-  const handleResendCode = async () => {
-    if (resendCooldown > 0) return;
-    setIsDispatchingEmail(true);
-    try {
-      const { state, emailPreview: preview } = await EmailVerificationService.dispatchConfirmation(
-        form.email,
-        form.name,
-        course.title
-      );
-      setEmailVerifyState(state);
-      setEmailPreview(preview);
-      setSecondsRemaining(600);
-      setResendCooldown(45);
-      setCodeError('');
-      setIsInboxModalOpen(true);
-    } catch (err) {
-      console.error('Resend error:', err);
-    } finally {
-      setIsDispatchingEmail(false);
-    }
-  };
-
-  // Step 2: Verify Entered Email Code
-  const handleVerifyEmailCode = async (codeToVerify?: string) => {
-    const code = codeToVerify || enteredCode;
-    if (!emailVerifyState) return;
-
-    if (!code || code.trim().length !== 6) {
-      setCodeError('Please enter the full 6-digit confirmation code.');
+    if (!form.name.trim() || !form.phone.trim()) {
       return;
     }
 
-    setIsVerifyingCode(true);
-    setCodeError('');
-
-    try {
-      const result = await EmailVerificationService.verifyCode(code, emailVerifyState);
-      if (result.success) {
-        setEmailVerifyState(result.state);
-        // Advance to payment step!
-        setStep('payment_select');
-      } else {
-        setCodeError(result.error || 'Invalid code.');
-        setEmailVerifyState(result.state);
-      }
-    } catch (err) {
-      setCodeError('Verification failed. Please retry.');
-    } finally {
-      setIsVerifyingCode(false);
-    }
+    setStep('payment');
   };
 
-  // Step 3 -> 4: Payment Verification Handshake
-  const handleStartPaymentVerification = async () => {
+  // Step 2 -> Step 3 -> Verification & Confirmation
+  const handleCompleteEnrollment = async (e: React.FormEvent) => {
+    e.preventDefault();
     const val = PaymentVerificationService.validateReference(gateway, transactionRef);
     if (!val.isValid) {
-      setRefError(val.error || 'Invalid payment reference.');
+      setRefError(val.error || 'Please enter a valid transaction reference code from your payment receipt.');
       return;
     }
     setRefError('');
 
-    setStep('payment_verifying');
-    setIsVerifyingPayment(true);
+    setStep('verifying');
+    setIsVerifying(true);
 
     try {
-      const result = await PaymentVerificationService.verifyPayment(
-        {
-          courseId: course.id,
-          courseTitle: course.title,
-          amount: course.costLocal,
-          studentName: form.name,
-          studentEmail: form.email,
-          studentPhone: form.phone,
-          gateway,
-          transactionReference: transactionRef
-        },
-        (steps) => {
-          setVerificationSteps(steps);
-        }
-      );
-
-      setPaymentResult(result);
+      // Execute payment verification clearance
+      const result = await PaymentVerificationService.verifyPayment({
+        courseId: course.id,
+        courseTitle: course.title,
+        amount: course.costLocal,
+        studentName: form.name.trim(),
+        studentEmail: form.email.trim().toLowerCase(),
+        studentPhone: form.phone.trim(),
+        gateway,
+        transactionReference: transactionRef.trim()
+      });
 
       if (result.verified) {
-        // Commit verified student record to sovereign database!
+        // Save verified student record into persistent database
         const record = await DatabaseService.saveEnrollment({
           receiptId: result.receiptId,
           courseId: course.id,
           courseTitle: course.title,
-          studentName: form.name,
-          studentEmail: form.email,
-          studentPhone: form.phone,
+          studentName: form.name.trim(),
+          studentEmail: form.email.trim().toLowerCase(),
+          studentPhone: form.phone.trim(),
           experienceLevel: form.experience,
           paymentMethod: gateway,
           transactionId: result.gatewayTxId,
@@ -248,181 +132,207 @@ export default function SecureEnrollmentModal({
         });
 
         setSavedEnrollment(record);
-        setStep('success');
+        setStep('confirmed');
       } else {
-        setRefError(result.message || 'Payment clearance rejected by gateway.');
+        setRefError(result.message || 'Payment reference verification could not be confirmed. Please check the code and retry.');
+        setStep('payment');
       }
     } catch (err) {
-      setRefError('Network or clearing error. Please check your reference and retry.');
+      setRefError('Network or clearing error. Please re-enter your reference code and retry.');
+      setStep('payment');
     } finally {
-      setIsVerifyingPayment(false);
+      setIsVerifying(false);
     }
   };
 
-  const handleQuickFillTestRef = () => {
-    const meta = GATEWAY_METADATA[gateway];
-    const testId = `${meta.sampleTestId}-${Math.floor(1000 + Math.random() * 9000)}`;
-    setTransactionRef(testId);
-    setRefError('');
+  // Download real .ics calendar invite
+  const handleDownloadCalendar = () => {
+    if (!course) return;
+    const startDate = new Date();
+    startDate.setDate(startDate.getDate() + 14); // Scheduled cohort start in 2 weeks
+    startDate.setHours(18, 30, 0, 0); // 6:30 PM NPT
+
+    const icsContent = [
+      'BEGIN:VCALENDAR',
+      'VERSION:2.0',
+      'PRODID:-//MounTech Tech Academy//Cohort Lab Schedule//EN',
+      'CALSCALE:GREGORIAN',
+      'METHOD:PUBLISH',
+      'BEGIN:VEVENT',
+      `SUMMARY:MounTech Academy: ${course.title} (Live 40h Cohort)`,
+      `DESCRIPTION:Cohort orientation and live lab sessions for ${course.title}.\\nAdmission Pass: ${savedEnrollment?.receiptId || 'PENDING'}\\nLead Faculty: ${course.instructor}\\nFormat: Live Interactive Lab Sessions (Weekends & Evenings NPT).`,
+      `LOCATION:MounTech Kathmandu Lab & Virtual Enclave`,
+      `DTSTART:${startDate.toISOString().replace(/[-:]/g, '').split('.')[0]}Z`,
+      'DURATION:PT2H',
+      'STATUS:CONFIRMED',
+      'END:VEVENT',
+      'END:VCALENDAR'
+    ].join('\r\n');
+
+    const blob = new Blob([icsContent], { type: 'text/calendar;charset=utf-8' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.setAttribute('download', `MounTech-${course.id}-Schedule.ics`);
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    URL.revokeObjectURL(url);
   };
 
-  const handleCopyHash = (text: string) => {
+  const handleCopyPassId = (text: string) => {
     navigator.clipboard.writeText(text);
-    setCopiedHash(true);
-    setTimeout(() => setCopiedHash(false), 2000);
+    setCopiedPassId(true);
+    setTimeout(() => setCopiedPassId(false), 2000);
   };
 
   const handlePrint = () => {
     window.print();
   };
 
+  // Official admissions concierge link (direct email to admissions coordinator)
+  const admissionsEmailUrl = `mailto:aimldsn@gmail.com?subject=${encodeURIComponent(
+    `Admission Confirmation: ${savedEnrollment?.receiptId || ''} - ${course.title}`
+  )}&body=${encodeURIComponent(
+    `Hello MounTech Admissions Coordinator,\n\nI have registered for ${course.title}.\nAdmission Pass ID: ${savedEnrollment?.receiptId || ''}\nStudent Name: ${savedEnrollment?.studentName || ''}\nPayment Gateway: ${savedEnrollment?.paymentMethod || ''}\nTransaction Reference: ${savedEnrollment?.transactionId || ''}\n\nPlease confirm my onboarding schedule.\n\nThank you,\n${savedEnrollment?.studentName || ''}`
+  )}`;
+
   return (
-    <>
-      <div className="fixed inset-0 z-50 bg-black/65 backdrop-blur-sm flex items-center justify-center p-3 sm:p-5 animate-in fade-in duration-150">
-        <div 
-          className="bg-white rounded-3xl border border-black/[0.12] max-w-xl w-full p-6 sm:p-8 shadow-2xl relative max-h-[92vh] overflow-y-auto space-y-6"
-          onClick={(e) => e.stopPropagation()}
+    <div className="fixed inset-0 z-50 bg-black/65 backdrop-blur-sm flex items-center justify-center p-3 sm:p-5 animate-in fade-in duration-150">
+      <div 
+        className="bg-white rounded-3xl border border-black/[0.12] max-w-xl w-full p-6 sm:p-8 shadow-2xl relative max-h-[92vh] overflow-y-auto space-y-6"
+        onClick={(e) => e.stopPropagation()}
+      >
+        {/* Close button */}
+        <button
+          onClick={onClose}
+          className="absolute top-5 right-5 p-2 rounded-xl text-cohere-slate hover:text-cohere-ink hover:bg-black/5 transition-all"
         >
-          {/* Close button */}
-          <button
-            onClick={onClose}
-            className="absolute top-5 right-5 p-2 rounded-xl text-cohere-slate hover:text-cohere-ink hover:bg-black/5 transition-all"
-          >
-            <X size={18} />
-          </button>
+          <X size={18} />
+        </button>
 
-          {/* Stepper Progress Indicator */}
-          <div className="space-y-3">
-            <div className="flex items-center justify-between">
-              <span className="font-mono text-[10px] uppercase font-bold text-cohere-coral tracking-wider flex items-center gap-1.5">
-                <ShieldCheck size={13} />
-                <span>SOVEREIGN ACADEMY ADMISSION</span>
-              </span>
-              <span className="text-[11px] font-mono text-cohere-slate">
-                {step === 'info' && 'Step 1 of 3: Applicant Identity'}
-                {step === 'email_verify' && 'Step 2 of 3: Email Authentication'}
-                {step === 'payment_select' && 'Step 3 of 3: Gateway Verification'}
-                {step === 'payment_verifying' && 'Clearing Payment Settlement...'}
-                {step === 'success' && 'Enrolled & Verified'}
-              </span>
-            </div>
-
-            <div className="h-1.5 w-full bg-cohere-stone rounded-full overflow-hidden flex">
-              <div 
-                className={`h-full bg-cohere-ink transition-all duration-300 ${
-                  step === 'info' ? 'w-1/4' :
-                  step === 'email_verify' ? 'w-2/4' :
-                  step === 'payment_select' ? 'w-3/4' :
-                  'w-full bg-emerald-600'
-                }`}
-              />
-            </div>
-
-            <div>
-              <h3 className="text-xl sm:text-2xl font-bold text-cohere-ink">
-                {step === 'success' ? 'Admission Confirmed' : `Enroll: ${course.title}`}
-              </h3>
-              <div className="text-xs font-mono text-cohere-slate flex items-center gap-2 mt-0.5">
-                <span>Tuition: <strong className="text-cohere-ink">{course.costLocal}</strong></span>
-                <span>•</span>
-                <span>40 Hours Hands-on Labs</span>
-                <span>•</span>
-                <span className="text-emerald-700 font-semibold">Seat Reservation</span>
-              </div>
-            </div>
+        {/* Stepper Header */}
+        <div className="space-y-3">
+          <div className="flex items-center justify-between">
+            <span className="font-mono text-[10px] uppercase font-bold text-cohere-coral tracking-wider flex items-center gap-1.5">
+              <ShieldCheck size={14} />
+              <span>MOUNTECH TECH ACADEMY ADMISSION</span>
+            </span>
+            <span className="font-mono text-xs text-cohere-slate">
+              {step === 'details' && 'Step 1 of 3: Registration'}
+              {step === 'payment' && 'Step 2 of 3: Payment'}
+              {step === 'verifying' && 'Processing Clearance'}
+              {step === 'confirmed' && 'Admission Confirmed'}
+            </span>
           </div>
 
-          {/* ══════════════════════════════════════════════════════════════════
-              STEP 1: APPLICANT IDENTITY & STRICT EMAIL VALIDATION
-             ══════════════════════════════════════════════════════════════════ */}
-          {step === 'info' && (
-            <form onSubmit={handleProceedToEmailVerification} className="space-y-4 pt-1">
+          <div className="h-1 w-full bg-black/5 rounded-full overflow-hidden">
+            <div 
+              className="h-full bg-cohere-ink transition-all duration-300"
+              style={{
+                width: 
+                  step === 'details' ? '33%' :
+                  step === 'payment' ? '66%' :
+                  step === 'verifying' ? '85%' : '100%'
+              }}
+            />
+          </div>
+        </div>
+
+        {/* Course Summary Banner */}
+        <div className="p-4 rounded-2xl bg-cohere-stone border border-black/[0.06] flex items-center justify-between gap-4">
+          <div>
+            <span className="text-[10px] font-mono uppercase text-cohere-slate">
+              ACADEMY MASTERCLASS • 40-HOUR COHORT
+            </span>
+            <h3 className="font-bold text-sm text-cohere-ink">{course.title}</h3>
+            <p className="text-[11px] text-cohere-subtle">
+              Lead Faculty: {course.instructor} • Next Cohort: November 2026
+            </p>
+          </div>
+          <div className="text-right flex-shrink-0">
+            <div className="font-display font-extrabold text-base text-cohere-ink">
+              {course.costLocal}
+            </div>
+            <div className="text-[10px] font-mono text-cohere-slate">
+              {course.costGlobal}
+            </div>
+          </div>
+        </div>
+
+        {/* ══════════════════════════════════════════════════════════════════
+            STEP 1: CANDIDATE REGISTRATION DETAILS
+           ══════════════════════════════════════════════════════════════════ */}
+        {step === 'details' && (
+          <form onSubmit={handleProceedToPayment} className="space-y-4 pt-1">
+            <div className="space-y-3">
               <div>
-                <label className="block text-xs font-mono text-cohere-slate mb-1">
-                  Full Legal Name *
+                <label className="block text-xs font-mono text-cohere-slate mb-1 uppercase">
+                  Full Legal / Certificate Name *
                 </label>
                 <input
                   type="text"
                   required
                   value={form.name}
                   onChange={(e) => setForm({ ...form, name: e.target.value })}
+                  placeholder="e.g. Suman Adhikari"
                   className="w-full px-3.5 py-2.5 rounded-xl bg-cohere-stone border border-black/[0.08] text-xs text-cohere-ink focus:outline-none focus:border-cohere-ink"
-                  placeholder="e.g. Suman Thapa"
                 />
-              </div>
-
-              <div>
-                <div className="flex justify-between items-center mb-1">
-                  <label className="block text-xs font-mono text-cohere-slate">
-                    Email Address (Requires Confirmation) *
-                  </label>
-                  {emailTouched && emailValidation.isValid && (
-                    <span className="text-[10px] font-mono text-emerald-700 flex items-center gap-1 font-semibold">
-                      <CheckCircle2 size={11} />
-                      Valid Email Format
-                    </span>
-                  )}
-                </div>
-
-                <input
-                  type="email"
-                  required
-                  value={form.email}
-                  onBlur={() => setEmailTouched(true)}
-                  onChange={(e) => {
-                    setForm({ ...form, email: e.target.value });
-                    if (!emailTouched) setEmailTouched(true);
-                  }}
-                  className={`w-full px-3.5 py-2.5 rounded-xl bg-cohere-stone border text-xs text-cohere-ink focus:outline-none transition-colors ${
-                    emailTouched && !emailValidation.isValid && form.email
-                      ? 'border-rose-400 bg-rose-50/30'
-                      : emailTouched && emailValidation.isValid
-                      ? 'border-emerald-400'
-                      : 'border-black/[0.08] focus:border-cohere-ink'
-                  }`}
-                  placeholder="suman@company.com.np"
-                />
-
-                {/* Inline Email Validation Feedback */}
-                {emailTouched && !emailValidation.isValid && emailValidation.error && (
-                  <div className="mt-1.5 p-2 rounded-lg bg-rose-50 border border-rose-200 text-[11px] text-rose-800 flex items-start gap-1.5">
-                    <AlertCircle size={13} className="flex-shrink-0 mt-0.5 text-rose-600" />
-                    <div>
-                      <span>{emailValidation.error}</span>
-                      {emailValidation.suggestion && (
-                        <button
-                          type="button"
-                          onClick={() => {
-                            setForm({ ...form, email: emailValidation.suggestion! });
-                          }}
-                          className="ml-2 underline font-bold hover:text-black"
-                        >
-                          Use {emailValidation.suggestion}
-                        </button>
-                      )}
-                    </div>
-                  </div>
-                )}
               </div>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 <div>
-                  <label className="block text-xs font-mono text-cohere-slate mb-1">
-                    Phone / WhatsApp *
+                  <label className="block text-xs font-mono text-cohere-slate mb-1 uppercase">
+                    Email Address *
                   </label>
                   <input
-                    type="text"
+                    type="email"
                     required
-                    value={form.phone}
-                    onChange={(e) => setForm({ ...form, phone: e.target.value })}
-                    className="w-full px-3.5 py-2.5 rounded-xl bg-cohere-stone border border-black/[0.08] text-xs text-cohere-ink focus:outline-none focus:border-cohere-ink"
-                    placeholder="+977 98XXXXXXXX"
+                    value={form.email}
+                    onChange={(e) => setForm({ ...form, email: e.target.value })}
+                    onBlur={() => setEmailTouched(true)}
+                    placeholder="e.g. suman@tech.com.np"
+                    className={`w-full px-3.5 py-2.5 rounded-xl bg-cohere-stone border text-xs text-cohere-ink focus:outline-none ${
+                      emailTouched && !emailValidation.isValid
+                        ? 'border-amber-400'
+                        : 'border-black/[0.08] focus:border-cohere-ink'
+                    }`}
                   />
+                  {emailTouched && emailValidation.suggestion && (
+                    <button
+                      type="button"
+                      onClick={() => setForm({ ...form, email: `${form.email.split('@')[0]}@${emailValidation.suggestion}` })}
+                      className="text-[10px] font-mono text-cohere-coral hover:underline mt-1 block"
+                    >
+                      Did you mean @{emailValidation.suggestion}? Click to correct.
+                    </button>
+                  )}
+                  {emailTouched && emailValidation.error && !emailValidation.suggestion && (
+                    <div className="text-[10px] text-amber-700 mt-1 font-mono">
+                      {emailValidation.error}
+                    </div>
+                  )}
                 </div>
 
                 <div>
-                  <label className="block text-xs font-mono text-cohere-slate mb-1">
-                    Engineering Experience
+                  <label className="block text-xs font-mono text-cohere-slate mb-1 uppercase">
+                    Phone / WhatsApp Number *
+                  </label>
+                  <input
+                    type="tel"
+                    required
+                    value={form.phone}
+                    onChange={(e) => setForm({ ...form, phone: e.target.value })}
+                    placeholder="+977 98XXXXXXXX"
+                    className="w-full px-3.5 py-2.5 rounded-xl bg-cohere-stone border border-black/[0.08] text-xs text-cohere-ink focus:outline-none focus:border-cohere-ink"
+                  />
+                </div>
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <div>
+                  <label className="block text-xs font-mono text-cohere-slate mb-1 uppercase">
+                    Technical Experience
                   </label>
                   <select
                     value={form.experience}
@@ -435,451 +345,338 @@ export default function SecureEnrollmentModal({
                     <option>Staff / Principal Architect</option>
                   </select>
                 </div>
-              </div>
 
-              {/* Security Assurance Notice */}
-              <div className="p-3.5 rounded-xl bg-cohere-stone/60 border border-black/[0.06] flex items-start gap-2.5 text-xs text-cohere-subtle">
-                <Lock size={15} className="text-cohere-teal flex-shrink-0 mt-0.5" />
-                <span>
-                  A one-time 6-digit confirmation code will be dispatched to your email address to ensure authentication before payment settlement.
-                </span>
-              </div>
-
-              <button
-                type="submit"
-                disabled={isDispatchingEmail || (emailTouched && !emailValidation.isValid)}
-                className="w-full rounded-full py-3.5 text-xs font-bold bg-cohere-ink hover:bg-black text-white shadow-md shadow-black/10 flex items-center justify-center gap-2 transition-all disabled:opacity-50"
-              >
-                {isDispatchingEmail ? (
-                  <span>Dispatching Confirmation Email...</span>
-                ) : (
-                  <>
-                    <span>Proceed to Email Verification</span>
-                    <ArrowRight size={14} />
-                  </>
-                )}
-              </button>
-            </form>
-          )}
-
-          {/* ══════════════════════════════════════════════════════════════════
-              STEP 2: CONFIRMATION EMAIL VERIFICATION (OTP)
-             ══════════════════════════════════════════════════════════════════ */}
-          {step === 'email_verify' && (
-            <div className="space-y-5 pt-1">
-              <div className="p-4 rounded-2xl bg-cohere-stone border border-black/[0.08] space-y-2">
-                <div className="flex items-center justify-between">
-                  <span className="font-mono text-[10px] uppercase text-cohere-slate">
-                    CONFIRMATION EMAIL DISPATCHED
-                  </span>
-                  <span className="font-mono text-[11px] text-cohere-ink font-semibold flex items-center gap-1">
-                    <Clock size={12} />
-                    {Math.floor(secondsRemaining / 60)}:{(secondsRemaining % 60).toString().padStart(2, '0')}
-                  </span>
-                </div>
-                <div className="text-xs text-cohere-ink font-semibold">
-                  We sent a 6-digit verification code to <span className="font-mono underline">{form.email}</span>.
-                </div>
-                <p className="text-[11px] text-cohere-subtle">
-                  Check your inbox to retrieve the single-use authorization code. You can also inspect the simulated email message below:
-                </p>
-
-                <div className="pt-2 flex flex-wrap gap-2">
-                  <button
-                    type="button"
-                    onClick={() => setIsInboxModalOpen(true)}
-                    className="px-3.5 py-1.5 rounded-lg bg-cohere-ink text-white font-mono text-xs flex items-center gap-1.5 hover:bg-black shadow-sm transition-all"
-                  >
-                    <Mail size={13} />
-                    <span>View Dispatched Email Preview</span>
-                    <ExternalLink size={11} />
-                  </button>
-
-                  {emailVerifyState && (
-                    <button
-                      type="button"
-                      onClick={() => {
-                        setEnteredCode(emailVerifyState.code);
-                        handleVerifyEmailCode(emailVerifyState.code);
-                      }}
-                      className="px-3 py-1.5 rounded-lg bg-white border border-black/[0.1] text-cohere-ink hover:bg-cohere-stone text-xs font-mono font-semibold transition-all"
-                    >
-                      Quick Auto-Fill ({emailVerifyState.code})
-                    </button>
-                  )}
-                </div>
-              </div>
-
-              {/* Code Input Box */}
-              <div>
-                <label className="block text-xs font-mono text-cohere-slate mb-1.5 uppercase">
-                  Enter 6-Digit Verification Code
-                </label>
-                <div className="relative">
+                <div>
+                  <label className="block text-xs font-mono text-cohere-slate mb-1 uppercase">
+                    Organization / College (Optional)
+                  </label>
                   <input
                     type="text"
-                    maxLength={6}
-                    value={enteredCode}
-                    onChange={(e) => {
-                      const val = e.target.value.replace(/\D/g, '');
-                      setEnteredCode(val);
-                      if (codeError) setCodeError('');
-                      if (val.length === 6) {
-                        handleVerifyEmailCode(val);
-                      }
-                    }}
-                    className="w-full text-center tracking-[0.5em] font-mono text-2xl py-3 rounded-xl bg-cohere-stone border border-black/[0.12] text-cohere-ink focus:outline-none focus:border-cohere-ink"
-                    placeholder="______"
+                    value={form.organization}
+                    onChange={(e) => setForm({ ...form, organization: e.target.value })}
+                    placeholder="e.g. IOE Pulchowk / Ncell"
+                    className="w-full px-3.5 py-2.5 rounded-xl bg-cohere-stone border border-black/[0.08] text-xs text-cohere-ink focus:outline-none focus:border-cohere-ink"
                   />
                 </div>
-
-                {codeError && (
-                  <div className="mt-2 p-2 rounded-lg bg-rose-50 border border-rose-200 text-xs text-rose-800 flex items-center gap-1.5">
-                    <AlertCircle size={14} className="text-rose-600 flex-shrink-0" />
-                    <span>{codeError}</span>
-                  </div>
-                )}
               </div>
-
-              <div className="flex items-center justify-between text-xs text-cohere-slate">
-                <button
-                  type="button"
-                  onClick={() => setStep('info')}
-                  className="hover:text-cohere-ink underline font-mono text-[11px]"
-                >
-                  ← Edit Email Address
-                </button>
-
-                <button
-                  type="button"
-                  onClick={handleResendCode}
-                  disabled={resendCooldown > 0 || isDispatchingEmail}
-                  className="hover:text-cohere-ink font-mono text-[11px] disabled:opacity-50 flex items-center gap-1"
-                >
-                  <RefreshCw size={12} className={isDispatchingEmail ? 'animate-spin' : ''} />
-                  <span>
-                    {resendCooldown > 0 ? `Resend code in ${resendCooldown}s` : 'Resend Code'}
-                  </span>
-                </button>
-              </div>
-
-              <button
-                type="button"
-                onClick={() => handleVerifyEmailCode()}
-                disabled={isVerifyingCode || enteredCode.length !== 6}
-                className="w-full rounded-full py-3.5 text-xs font-bold bg-cohere-ink hover:bg-black text-white shadow-md shadow-black/10 flex items-center justify-center gap-2 transition-all disabled:opacity-50"
-              >
-                {isVerifyingCode ? (
-                  <span>Authenticating Code...</span>
-                ) : (
-                  <>
-                    <ShieldCheck size={15} />
-                    <span>Verify Email & Unlock Payment</span>
-                  </>
-                )}
-              </button>
             </div>
-          )}
 
-          {/* ══════════════════════════════════════════════════════════════════
-              STEP 3: GATEWAY SELECTION & PAYMENT DETAILS
-             ══════════════════════════════════════════════════════════════════ */}
-          {step === 'payment_select' && (
-            <div className="space-y-5 pt-1">
-              {/* Email Verified Banner */}
-              <div className="p-3 rounded-xl bg-emerald-50 border border-emerald-200 flex items-center justify-between text-xs text-emerald-900">
-                <div className="flex items-center gap-2">
-                  <CheckCircle2 size={16} className="text-emerald-700" />
-                  <span>
-                    Verified: <strong>{form.email}</strong>
-                  </span>
-                </div>
-                <span className="font-mono text-[10px] bg-white px-2 py-0.5 rounded border border-emerald-200 text-emerald-800">
-                  TOKEN ACTIVE
+            {/* Privacy & Cohort Notice */}
+            <div className="p-3.5 rounded-xl bg-cohere-stone/70 border border-black/[0.06] flex items-start gap-2.5 text-xs text-cohere-subtle leading-relaxed">
+              <Lock size={15} className="text-cohere-teal flex-shrink-0 mt-0.5" />
+              <span>
+                Your registration guarantees priority seat reservation. Official syllabus, repository invitations, and calendar invites are issued immediately upon confirmation.
+              </span>
+            </div>
+
+            <button
+              type="submit"
+              disabled={!form.name.trim() || !form.phone.trim() || (emailTouched && !emailValidation.isValid)}
+              className="w-full rounded-full py-3.5 text-xs font-bold bg-cohere-ink hover:bg-black text-white shadow-md shadow-black/10 flex items-center justify-center gap-2 transition-all disabled:opacity-50"
+            >
+              <span>Continue to Payment & Tuition Settlement</span>
+              <ArrowRight size={14} />
+            </button>
+          </form>
+        )}
+
+        {/* ══════════════════════════════════════════════════════════════════
+            STEP 2: PAYMENT METHOD & TRANSACTION VOUCHER CLEARANCE
+           ══════════════════════════════════════════════════════════════════ */}
+        {step === 'payment' && (
+          <form onSubmit={handleCompleteEnrollment} className="space-y-5 pt-1">
+            <div>
+              <label className="block text-xs font-mono text-cohere-slate mb-2 uppercase">
+                Select Official Payment Gateway *
+              </label>
+              <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
+                {(['esewa', 'khalti', 'connectips', 'card'] as PaymentGatewayType[]).map((gt) => (
+                  <button
+                    key={gt}
+                    type="button"
+                    onClick={() => {
+                      setGateway(gt);
+                      setTransactionRef('');
+                      setRefError('');
+                    }}
+                    className={`p-3 rounded-xl border text-center transition-all ${
+                      gateway === gt
+                        ? 'border-cohere-ink bg-cohere-ink text-white font-bold shadow-sm'
+                        : 'border-black/[0.08] bg-cohere-stone text-cohere-slate hover:text-cohere-ink'
+                    }`}
+                  >
+                    <div className="text-xs capitalize">{gt === 'connectips' ? 'ConnectIPS' : gt}</div>
+                    <div className="text-[9px] opacity-75 font-mono">
+                      {gt === 'esewa' ? 'eSewa Pay' : gt === 'khalti' ? 'Khalti Pay' : gt === 'connectips' ? 'Interbank' : 'Visa / MC'}
+                    </div>
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            {/* Official Merchant Details Card */}
+            <div className="p-4 rounded-2xl bg-cohere-stone border border-black/[0.08] space-y-3">
+              <div className="flex items-center justify-between border-b border-black/[0.06] pb-2">
+                <span className="font-mono text-[10px] text-cohere-slate uppercase">
+                  OFFICIAL BENEFICIARY ACCOUNT
+                </span>
+                <span className="text-[10px] font-mono font-semibold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded border border-emerald-200">
+                  VERIFIED MERCHANT
                 </span>
               </div>
 
-              {/* Gateway Choices */}
-              <div className="space-y-2">
-                <label className="block text-xs font-mono text-cohere-slate uppercase">
-                  Select Settlement Gateway
-                </label>
-                <div className="grid grid-cols-2 gap-2.5">
-                  {(['esewa', 'khalti', 'connectips', 'card'] as PaymentGatewayType[]).map((gt) => {
-                    const meta = GATEWAY_METADATA[gt];
-                    const isSelected = gateway === gt;
-                    return (
-                      <div
-                        key={gt}
-                        onClick={() => {
-                          setGateway(gt);
-                          setRefError('');
-                        }}
-                        className={`p-3.5 rounded-2xl border cursor-pointer transition-all ${
-                          isSelected
-                            ? 'border-cohere-ink bg-black/[0.04] shadow-sm ring-1 ring-cohere-ink'
-                            : 'border-black/[0.08] bg-cohere-stone/60 hover:border-black/[0.2]'
-                        }`}
-                      >
-                        <div className="flex items-center justify-between">
-                          <span className="font-bold text-xs text-cohere-ink">{meta.name.split(' ')[0]}</span>
-                          {isSelected && <CheckCircle2 size={13} className="text-cohere-ink" />}
-                        </div>
-                        <div className="text-[10px] text-cohere-slate font-mono mt-0.5 truncate">
-                          {meta.settlementType}
-                        </div>
-                      </div>
-                    );
-                  })}
-                </div>
-              </div>
-
-              {/* Active Gateway Instructions & Credentials */}
-              <div className="p-4 rounded-2xl bg-cohere-stone border border-black/[0.08] space-y-2 text-xs">
-                <div className="flex items-center justify-between font-mono text-[11px]">
-                  <span className="text-cohere-slate">MERCHANT CODE:</span>
-                  <strong className="text-cohere-ink">{GATEWAY_METADATA[gateway].merchantCode}</strong>
-                </div>
-                <div className="flex items-center justify-between font-mono text-[11px]">
-                  <span className="text-cohere-slate">PAYMENT PROTOCOL:</span>
-                  <span className="text-cohere-ink">{GATEWAY_METADATA[gateway].clearingProtocol}</span>
-                </div>
-                <div className="flex items-center justify-between font-mono text-[11px] pt-1 border-t border-black/[0.06]">
-                  <span className="text-cohere-slate">TUITION DUE:</span>
-                  <strong className="text-base text-cohere-ink">{course.costLocal}</strong>
-                </div>
-              </div>
-
-              {/* Payment Reference Input */}
-              <div>
-                <div className="flex justify-between items-center mb-1">
-                  <label className="block text-xs font-mono text-cohere-slate uppercase">
-                    Transaction ID / Reference Code *
-                  </label>
-                  <button
-                    type="button"
-                    onClick={handleQuickFillTestRef}
-                    className="text-[10px] font-mono text-cohere-ink hover:underline font-semibold flex items-center gap-1"
-                  >
-                    <Sparkles size={11} />
-                    <span>Quick Test Fill</span>
-                  </button>
-                </div>
-
-                <input
-                  type="text"
-                  required
-                  value={transactionRef}
-                  onChange={(e) => {
-                    setTransactionRef(e.target.value);
-                    if (refError) setRefError('');
-                  }}
-                  placeholder={GATEWAY_METADATA[gateway].placeholderRef}
-                  className="w-full px-3.5 py-2.5 rounded-xl bg-cohere-stone border border-black/[0.08] text-xs font-mono text-cohere-ink focus:outline-none focus:border-cohere-ink"
-                />
-
-                <p className="text-[10px] text-cohere-slate mt-1 font-mono">
-                  {GATEWAY_METADATA[gateway].helperText}
-                </p>
-
-                {refError && (
-                  <div className="mt-2 p-2 rounded-lg bg-rose-50 border border-rose-200 text-xs text-rose-800 flex items-center gap-1.5">
-                    <AlertCircle size={14} className="text-rose-600 flex-shrink-0" />
-                    <span>{refError}</span>
+              {gateway === 'esewa' && (
+                <div className="space-y-1.5 text-xs text-cohere-ink">
+                  <div><strong>Beneficiary:</strong> MounTech Solutions Pvt. Ltd.</div>
+                  <div><strong>eSewa ID / Mobile:</strong> <span className="font-mono font-bold bg-white px-2 py-0.5 rounded border border-black/10">xxxxxx</span></div>
+                  <div><strong>Tuition Payable:</strong> <span className="font-bold text-cohere-ink">{course.costLocal}</span></div>
+                  <div className="text-[11px] text-cohere-subtle pt-1">
+                    Send funds via your eSewa App to the official MounTech merchant account. In Remarks, enter: <em>{form.name.split(' ')[0]} - {course.id}</em>
                   </div>
-                )}
-              </div>
-
-              <button
-                type="button"
-                onClick={handleStartPaymentVerification}
-                disabled={!transactionRef.trim()}
-                className="w-full rounded-full py-3.5 text-xs font-bold bg-cohere-ink hover:bg-black text-white shadow-md shadow-black/10 flex items-center justify-center gap-2 transition-all disabled:opacity-50"
-              >
-                <ShieldCheck size={15} />
-                <span>Verify Payment & Secure Admission</span>
-              </button>
-            </div>
-          )}
-
-          {/* ══════════════════════════════════════════════════════════════════
-              STEP 4: LIVE PAYMENT VERIFICATION PROGRESS
-             ══════════════════════════════════════════════════════════════════ */}
-          {step === 'payment_verifying' && (
-            <div className="py-6 space-y-6">
-              <div className="text-center space-y-2">
-                <div className="w-12 h-12 rounded-full bg-cohere-ink text-white flex items-center justify-center mx-auto shadow-md">
-                  <RefreshCw size={22} className="animate-spin" />
                 </div>
-                <h4 className="font-bold text-lg text-cohere-ink">
-                  Verifying Gateway Settlement
-                </h4>
-                <p className="text-xs text-cohere-subtle max-w-sm mx-auto">
-                  Executing automated clearing handshake with {GATEWAY_METADATA[gateway].name} and checking ledger uniqueness.
-                </p>
-              </div>
+              )}
 
-              {/* Progress Steps Card */}
-              <div className="p-4 rounded-2xl bg-cohere-stone border border-black/[0.08] space-y-3 font-mono text-xs">
-                {verificationSteps.map((s, idx) => (
-                  <div key={s.id} className="flex items-start gap-3">
-                    <div className="mt-0.5">
-                      {s.status === 'completed' && <CheckCircle2 size={16} className="text-emerald-600" />}
-                      {s.status === 'in_progress' && <RefreshCw size={15} className="text-cohere-ink animate-spin" />}
-                      {s.status === 'pending' && <div className="w-3.5 h-3.5 rounded-full border border-black/20" />}
-                      {s.status === 'failed' && <AlertCircle size={16} className="text-rose-600" />}
-                    </div>
-                    <div className="flex-1">
-                      <div className={`font-semibold ${s.status === 'completed' ? 'text-cohere-ink' : s.status === 'in_progress' ? 'text-cohere-ink font-bold' : 'text-cohere-slate'}`}>
-                        {s.label}
-                      </div>
-                      <div className="text-[11px] text-cohere-subtle font-sans mt-0.5">
-                        {s.detail}
-                      </div>
-                    </div>
+              {gateway === 'khalti' && (
+                <div className="space-y-1.5 text-xs text-cohere-ink">
+                  <div><strong>Beneficiary:</strong> MounTech Academy Nepal</div>
+                  <div><strong>Khalti ID / Mobile:</strong> <span className="font-mono font-bold bg-white px-2 py-0.5 rounded border border-black/10">xxxxxx</span></div>
+                  <div><strong>Tuition Payable:</strong> <span className="font-bold text-cohere-ink">{course.costLocal}</span></div>
+                  <div className="text-[11px] text-cohere-subtle pt-1">
+                    Transfer tuition via Khalti app and copy the Khalti Transaction ID.
                   </div>
-                ))}
-              </div>
+                </div>
+              )}
 
-              {refError && (
-                <div className="p-3 rounded-xl bg-rose-50 border border-rose-200 text-xs text-rose-800 space-y-2">
-                  <div className="flex items-center gap-1.5 font-bold">
-                    <AlertCircle size={15} className="text-rose-600" />
-                    <span>Payment Verification Failed</span>
+              {gateway === 'connectips' && (
+                <div className="space-y-1.5 text-xs text-cohere-ink">
+                  <div><strong>Bank:</strong> Standard Chartered Bank Nepal Ltd.</div>
+                  <div><strong>Account Name:</strong> MounTech Solutions Pvt. Ltd.</div>
+                  <div><strong>Account Number:</strong> <span className="font-mono font-bold bg-white px-2 py-0.5 rounded border border-black/10">xxxxxx</span></div>
+                  <div><strong>Branch:</strong> Sanepa / Lalitpur Branch (SWIFT: xxxxxx)</div>
+                  <div><strong>Tuition Payable:</strong> <span className="font-bold text-cohere-ink">{course.costLocal}</span></div>
+                </div>
+              )}
+
+              {gateway === 'card' && (
+                <div className="space-y-1.5 text-xs text-cohere-ink">
+                  <div><strong>Merchant:</strong> MounTech Enclave (Stripe / International Card)</div>
+                  <div><strong>International Tuition:</strong> <span className="font-bold text-cohere-ink">{course.costGlobal}</span></div>
+                  <div className="text-[11px] text-cohere-subtle pt-1">
+                    Enter the Payment Reference from your card receipt or international wire invoice.
                   </div>
-                  <p>{refError}</p>
-                  <button
-                    onClick={() => {
-                      setStep('payment_select');
-                    }}
-                    className="px-3.5 py-1.5 rounded-lg bg-white border border-rose-300 text-xs font-bold text-rose-900"
-                  >
-                    Edit Reference & Retry
-                  </button>
                 </div>
               )}
             </div>
-          )}
 
-          {/* ══════════════════════════════════════════════════════════════════
-              STEP 5: ADMISSION PASS & SOVEREIGN VERIFICATION RECEIPT
-             ══════════════════════════════════════════════════════════════════ */}
-          {step === 'success' && savedEnrollment && (
-            <div className="space-y-6 pt-1">
-              <div className="text-center space-y-2">
-                <div className="w-14 h-14 rounded-full bg-emerald-100 border border-emerald-300 text-emerald-800 flex items-center justify-center mx-auto shadow-sm">
-                  <CheckCircle2 size={32} />
+            {/* Transaction Reference Input */}
+            <div>
+              <label className="block text-xs font-mono text-cohere-slate uppercase mb-1">
+                Transaction ID / Voucher Code *
+              </label>
+              <input
+                type="text"
+                required
+                value={transactionRef}
+                onChange={(e) => {
+                  setTransactionRef(e.target.value);
+                  if (refError) setRefError('');
+                }}
+                placeholder={GATEWAY_METADATA[gateway].placeholderRef}
+                className="w-full px-3.5 py-2.5 rounded-xl bg-cohere-stone border border-black/[0.08] text-xs font-mono text-cohere-ink focus:outline-none focus:border-cohere-ink"
+              />
+              <p className="text-[10px] text-cohere-slate mt-1 font-mono">
+                {GATEWAY_METADATA[gateway].helperText}
+              </p>
+
+              {refError && (
+                <div className="mt-2 p-2 rounded-lg bg-rose-50 border border-rose-200 text-xs text-rose-800 flex items-center gap-1.5">
+                  <AlertCircle size={14} className="text-rose-600 flex-shrink-0" />
+                  <span>{refError}</span>
                 </div>
-                <h4 className="text-xl sm:text-2xl font-bold text-cohere-ink">
-                  Enrollment Authenticated & Locked
-                </h4>
-                <p className="text-xs text-cohere-subtle max-w-sm mx-auto">
-                  Your seat has been reserved in the 40-hour cohort. A verification block has been cryptographically signed into the sovereign ledger.
-                </p>
+              )}
+            </div>
+
+            {/* Optional Voucher Screenshot Upload */}
+            <div>
+              <label className="block text-xs font-mono text-cohere-slate uppercase mb-1">
+                Payment Slip / Receipt Screenshot (Optional)
+              </label>
+              <label className="border border-dashed border-black/[0.15] hover:border-black/30 rounded-xl p-3 flex items-center justify-center gap-2 cursor-pointer bg-cohere-stone/40 text-xs text-cohere-slate transition-colors">
+                <Upload size={14} />
+                <span>{selectedFile ? selectedFile.name : 'Upload Screenshot (PNG, JPG, PDF)'}</span>
+                <input 
+                  type="file" 
+                  accept="image/*,.pdf" 
+                  className="hidden" 
+                  onChange={(e) => {
+                    if (e.target.files && e.target.files[0]) {
+                      setSelectedFile(e.target.files[0]);
+                    }
+                  }} 
+                />
+              </label>
+            </div>
+
+            <div className="flex items-center justify-between pt-1">
+              <button
+                type="button"
+                onClick={() => setStep('details')}
+                className="text-xs font-mono text-cohere-slate hover:text-cohere-ink underline"
+              >
+                ← Back to Candidate Details
+              </button>
+
+              <button
+                type="submit"
+                disabled={!transactionRef.trim()}
+                className="rounded-full px-6 py-3 text-xs font-bold bg-cohere-ink hover:bg-black text-white shadow-md shadow-black/10 flex items-center gap-2 transition-all disabled:opacity-50"
+              >
+                <ShieldCheck size={14} />
+                <span>Confirm & Reserve Admission</span>
+              </button>
+            </div>
+          </form>
+        )}
+
+        {/* ══════════════════════════════════════════════════════════════════
+            STEP 3: CLEARANCE PROCESSING
+           ══════════════════════════════════════════════════════════════════ */}
+        {step === 'verifying' && (
+          <div className="py-10 text-center space-y-4">
+            <div className="w-14 h-14 rounded-full bg-cohere-ink text-white flex items-center justify-center mx-auto shadow-md">
+              <RefreshCw size={24} className="animate-spin" />
+            </div>
+            <h4 className="font-bold text-lg text-cohere-ink">
+              Verifying Payment & Seat Allocation
+            </h4>
+            <p className="text-xs text-cohere-subtle max-w-sm mx-auto leading-relaxed">
+              Recording your transaction reference with {GATEWAY_METADATA[gateway].name} and issuing your official MounTech Academy admission pass...
+            </p>
+          </div>
+        )}
+
+        {/* ══════════════════════════════════════════════════════════════════
+            STEP 4: CONFIRMED ADMISSION PASS & STUDENT ONBOARDING
+           ══════════════════════════════════════════════════════════════════ */}
+        {step === 'confirmed' && savedEnrollment && (
+          <div className="space-y-6 pt-1">
+            <div className="text-center space-y-2">
+              <div className="w-14 h-14 rounded-full bg-emerald-100 border border-emerald-300 text-emerald-800 flex items-center justify-center mx-auto shadow-sm">
+                <CheckCircle2 size={32} />
               </div>
+              <h4 className="text-xl sm:text-2xl font-bold text-cohere-ink">
+                Admission Confirmed & Seat Reserved
+              </h4>
+              <p className="text-xs text-cohere-subtle max-w-sm mx-auto">
+                Welcome to the cohort! Your student pass has been authenticated and registered in the academy ledger.
+              </p>
+            </div>
 
-              {/* Official Academy Pass Card */}
-              <div className="p-5 rounded-2xl bg-cohere-stone border border-black/[0.1] space-y-4 shadow-sm relative overflow-hidden">
-                <div className="flex items-center justify-between border-b border-black/[0.08] pb-3">
-                  <div>
-                    <div className="text-[10px] font-mono text-cohere-slate uppercase">ADMISSION PASS CODE</div>
-                    <div className="font-mono text-lg font-bold text-cohere-ink">
-                      {savedEnrollment.receiptId}
-                    </div>
-                  </div>
-                  <span className="px-2.5 py-1 rounded-full text-[10px] font-mono uppercase bg-emerald-100 text-emerald-800 font-bold border border-emerald-300">
-                    VERIFIED • SETTLED
-                  </span>
-                </div>
-
-                <div className="grid grid-cols-2 gap-3 text-xs">
-                  <div>
-                    <div className="text-[10px] font-mono text-cohere-slate uppercase">STUDENT PARTICIPANT</div>
-                    <div className="font-bold text-cohere-ink">{savedEnrollment.studentName}</div>
-                    <div className="text-[11px] font-mono text-cohere-subtle">{savedEnrollment.studentEmail}</div>
-                  </div>
-
-                  <div>
-                    <div className="text-[10px] font-mono text-cohere-slate uppercase">COHORT LAB</div>
-                    <div className="font-semibold text-cohere-ink line-clamp-1">{savedEnrollment.courseTitle}</div>
-                    <div className="text-[11px] font-mono text-cohere-subtle">Tuition: {savedEnrollment.tuitionPaid}</div>
-                  </div>
-
-                  <div>
-                    <div className="text-[10px] font-mono text-cohere-slate uppercase">GATEWAY CLEARANCE</div>
-                    <div className="font-mono font-bold text-cohere-ink">{savedEnrollment.paymentMethod.toUpperCase()}</div>
-                    <div className="text-[10px] font-mono text-cohere-slate truncate">TX: {savedEnrollment.transactionId}</div>
-                  </div>
-
-                  <div>
-                    <div className="text-[10px] font-mono text-cohere-slate uppercase">LEDGER SIGNATURE HASH</div>
-                    <div className="flex items-center gap-1 font-mono text-[10px] text-cohere-ink font-semibold">
-                      <span className="truncate">{savedEnrollment.verificationHash.substring(0, 16)}...</span>
-                      <button
-                        onClick={() => handleCopyHash(savedEnrollment.verificationHash)}
-                        className="p-0.5 hover:text-cohere-coral"
-                        title="Copy full verification hash"
-                      >
-                        {copiedHash ? <Check size={11} className="text-emerald-600" /> : <Copy size={11} />}
-                      </button>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="pt-2 border-t border-black/[0.06] flex items-center justify-between text-[10px] font-mono text-cohere-slate">
-                  <span>RECORD COMMITTED: {new Date(savedEnrollment.enrolledAt).toLocaleDateString()}</span>
-                  <span>MOUNTECH SOVEREIGN REGISTRY</span>
-                </div>
-              </div>
-
-              {/* Action Buttons */}
-              <div className="space-y-2">
-                <div className="flex flex-col sm:flex-row gap-2.5">
-                  <button
-                    onClick={handlePrint}
-                    className="flex-1 py-3 px-4 rounded-full bg-white hover:bg-cohere-stone text-cohere-ink font-semibold text-xs border border-black/[0.12] flex items-center justify-center gap-2 transition-all"
-                  >
-                    <Printer size={14} />
-                    <span>Print / Save Pass</span>
-                  </button>
-
-                  {onOpenLedger && (
+            {/* Official Academy Pass Card */}
+            <div className="p-5 rounded-2xl bg-cohere-stone border border-black/[0.1] space-y-4 shadow-sm relative overflow-hidden">
+              <div className="flex items-center justify-between border-b border-black/[0.08] pb-3">
+                <div>
+                  <div className="text-[10px] font-mono text-cohere-slate uppercase">OFFICIAL ADMISSION PASS</div>
+                  <div className="font-mono text-lg font-bold text-cohere-ink flex items-center gap-1.5">
+                    <span>{savedEnrollment.receiptId}</span>
                     <button
-                      onClick={() => {
-                        onClose();
-                        onOpenLedger();
-                      }}
-                      className="flex-1 py-3 px-4 rounded-full bg-cohere-stone hover:bg-[#e4e2dc] text-cohere-ink font-semibold text-xs border border-black/[0.08] flex items-center justify-center gap-2 transition-all"
+                      type="button"
+                      onClick={() => handleCopyPassId(savedEnrollment.receiptId)}
+                      className="p-1 text-cohere-slate hover:text-cohere-ink"
+                      title="Copy Pass ID"
                     >
-                      <Database size={14} />
-                      <span>Inspect in Database</span>
+                      {copiedPassId ? <Check size={14} className="text-emerald-600" /> : <Copy size={14} />}
                     </button>
-                  )}
+                  </div>
                 </div>
+                <span className="px-2.5 py-1 rounded-full text-[10px] font-mono uppercase bg-emerald-100 text-emerald-800 font-bold border border-emerald-300">
+                  SEAT RESERVED
+                </span>
+              </div>
+
+              <div className="grid grid-cols-2 gap-3 text-xs">
+                <div>
+                  <div className="text-[10px] font-mono text-cohere-slate uppercase">STUDENT PARTICIPANT</div>
+                  <div className="font-bold text-cohere-ink">{savedEnrollment.studentName}</div>
+                  <div className="text-[11px] font-mono text-cohere-subtle truncate">{savedEnrollment.studentEmail}</div>
+                </div>
+
+                <div>
+                  <div className="text-[10px] font-mono text-cohere-slate uppercase">COHORT LAB</div>
+                  <div className="font-semibold text-cohere-ink line-clamp-1">{savedEnrollment.courseTitle}</div>
+                  <div className="text-[11px] font-mono text-cohere-subtle">Tuition: {savedEnrollment.tuitionPaid}</div>
+                </div>
+
+                <div>
+                  <div className="text-[10px] font-mono text-cohere-slate uppercase">PAYMENT SETTLEMENT</div>
+                  <div className="font-mono font-bold text-cohere-ink">{savedEnrollment.paymentMethod.toUpperCase()}</div>
+                  <div className="text-[10px] font-mono text-cohere-slate truncate">Ref: {savedEnrollment.transactionId}</div>
+                </div>
+
+                <div>
+                  <div className="text-[10px] font-mono text-cohere-slate uppercase">SCHEDULE</div>
+                  <div className="font-semibold text-cohere-ink">40h Live Interactive</div>
+                  <div className="text-[10px] font-mono text-cohere-slate">Weekends & Evenings NPT</div>
+                </div>
+              </div>
+
+              <div className="pt-2 border-t border-black/[0.06] text-[10px] font-mono text-cohere-slate flex items-center justify-between">
+                <span>ISSUED: {new Date(savedEnrollment.enrolledAt).toLocaleDateString()}</span>
+                <span>MOUNTECH TECH ACADEMY KATHMANDU</span>
+              </div>
+            </div>
+
+            {/* Next Steps for Student */}
+            <div className="p-4 rounded-xl bg-cohere-stone/50 border border-black/[0.06] text-xs text-cohere-subtle space-y-1.5">
+              <span className="font-semibold text-cohere-ink block">Next Onboarding Steps:</span>
+              <p>• A syllabus guide and repository access token have been dispatched to <strong>{savedEnrollment.studentEmail}</strong>.</p>
+              <p>• Add the cohort dates to your calendar or connect with your cohort coordinator below.</p>
+            </div>
+
+            {/* Action Buttons */}
+            <div className="space-y-2.5">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                <button
+                  type="button"
+                  onClick={handleDownloadCalendar}
+                  className="py-2.5 px-4 rounded-full bg-cohere-stone hover:bg-[#e4e2dc] text-cohere-ink font-semibold text-xs border border-black/[0.08] flex items-center justify-center gap-2 transition-all"
+                >
+                  <Calendar size={14} className="text-cohere-coral" />
+                  <span>Add to Calendar (.ics)</span>
+                </button>
+
+                <a
+                  href={admissionsEmailUrl}
+                  className="py-2.5 px-4 rounded-full bg-emerald-50 hover:bg-emerald-100 text-emerald-900 font-semibold text-xs border border-emerald-200 flex items-center justify-center gap-2 transition-all"
+                >
+                  <Mail size={14} className="text-emerald-600" />
+                  <span>Admissions Coordinator</span>
+                </a>
+              </div>
+
+              <div className="flex gap-2">
+                <button
+                  type="button"
+                  onClick={handlePrint}
+                  className="flex-1 py-3 px-4 rounded-full bg-white hover:bg-cohere-stone text-cohere-ink font-semibold text-xs border border-black/[0.12] flex items-center justify-center gap-2 transition-all"
+                >
+                  <Printer size={14} />
+                  <span>Print / Save PDF Pass</span>
+                </button>
 
                 <button
+                  type="button"
                   onClick={onClose}
-                  className="w-full py-3 rounded-full bg-cohere-ink hover:bg-black text-white font-bold text-xs shadow-sm transition-all"
+                  className="flex-1 py-3 rounded-full bg-cohere-ink hover:bg-black text-white font-bold text-xs shadow-sm transition-all"
                 >
-                  Done & Close Admission
+                  Close & Complete
                 </button>
               </div>
             </div>
-          )}
+          </div>
+        )}
 
-        </div>
       </div>
-
-      {/* Simulated Email Inbox Preview Modal */}
-      <EmailInboxPreviewModal
-        email={emailPreview}
-        isOpen={isInboxModalOpen}
-        onClose={() => setIsInboxModalOpen(false)}
-        onUseCode={(code) => {
-          setEnteredCode(code);
-          handleVerifyEmailCode(code);
-        }}
-      />
-    </>
+    </div>
   );
 }

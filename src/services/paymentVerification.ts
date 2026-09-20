@@ -26,17 +26,17 @@ export const GATEWAY_METADATA: Record<PaymentGatewayType, {
     merchantCode: 'MOUNTECH-ACADEMY-NP',
     clearingProtocol: 'eSewa Merchant API v2 (HMAC-SHA256)',
     settlementType: 'Instant RTGS Wallet Clearance',
-    placeholderRef: 'e.g. 0005F4A89 or 9841XXXXXX',
-    sampleTestId: 'ESW-98418293-OK',
-    helperText: 'Enter your 9-12 character eSewa Transaction Code or Wallet Number.'
+    placeholderRef: 'xxxxxx (Enter eSewa transaction code)',
+    sampleTestId: 'ESW-xxxxxx',
+    helperText: 'Enter the transaction reference code from your payment receipt.'
   },
   khalti: {
     name: 'Khalti Digital Wallet',
     merchantCode: 'KHLT-MTS-EXP-01',
     clearingProtocol: 'Khalti Payment Gateway v2 REST/TLS',
     settlementType: 'Real-time IMPS Settlement',
-    placeholderRef: 'e.g. KHL-TXN-8849102',
-    sampleTestId: 'KHL-TXN-8849102',
+    placeholderRef: 'xxxxxx (Enter Khalti transaction ID)',
+    sampleTestId: 'KHL-xxxxxx',
     helperText: 'Enter your Khalti Transaction ID from your Khalti app receipt.'
   },
   connectips: {
@@ -44,18 +44,18 @@ export const GATEWAY_METADATA: Record<PaymentGatewayType, {
     merchantCode: 'NCHL-MTS-CORP',
     clearingProtocol: 'Nepal Clearing House NCHL National Switch',
     settlementType: 'Interbank Clearance (Direct Debit)',
-    placeholderRef: 'e.g. CIPS-202609-XXXXX',
-    sampleTestId: 'CIPS-994021-SETTLED',
-    helperText: 'Enter your 16-character ConnectIPS transaction reference ID.'
+    placeholderRef: 'xxxxxx (Enter ConnectIPS transaction ID)',
+    sampleTestId: 'CIPS-xxxxxx',
+    helperText: 'Enter your ConnectIPS transaction reference ID.'
   },
   card: {
     name: 'Visa / Mastercard / Global Card',
     merchantCode: 'STRIPE-MTS-ENCLAVE',
     clearingProtocol: 'PCI-DSS Level 1 / 3D-Secure 2.0',
     settlementType: 'International Merchant Settlement',
-    placeholderRef: 'e.g. ch_3MXXXXXXXXXX',
-    sampleTestId: 'ch_test_983f2a1b9c',
-    helperText: 'Enter the Stripe Payment Intent or transaction ID from your card receipt.'
+    placeholderRef: 'xxxxxx (Enter payment reference ID)',
+    sampleTestId: 'CARD-xxxxxx',
+    helperText: 'Enter the payment reference or transaction ID from your card receipt.'
   }
 };
 

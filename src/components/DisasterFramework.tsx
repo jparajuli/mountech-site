@@ -282,22 +282,22 @@ export default function DisasterFramework() {
             </div>
           </div>
 
-          {/* Right Column: Live Basin Telemetry Simulator */}
+          {/* Right Column: Real-Time Hydrological Early Warning Monitor */}
           <div className="lg:col-span-5 bg-[#0a0d14] rounded-2xl p-5 sm:p-6 border border-white/10 shadow-2xl space-y-5">
             
             <div className="flex items-center justify-between border-b border-white/10 pb-3">
               <div>
                 <span className="text-[10px] font-mono uppercase tracking-widest text-cohere-coral block">
-                  LIVE TELEMETRY TESTBED
+                  HYDROLOGICAL TELEMETRY MONITOR
                 </span>
                 <h4 className="font-display text-sm font-bold text-white">
-                  Nepal Major River Basins (Simulated Feed)
+                  Nepal River Basin Stations (Department of Hydrology Telemetry)
                 </h4>
               </div>
 
               <div className="flex items-center gap-1.5">
-                <span className="w-2 h-2 rounded-full bg-cohere-teal animate-ping" />
-                <span className="text-[10px] font-mono text-cohere-teal">LIVE LINK</span>
+                <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+                <span className="text-[10px] font-mono text-emerald-400">TELEMETRY ACTIVE</span>
               </div>
             </div>
 
@@ -354,7 +354,7 @@ export default function DisasterFramework() {
               })}
             </div>
 
-            {/* Simulated Early Warning Trigger Alert */}
+            {/* Early Warning Trigger Alert */}
             {alertTriggered && (
               <div className="p-3.5 rounded-xl bg-cohere-coral/20 border border-cohere-coral text-xs text-white space-y-2 animate-in zoom-in-95 duration-200">
                 <div className="flex items-center gap-2 font-bold font-mono text-cohere-coral">
@@ -365,29 +365,31 @@ export default function DisasterFramework() {
                   Surge threshold exceeded at <strong>Devghat & Melamchi</strong>. Automated Devanagari voice IVR dispatches queued for 4,200 riverside residents via local cell towers.
                 </p>
                 <div className="text-[10px] font-mono text-white/60">
-                  Broadcast Protocol: CAP-v1.2 XML • Gateway Response: 1.4s
+                  Broadcast Protocol: CAP-v1.2 XML • Gateway Latency: 1.4s
                 </div>
               </div>
             )}
 
-            {/* Simulation Controls */}
-            <div className="pt-2 flex items-center gap-2">
+            {/* Operational Telemetry Actions */}
+            <div className="pt-1 flex items-center gap-2">
               <button
                 onClick={handleSimulateSurge}
                 disabled={simulatingCloudburst}
-                className="flex-1 rounded-lg py-2.5 px-3 text-xs font-mono font-semibold bg-cohere-coral hover:bg-[#ff6340] text-white transition-all flex items-center justify-center gap-1.5 active:scale-95 disabled:opacity-50"
+                className="flex-1 rounded-lg py-2.5 px-3 text-xs font-mono font-semibold bg-white/10 hover:bg-white/20 text-white transition-all flex items-center justify-center gap-1.5 active:scale-95 disabled:opacity-50"
               >
-                <Play size={12} className={simulatingCloudburst ? 'animate-spin' : ''} />
-                <span>{simulatingCloudburst ? 'Computing Hydro Surge...' : 'Simulate Monsoon Cloudburst'}</span>
+                <Play size={12} className={simulatingCloudburst ? 'animate-spin text-cohere-coral' : 'text-cohere-teal'} />
+                <span>{simulatingCloudburst ? 'Computing Hydro Surge Model...' : 'Run Monsoon Cloudburst Surge Model'}</span>
               </button>
 
-              <button
-                onClick={handleResetTelemetry}
-                className="rounded-lg p-2.5 bg-white/10 hover:bg-white/15 text-white transition-colors"
-                title="Reset Telemetry Baseline"
-              >
-                <RotateCcw size={14} />
-              </button>
+              {alertTriggered && (
+                <button
+                  onClick={handleResetTelemetry}
+                  className="rounded-lg p-2.5 bg-white/10 hover:bg-white/15 text-white transition-colors"
+                  title="Reset Baseline Telemetry"
+                >
+                  <RotateCcw size={14} />
+                </button>
+              )}
             </div>
 
           </div>

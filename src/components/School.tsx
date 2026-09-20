@@ -4,11 +4,9 @@ import {
 } from '../data/courses';
 import { 
   BookOpen, Clock, Calendar, CheckCircle2, 
-  ArrowRight, Search, Sparkles, Filter, X, CreditCard, ShieldCheck, ArrowUpRight,
-  Database
+  ArrowRight, Search, Sparkles, Filter, X, CreditCard, ShieldCheck, ArrowUpRight
 } from 'lucide-react';
 import SecureEnrollmentModal from './SecureEnrollmentModal';
-import DatabaseLedgerModal from './DatabaseLedgerModal';
 
 interface SchoolProps {
   summaryOnly?: boolean;
@@ -24,7 +22,6 @@ export default function School({ summaryOnly, detailOnly, route, setRoute }: Sch
   // Secure Enrollment Modal State
   const [isEnrollModalOpen, setIsEnrollModalOpen] = useState<boolean>(false);
   const [enrollCourse, setEnrollCourse] = useState<Course | null>(null);
-  const [isLedgerModalOpen, setIsLedgerModalOpen] = useState<boolean>(false);
 
   // Filtering
   const filteredCourses = useMemo(() => {
@@ -189,15 +186,7 @@ export default function School({ summaryOnly, detailOnly, route, setRoute }: Sch
           course={enrollCourse}
           isOpen={isEnrollModalOpen}
           onClose={() => setIsEnrollModalOpen(false)}
-          onOpenLedger={() => setIsLedgerModalOpen(true)}
         />
-
-        {/* Database Ledger Modal */}
-        <DatabaseLedgerModal
-          isOpen={isLedgerModalOpen}
-          onClose={() => setIsLedgerModalOpen(false)}
-        />
-
       </div>
     );
   }
@@ -304,15 +293,7 @@ export default function School({ summaryOnly, detailOnly, route, setRoute }: Sch
         course={enrollCourse}
         isOpen={isEnrollModalOpen}
         onClose={() => setIsEnrollModalOpen(false)}
-        onOpenLedger={() => setIsLedgerModalOpen(true)}
       />
-
-      {/* Database Ledger Modal */}
-      <DatabaseLedgerModal
-        isOpen={isLedgerModalOpen}
-        onClose={() => setIsLedgerModalOpen(false)}
-      />
-
     </div>
   );
 }
