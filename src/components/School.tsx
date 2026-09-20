@@ -4,8 +4,11 @@ import {
 } from '../data/courses';
 import { 
   BookOpen, Clock, Calendar, CheckCircle2, 
-  ArrowRight, Search, Sparkles, Filter, X, CreditCard, ShieldCheck, ArrowUpRight
+  ArrowRight, Search, Sparkles, Filter, X, CreditCard, ShieldCheck, ArrowUpRight,
+  Database
 } from 'lucide-react';
+import SecureEnrollmentModal from './SecureEnrollmentModal';
+import DatabaseLedgerModal from './DatabaseLedgerModal';
 
 interface SchoolProps {
   summaryOnly?: boolean;
@@ -18,18 +21,10 @@ export default function School({ summaryOnly, detailOnly, route, setRoute }: Sch
   const [selectedCategory, setSelectedCategory] = useState<string>('All');
   const [searchQuery, setSearchQuery] = useState<string>('');
   
-  // Enrollment Modal State
+  // Secure Enrollment Modal State
   const [isEnrollModalOpen, setIsEnrollModalOpen] = useState<boolean>(false);
   const [enrollCourse, setEnrollCourse] = useState<Course | null>(null);
-  const [enrollStep, setEnrollStep] = useState<'form' | 'payment' | 'success'>('form');
-  const [enrollForm, setEnrollForm] = useState({
-    name: '',
-    email: '',
-    phone: '',
-    experience: 'Intermediate (1-3 years)',
-    paymentMethod: 'esewa'
-  });
-  const [receiptId, setReceiptId] = useState<string>('');
+  const [isLedgerModalOpen, setIsLedgerModalOpen] = useState<boolean>(false);
 
   // Filtering
   const filteredCourses = useMemo(() => {
@@ -48,30 +43,7 @@ export default function School({ summaryOnly, detailOnly, route, setRoute }: Sch
 
   const handleOpenEnroll = (course: Course) => {
     setEnrollCourse(course);
-    setEnrollStep('form');
     setIsEnrollModalOpen(true);
-  };
-
-  const handleFormSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!enrollForm.name || !enrollForm.email) return;
-    setEnrollStep('payment');
-  };
-
-  const handleConfirmPayment = () => {
-    const id = `MTS-ACAD-${Math.floor(100000 + Math.random() * 900000)}`;
-    setReceiptId(id);
-    setEnrollStep('success');
-
-    const current = JSON.parse(localStorage.getItem('mountech_enrollments') || '[]');
-    current.push({
-      receiptId: id,
-      courseId: enrollCourse?.id,
-      courseTitle: enrollCourse?.title,
-      ...enrollForm,
-      date: new Date().toISOString()
-    });
-    localStorage.setItem('mountech_enrollments', JSON.stringify(current));
   };
 
   // ──── SUMMARY PREVIEW (FOR HOME PAGE) ────
@@ -212,19 +184,19 @@ export default function School({ summaryOnly, detailOnly, route, setRoute }: Sch
           </div>
         </div>
 
-        {/* Enrollment Modal */}
-        {isEnrollModalOpen && enrollCourse && (
-          <EnrollModal
-            course={enrollCourse}
-            step={enrollStep}
-            form={enrollForm}
-            receiptId={receiptId}
-            onClose={() => setIsEnrollModalOpen(false)}
-            onFormChange={setEnrollForm}
-            onFormSubmit={handleFormSubmit}
-            onConfirmPayment={handleConfirmPayment}
-          />
-        )}
+        {/* Secure Enrollment Modal */}
+        <SecureEnrollmentModal
+          course={enrollCourse}
+          isOpen={isEnrollModalOpen}
+          onClose={() => setIsEnrollModalOpen(false)}
+          onOpenLedger={() => setIsLedgerModalOpen(true)}
+        />
+
+        {/* Database Ledger Modal */}
+        <DatabaseLedgerModal
+          isOpen={isLedgerModalOpen}
+          onClose={() => setIsLedgerModalOpen(false)}
+        />
 
       </div>
     );
@@ -327,195 +299,20 @@ export default function School({ summaryOnly, detailOnly, route, setRoute }: Sch
         ))}
       </div>
 
-      {/* Enrollment Modal */}
-      {isEnrollModalOpen && enrollCourse && (
-        <EnrollModal
-          course={enrollCourse}
-          step={enrollStep}
-          form={enrollForm}
-          receiptId={receiptId}
-          onClose={() => setIsEnrollModalOpen(false)}
-          onFormChange={setEnrollForm}
-          onFormSubmit={handleFormSubmit}
-          onConfirmPayment={handleConfirmPayment}
-        />
-      )}
+      {/* Secure Enrollment Modal */}
+      <SecureEnrollmentModal
+        course={enrollCourse}
+        isOpen={isEnrollModalOpen}
+        onClose={() => setIsEnrollModalOpen(false)}
+        onOpenLedger={() => setIsLedgerModalOpen(true)}
+      />
 
-    </div>
-  );
-}
+      {/* Database Ledger Modal */}
+      <DatabaseLedgerModal
+        isOpen={isLedgerModalOpen}
+        onClose={() => setIsLedgerModalOpen(false)}
+      />
 
-// ──── MODAL COMPONENT ────
-function EnrollModal({
-  course,
-  step,
-  form,
-  receiptId,
-  onClose,
-  onFormChange,
-  onFormSubmit,
-  onConfirmPayment
-}: {
-  course: Course;
-  step: 'form' | 'payment' | 'success';
-  form: any;
-  receiptId: string;
-  onClose: () => void;
-  onFormChange: (f: any) => void;
-  onFormSubmit: (e: React.FormEvent) => void;
-  onConfirmPayment: () => void;
-}) {
-  return (
-    <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4">
-      <div className="bg-white rounded-2xl border border-black/[0.1] max-w-lg w-full p-6 sm:p-8 shadow-2xl space-y-6 relative animate-in zoom-in-95 duration-200">
-        
-        {/* Close button */}
-        <button
-          onClick={onClose}
-          className="absolute top-5 right-5 p-1.5 rounded-full text-cohere-slate hover:bg-black/5"
-        >
-          <X size={18} />
-        </button>
-
-        {/* Modal Header */}
-        <div className="space-y-1">
-          <span className="font-mono text-[10px] uppercase text-cohere-coral font-bold">
-            ACADEMY ADMISSIONS
-          </span>
-          <h3 className="text-xl font-bold text-cohere-ink">Enroll: {course.title}</h3>
-          <div className="text-xs font-mono text-cohere-slate">
-            Tuition: <strong className="text-cohere-ink">{course.costLocal}</strong> ({course.costGlobal}) • 40 Hours Live
-          </div>
-        </div>
-
-        {/* Step 1: Candidate Info */}
-        {step === 'form' && (
-          <form onSubmit={onFormSubmit} className="space-y-4">
-            <div>
-              <label className="block text-xs font-mono text-cohere-slate mb-1">Full Legal Name *</label>
-              <input
-                type="text"
-                required
-                value={form.name}
-                onChange={(e) => onFormChange({ ...form, name: e.target.value })}
-                className="w-full px-3.5 py-2.5 rounded-xl bg-cohere-stone border border-black/[0.08] text-xs text-cohere-ink focus:outline-none focus:border-cohere-ink"
-                placeholder="e.g. Suman Thapa"
-              />
-            </div>
-
-            <div>
-              <label className="block text-xs font-mono text-cohere-slate mb-1">Email Address *</label>
-              <input
-                type="email"
-                required
-                value={form.email}
-                onChange={(e) => onFormChange({ ...form, email: e.target.value })}
-                className="w-full px-3.5 py-2.5 rounded-xl bg-cohere-stone border border-black/[0.08] text-xs text-cohere-ink focus:outline-none focus:border-cohere-ink"
-                placeholder="suman@domain.com"
-              />
-            </div>
-
-            <div>
-              <label className="block text-xs font-mono text-cohere-slate mb-1">Phone / WhatsApp *</label>
-              <input
-                type="text"
-                required
-                value={form.phone}
-                onChange={(e) => onFormChange({ ...form, phone: e.target.value })}
-                className="w-full px-3.5 py-2.5 rounded-xl bg-cohere-stone border border-black/[0.08] text-xs text-cohere-ink focus:outline-none focus:border-cohere-ink"
-                placeholder="+977 98XXXXXXXX"
-              />
-            </div>
-
-            <button
-              type="submit"
-              className="w-full rounded-full py-3 text-xs font-bold bg-cohere-ink hover:bg-black text-white shadow-sm flex items-center justify-center gap-2"
-            >
-              <span>Continue to Payment Selection</span>
-              <ArrowRight size={14} />
-            </button>
-          </form>
-        )}
-
-        {/* Step 2: Payment Gateways */}
-        {step === 'payment' && (
-          <div className="space-y-5">
-            <p className="text-xs text-cohere-subtle">
-              Select your preferred tuition clearance gateway. Instant enrollment confirmation is generated upon confirmation:
-            </p>
-
-            <div className="grid grid-cols-2 gap-3 font-mono text-xs">
-              {[
-                { id: 'esewa', label: 'eSewa Wallet', fee: 'No extra fee' },
-                { id: 'khalti', label: 'Khalti Digital', fee: 'No extra fee' },
-                { id: 'bank', label: 'ConnectIPS / Bank', fee: 'Swift / Local' },
-                { id: 'card', label: 'Visa / Mastercard', fee: 'Global Stripe' },
-              ].map((method) => (
-                <div
-                  key={method.id}
-                  onClick={() => onFormChange({ ...form, paymentMethod: method.id })}
-                  className={`p-3.5 rounded-xl border cursor-pointer transition-all ${
-                    form.paymentMethod === method.id
-                      ? 'border-cohere-ink bg-black/[0.04] font-bold'
-                      : 'border-black/[0.08] bg-cohere-stone hover:border-black/[0.2]'
-                  }`}
-                >
-                  <div className="text-cohere-ink font-semibold">{method.label}</div>
-                  <div className="text-[10px] text-cohere-slate">{method.fee}</div>
-                </div>
-              ))}
-            </div>
-
-            <div className="p-3.5 rounded-xl bg-cohere-stone border border-black/[0.06] text-xs space-y-1">
-              <div className="flex justify-between font-mono text-cohere-slate">
-                <span>Tuition Total:</span>
-                <strong className="text-cohere-ink">{course.costLocal}</strong>
-              </div>
-              <div className="flex justify-between font-mono text-cohere-slate">
-                <span>Access Pass:</span>
-                <strong className="text-cohere-teal">40h Live Interactive</strong>
-              </div>
-            </div>
-
-            <button
-              onClick={onConfirmPayment}
-              className="w-full rounded-full py-3 text-xs font-bold bg-cohere-ink hover:bg-black text-white shadow-sm"
-            >
-              Confirm Enrollment & Generate Pass
-            </button>
-          </div>
-        )}
-
-        {/* Step 3: Success Confirmation Pass */}
-        {step === 'success' && (
-          <div className="text-center py-6 space-y-4">
-            <div className="w-14 h-14 rounded-full bg-cohere-teal/10 border border-cohere-teal/30 text-cohere-teal flex items-center justify-center mx-auto">
-              <CheckCircle2 size={32} />
-            </div>
-
-            <div>
-              <h4 className="text-xl font-bold text-cohere-ink">Enrollment Verified</h4>
-              <p className="text-xs text-cohere-subtle mt-1">
-                Your credentials have been authenticated for the upcoming 40-hour masterclass.
-              </p>
-            </div>
-
-            <div className="p-4 rounded-xl bg-cohere-stone border border-black/[0.08] max-w-xs mx-auto font-mono text-xs text-left space-y-1">
-              <div className="text-[10px] text-cohere-slate">ACADEMY PASS REFERENCE</div>
-              <div className="text-cohere-ink font-bold text-sm">{receiptId}</div>
-              <div className="text-[10px] text-cohere-slate pt-1">Participant: {form.name}</div>
-            </div>
-
-            <button
-              onClick={onClose}
-              className="rounded-full px-6 py-2.5 text-xs font-semibold bg-cohere-ink text-white"
-            >
-              Done
-            </button>
-          </div>
-        )}
-
-      </div>
     </div>
   );
 }
