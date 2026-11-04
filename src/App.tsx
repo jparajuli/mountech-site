@@ -8,7 +8,7 @@ import School from './components/School';
 import DataScience from './components/DataScience';
 import Research from './components/Research';
 import Contact from './components/Contact';
-import AiSolutions from './components/AiSolutions';
+import AiSolutions, { AiTabType } from './components/AiSolutions';
 import Consulting from './components/Consulting';
 import Community from './components/Community';
 import About from './components/About';
@@ -17,24 +17,24 @@ import { ExternalLink } from 'lucide-react';
 import { RouteState } from './types';
 
 export default function App() {
-  const [route, setRoute] = useState<RouteState>({ page: 'home', courseId: 'ai-agents' });
+  const [route, setRoute] = useState<RouteState>({ page: 'home', courseId: 'ai-agents', aiTab: 'overview' });
 
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
 
     // Dynamic SEO Metadata Synchronization for indexing
     const titles: Record<string, string> = {
-      home: 'MounTech Solutions | Applied AI & Data Science Infrastructure for Nepal',
-      ai: 'Sovereign AI Infrastructure | MounTech Solutions',
-      disaster: 'AI Disaster Management Framework | MounTech Solutions',
-      consulting: 'Enterprise AI Consulting & Multi-Agent Workflows | MounTech',
-      school: 'Mountech Academy | Applied AI & Transformers Masterclasses',
-      datascience: 'Data Science & Intelligence Matrix | MounTech',
+      home: 'MounTech Solution | Applied AI, Data Science & Technical Education for Nepal',
+      school: 'Mountech Academy | 40-Hour Applied Engineering & AI Masterclasses',
+      datascience: 'Enterprise Data Science & Storage Matrix | MounTech Solution',
+      consulting: 'Technology Consulting & Systems Modernization | MounTech Solution',
+      ai: 'AI Solutions & Innovations Hub | MounTech Solution',
+      disaster: 'AI Disaster Management Framework | MounTech Solution',
       community: 'MLDSN Community Hub | Machine Learning & Data Science Nepal',
-      about: 'Brand Architecture & Leadership | MounTech Solutions'
+      about: 'Brand Architecture & Leadership | MounTech Solution'
     };
 
-    document.title = titles[route.page] || 'MounTech Solutions | Applied AI for Nepal';
+    document.title = titles[route.page] || 'MounTech Solution | Applied AI & Data Science for Nepal';
 
     // Synchronize Meta Description
     let metaDescription = document.querySelector('meta[name="description"]');
@@ -45,7 +45,7 @@ export default function App() {
     }
     metaDescription.setAttribute(
       'content',
-      'Applied AI & Data Science Infrastructure for Nepal: sovereign LLMs, enterprise multi-agent workflows, corporate upskilling, and AI disaster management framework.'
+      'MounTech Solution delivers applied AI, enterprise data science, technical consulting, Mountech Academy masterclasses, and community empowerment through MLDSN Nepal.'
     );
 
     // Synchronize Meta Keywords for Search Engines
@@ -57,9 +57,9 @@ export default function App() {
     }
     metaKeywords.setAttribute(
       'content',
-      'Data Science, Sovereign AI, Disaster Management Nepal, Applied AI Infrastructure, Multi-Agent Workflows, Corporate Upskilling, Nepal Hydroelectric Compute, MLDSN'
+      'Academy, Data Science, Technology Consulting, AI Solutions, Disaster Management AI, Multi-Agent Workflows, Sovereign AI Pilot, MLDSN Nepal, Kathmandu Tech'
     );
-  }, [route.page, route.courseId]);
+  }, [route.page, route.courseId, route.aiTab]);
 
   return (
     <div className="min-h-screen flex flex-col bg-[#fbfbfa] text-cohere-text font-sans antialiased selection:bg-cohere-coral selection:text-white">
@@ -74,41 +74,32 @@ export default function App() {
           <>
             <Hero setRoute={setRoute} />
             <TrustSignals />
-            <CoreSolutions onSelectSolution={(page) => setRoute({ page, courseId: route.courseId })} />
-            <DisasterFramework />
-            <About summaryOnly={true} setRoute={setRoute} />
-            <AiSolutions summaryOnly={true} onViewFull={() => setRoute({ page: 'ai', courseId: route.courseId })} />
-            <Consulting summaryOnly={true} onViewFull={() => setRoute({ page: 'consulting', courseId: route.courseId })} />
+            <CoreSolutions onSelectSolution={(page) => setRoute({ page, courseId: route.courseId, aiTab: 'overview' })} />
+            
+            {/* Pillar 1: Academy Spotlight */}
             <School summaryOnly={true} route={route} setRoute={setRoute} />
+            
+            {/* Pillar 2: Data Science Matrix */}
             <DataScience />
+            
+            {/* Pillar 3: Technology Consulting */}
+            <Consulting summaryOnly={true} onViewFull={() => setRoute({ page: 'consulting', courseId: route.courseId })} />
+            
+            {/* Pillar 4: AI Solutions & Tools (Disaster AI, Agents, Sovereign AI R&D) */}
+            <AiSolutions 
+              summaryOnly={true} 
+              onViewFull={(tab?: AiTabType) => setRoute({ page: 'ai', courseId: route.courseId, aiTab: tab || 'overview' })} 
+            />
+            
+            {/* Pillar 5: Community Hub (MLDSN Nepal) */}
             <Community summaryOnly={true} setRoute={setRoute} />
-            <Research />
+            
+            {/* Corporate Profile & Founders */}
+            <About summaryOnly={true} setRoute={setRoute} />
+            
+            {/* Enterprise Inquiry & Contact */}
             <Contact />
           </>
-        )}
-
-        {/* ── FEATURED INITIATIVE: DISASTER FRAMEWORK ── */}
-        {route.page === 'disaster' && (
-          <div>
-            <DisasterFramework />
-            <Contact />
-          </div>
-        )}
-
-        {/* ── SOVEREIGN AI LAB & BLUEPRINTS ── */}
-        {route.page === 'ai' && (
-          <div>
-            <AiSolutions summaryOnly={false} />
-            <Contact />
-          </div>
-        )}
-
-        {/* ── SPECIALIZED ADVISORY & CONSULTING ── */}
-        {route.page === 'consulting' && (
-          <div>
-            <Consulting summaryOnly={false} />
-            <Contact />
-          </div>
         )}
 
         {/* ── MOUNTECH TECH ACADEMY CATALOG ── */}
@@ -131,6 +122,36 @@ export default function App() {
         {route.page === 'datascience' && (
           <div>
             <DataScience />
+            <Contact />
+          </div>
+        )}
+
+        {/* ── SPECIALIZED ADVISORY & CONSULTING ── */}
+        {route.page === 'consulting' && (
+          <div>
+            <Consulting summaryOnly={false} />
+            <Contact />
+          </div>
+        )}
+
+        {/* ── AI SOLUTIONS & INNOVATIONS HUB (Houses Disaster AI, Sovereign AI R&D, Agents, Doc Intel) ── */}
+        {route.page === 'ai' && (
+          <div>
+            <AiSolutions 
+              summaryOnly={false} 
+              initialTab={route.aiTab || 'overview'} 
+            />
+            <Contact />
+          </div>
+        )}
+
+        {/* ── SEAMLESS ROUTE FOR DISASTER AI (DIRECTLY NESTED WITHIN AI HEADING) ── */}
+        {route.page === 'disaster' && (
+          <div>
+            <AiSolutions 
+              summaryOnly={false} 
+              initialTab="disaster" 
+            />
             <Contact />
           </div>
         )}
@@ -162,52 +183,35 @@ export default function App() {
             {/* Column 1: Brand & Identity */}
             <div className="lg:col-span-2 space-y-4">
               <button 
-                onClick={() => setRoute({ page: 'home', courseId: 'ai-agents' })}
+                onClick={() => setRoute({ page: 'home', courseId: 'ai-agents', aiTab: 'overview' })}
                 className="text-left focus:outline-none"
               >
                 <Logo size={36} showText={true} theme="dark" />
               </button>
               
               <p className="text-white/60 text-xs leading-relaxed max-w-sm">
-                MounTech Solution (MTS) engineers multi-agent execution graphs, localized LLM inferencing fabrics, and sovereign cloud architectures with zero data leakage.
+                MounTech Solution (MTS) delivers applied AI, enterprise data science, technical consulting, and professional masterclasses through Mountech Academy, backed by the nationwide MLDSN community.
               </p>
               
               <div className="flex items-center gap-3 pt-2">
                 <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/5 border border-white/10 text-white font-mono text-[11px]">
-                  <span className="w-1.5 h-1.5 rounded-full bg-cohere-teal animate-pulse" />
-                  <span>Kathmandu Cluster: 99.99% Nominal</span>
+                  <span>Kathmandu Head Office · Sanepa Heights, Lalitpur</span>
                 </span>
               </div>
             </div>
 
-            {/* Column 2: Capabilities */}
+            {/* Column 2: 5 Core Focus Areas */}
             <div className="space-y-3">
               <div className="font-mono text-white text-[11px] font-bold uppercase tracking-wider">
-                Platforms
+                Core Focus Areas
               </div>
               <ul className="space-y-2 text-xs">
                 <li>
                   <button 
-                    onClick={() => setRoute({ page: 'ai', courseId: 'ai-agents' })}
+                    onClick={() => setRoute({ page: 'school', courseId: 'ai-agents' })}
                     className="hover:text-white transition-colors"
                   >
-                    Sovereign AI Systems
-                  </button>
-                </li>
-                <li>
-                  <button 
-                    onClick={() => setRoute({ page: 'ai', courseId: 'ai-agents' })}
-                    className="hover:text-white transition-colors"
-                  >
-                    Project Alpine Blueprint
-                  </button>
-                </li>
-                <li>
-                  <button 
-                    onClick={() => setRoute({ page: 'consulting', courseId: 'ai-agents' })}
-                    className="hover:text-white transition-colors"
-                  >
-                    Enterprise Advisory
+                    Mountech Academy
                   </button>
                 </li>
                 <li>
@@ -215,54 +219,79 @@ export default function App() {
                     onClick={() => setRoute({ page: 'datascience', courseId: 'ai-agents' })}
                     className="hover:text-white transition-colors"
                   >
-                    Data Science Matrix
+                    Enterprise Data Science
+                  </button>
+                </li>
+                <li>
+                  <button 
+                    onClick={() => setRoute({ page: 'consulting', courseId: 'ai-agents' })}
+                    className="hover:text-white transition-colors"
+                  >
+                    Technology Consulting
+                  </button>
+                </li>
+                <li>
+                  <button 
+                    onClick={() => setRoute({ page: 'ai', courseId: 'ai-agents', aiTab: 'overview' })}
+                    className="hover:text-white transition-colors text-cohere-coral"
+                  >
+                    AI Solutions & Tools
+                  </button>
+                </li>
+                <li>
+                  <button 
+                    onClick={() => setRoute({ page: 'community', courseId: 'ai-agents' })}
+                    className="hover:text-white transition-colors"
+                  >
+                    MLDSN Community Hub
                   </button>
                 </li>
               </ul>
             </div>
 
-            {/* Column 3: Academy Tracks */}
+            {/* Column 3: AI Innovations */}
             <div className="space-y-3">
               <div className="font-mono text-white text-[11px] font-bold uppercase tracking-wider">
-                Academy (40h)
+                AI Portfolio
               </div>
               <ul className="space-y-2 text-xs">
                 <li>
                   <button 
-                    onClick={() => setRoute({ page: 'course-detail', courseId: 'ai-agents' })}
+                    onClick={() => setRoute({ page: 'ai', courseId: 'ai-agents', aiTab: 'disaster' })}
                     className="hover:text-white transition-colors text-left"
                   >
-                    Agentic AI Systems
+                    Disaster Management AI
                   </button>
                 </li>
                 <li>
                   <button 
-                    onClick={() => setRoute({ page: 'course-detail', courseId: 'generative-ai-transformers' })}
+                    onClick={() => setRoute({ page: 'ai', courseId: 'ai-agents', aiTab: 'agents' })}
                     className="hover:text-white transition-colors text-left"
                   >
-                    Transformer Models
+                    B2B Multi-Agent Workflows
                   </button>
                 </li>
                 <li>
                   <button 
-                    onClick={() => setRoute({ page: 'course-detail', courseId: 'sovereign-defense' })}
+                    onClick={() => setRoute({ page: 'ai', courseId: 'ai-agents', aiTab: 'doc-intel' })}
                     className="hover:text-white transition-colors text-left"
                   >
-                    Zero-Trust Cloud Mesh
+                    Document Intelligence & PII
                   </button>
                 </li>
                 <li>
                   <button 
-                    onClick={() => setRoute({ page: 'school', courseId: 'ai-agents' })}
-                    className="text-cohere-coral hover:underline text-left font-medium"
+                    onClick={() => setRoute({ page: 'ai', courseId: 'ai-agents', aiTab: 'sovereign' })}
+                    className="hover:text-white transition-colors text-left flex items-center gap-1.5"
                   >
-                    View All Masterclasses →
+                    <span>Sovereign AI</span>
+                    <span className="text-[10px] text-cohere-coral font-mono px-1.5 py-0.2 rounded bg-cohere-coral/10">R&D Pilot</span>
                   </button>
                 </li>
               </ul>
             </div>
 
-            {/* Column 4: Institutional */}
+            {/* Column 4: Institutional & Community */}
             <div className="space-y-3">
               <div className="font-mono text-white text-[11px] font-bold uppercase tracking-wider">
                 Ecosystem
@@ -273,7 +302,7 @@ export default function App() {
                     onClick={() => setRoute({ page: 'about', courseId: 'ai-agents' })}
                     className="hover:text-white transition-colors"
                   >
-                    Brand Architecture
+                    Founding Architects & Team
                   </button>
                 </li>
                 <li>
@@ -281,7 +310,7 @@ export default function App() {
                     onClick={() => setRoute({ page: 'about', courseId: 'ai-agents' })}
                     className="hover:text-white transition-colors"
                   >
-                    Founding Architects
+                    Brand Architecture
                   </button>
                 </li>
                 <li>
@@ -311,13 +340,18 @@ export default function App() {
           {/* Bottom Bar */}
           <div className="pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-[11px] font-mono">
             <div>
-              © 2026 MounTech Solution (MTS). All sovereign system rights reserved.
+              © 2026 MounTech Solution (MTS). All systems rights reserved.
             </div>
             <div className="flex items-center gap-4 text-white/50">
-              <span>Zero External Cloud Leaks</span>
+              <button 
+                onClick={() => setRoute({ page: 'ai', courseId: 'ai-agents', aiTab: 'sovereign' })}
+                className="hover:text-white transition-colors"
+              >
+                Sovereign AI Pilot
+              </button>
               <span>•</span>
               <a href="#contact" className="hover:text-white transition-colors">
-                Security Disclosure
+                Contact Advisory
               </a>
               <span>•</span>
               <a href="mailto:info@mountech.com.np" className="hover:text-white transition-colors">

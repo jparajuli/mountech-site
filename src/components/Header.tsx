@@ -11,13 +11,11 @@ export default function Header({ route, setRoute }: HeaderProps) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   const navItems = [
-    { label: "Sovereign AI", page: "ai" },
-    { label: "Disaster AI", page: "disaster" },
-    { label: "Consulting", page: "consulting" },
-    { label: "Academy (40h)", page: "school" },
+    { label: "Academy", page: "school" },
     { label: "Data Science", page: "datascience" },
+    { label: "Consulting", page: "consulting" },
+    { label: "AI", page: "ai" },
     { label: "Community", page: "community" },
-    { label: "About", page: "about" },
   ];
 
   const handleNavClick = (page: string) => {
@@ -26,19 +24,19 @@ export default function Header({ route, setRoute }: HeaderProps) {
   };
 
   return (
-    <header className="sticky top-0 z-50 bg-[#fbfbfa]/90 backdrop-blur-md border-b border-black/[0.06] transition-all">
+    <header className="sticky top-0 z-50 bg-[#fbfbfa]/95 backdrop-blur-md border-b border-black/[0.06] transition-all">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-16 sm:h-18">
+        <div className="flex items-center justify-between h-16 sm:h-18 gap-8">
           
-          {/* Logo Brand Lockup */}
+          {/* Zone 1: Brand Wordmark */}
           <button 
             onClick={() => handleNavClick('home')}
-            className="flex items-center gap-2 text-left focus:outline-none"
+            className="flex items-center gap-2 text-left focus:outline-none shrink-0"
           >
             <Logo size={28} showText={true} />
           </button>
 
-          {/* Desktop Navigation Links */}
+          {/* Zone 2: 5 Clean Single-Line Nav Links */}
           <nav className="hidden md:flex items-center gap-1 lg:gap-2">
             {navItems.map((item) => {
               const isActive = route.page === item.page;
@@ -46,9 +44,9 @@ export default function Header({ route, setRoute }: HeaderProps) {
                 <button
                   key={item.page}
                   onClick={() => handleNavClick(item.page)}
-                  className={`px-3.5 py-1.5 rounded-full text-[13px] font-medium transition-all ${
+                  className={`px-3.5 py-1.5 rounded-full text-[13px] font-medium whitespace-nowrap transition-all ${
                     isActive 
-                      ? 'text-cohere-ink bg-black/[0.05] font-semibold' 
+                      ? 'text-cohere-ink bg-black/[0.06] font-semibold' 
                       : 'text-cohere-slate hover:text-cohere-ink hover:bg-black/[0.03]'
                   }`}
                 >
@@ -56,15 +54,25 @@ export default function Header({ route, setRoute }: HeaderProps) {
                 </button>
               );
             })}
+            <button
+              onClick={() => handleNavClick('about')}
+              className={`px-3.5 py-1.5 rounded-full text-[13px] font-medium whitespace-nowrap transition-all ${
+                route.page === 'about'
+                  ? 'text-cohere-ink bg-black/[0.06] font-semibold'
+                  : 'text-cohere-slate hover:text-cohere-ink hover:bg-black/[0.03]'
+              }`}
+            >
+              About
+            </button>
           </nav>
 
-          {/* Right Action Callouts (Pill CTAs) */}
-          <div className="hidden sm:flex items-center gap-3">
+          {/* Zone 3: 1 Primary Action */}
+          <div className="hidden sm:flex items-center gap-3 shrink-0">
             <a
               href="https://mldsnnepal.org"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-[12px] font-mono text-cohere-slate hover:text-cohere-ink flex items-center gap-1 px-3 py-1.5 transition-colors"
+              className="text-[12px] font-mono text-cohere-slate hover:text-cohere-ink flex items-center gap-1 px-3 py-1.5 transition-colors whitespace-nowrap"
             >
               <span>mldsnnepal.org</span>
               <ArrowUpRight size={12} />
@@ -82,7 +90,7 @@ export default function Header({ route, setRoute }: HeaderProps) {
                   }, 100);
                 }
               }}
-              className="rounded-full px-5 py-2 text-xs font-semibold bg-cohere-ink hover:bg-black text-white shadow-sm transition-all active:scale-95"
+              className="rounded-full px-5 py-2 text-xs font-semibold bg-cohere-ink hover:bg-black text-white shadow-sm transition-all active:scale-95 whitespace-nowrap"
             >
               Contact Advisory
             </button>
@@ -116,6 +124,14 @@ export default function Header({ route, setRoute }: HeaderProps) {
               {item.label}
             </button>
           ))}
+          <button
+            onClick={() => handleNavClick('about')}
+            className={`block w-full text-left px-4 py-2.5 rounded-xl text-sm font-medium ${
+              route.page === 'about' ? 'bg-black/5 text-cohere-ink font-semibold' : 'text-cohere-slate'
+            }`}
+          >
+            About & Leadership
+          </button>
           
           <div className="pt-4 border-t border-black/[0.06] flex flex-col gap-2">
             <a

@@ -1,6 +1,7 @@
 export interface RouteState {
   page: string;
   courseId: string;
+  aiTab?: 'overview' | 'disaster' | 'sovereign' | 'agents' | 'doc-intel';
 }
 
 export interface TrustPartner {

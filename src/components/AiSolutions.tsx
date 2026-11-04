@@ -1,124 +1,209 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { 
   Bot, Shield, Terminal, ArrowRight, CheckCircle2, 
-  Cpu, Lock, Sparkles, Layers, RefreshCw, Server
+  Cpu, Lock, Sparkles, Layers, RefreshCw, Server, 
+  Waves, Radio, AlertTriangle, FileText, ArrowUpRight, 
+  Activity, Play, RotateCcw, ExternalLink
 } from 'lucide-react';
+import DisasterFramework from './DisasterFramework';
+
+export type AiTabType = 'overview' | 'disaster' | 'sovereign' | 'agents' | 'doc-intel';
 
 interface AiSolutionsProps {
   summaryOnly?: boolean;
-  onViewFull?: () => void;
+  initialTab?: AiTabType;
+  onViewFull?: (tab?: AiTabType) => void;
 }
 
-export default function AiSolutions({ summaryOnly, onViewFull }: AiSolutionsProps) {
-  const [inputText, setInputText] = useState('Account holder Dilip Yogi (NID: 994-01-2281) requested wire transfer authorization of $48,000 for server cluster expansion.');
+export default function AiSolutions({ summaryOnly, initialTab = 'overview', onViewFull }: AiSolutionsProps) {
+  const [activeTab, setActiveTab] = useState<AiTabType>(initialTab);
+
+  useEffect(() => {
+    if (initialTab) {
+      setActiveTab(initialTab);
+    }
+  }, [initialTab]);
+
+  // Document Intelligence & PII Redaction Sandbox State
+  const [inputText, setInputText] = useState(
+    'Account holder Dilip Yogi (Citizenship ID: 994-01-2281) submitted import invoice #NP-88392 for customs clearance at Birgunj dry port valued at $48,000.'
+  );
   const [pipelineState, setPipelineState] = useState<{
     processed: boolean;
     redactedText: string;
     tokensCount: number;
     latency: string;
-    leakageRisk: string;
+    entitiesRedacted: number;
   }>({
     processed: false,
     redactedText: '',
     tokensCount: 0,
     latency: '0ms',
-    leakageRisk: '0.00%'
+    entitiesRedacted: 0
   });
-  const [isSimulating, setIsSimulating] = useState(false);
+  const [isMasking, setIsMasking] = useState(false);
 
-  const handleSimulate = () => {
-    setIsSimulating(true);
+  // Multi-Agent Workflow State
+  const [selectedAgentTask, setSelectedAgentTask] = useState<string>('customs');
+  const [agentStep, setAgentStep] = useState<number>(3);
+  const [isAgentRunning, setIsAgentRunning] = useState<boolean>(false);
+
+  const handleSimulateMasking = () => {
+    setIsMasking(true);
     setTimeout(() => {
-      // Simulate zero-trust regex & PII masking
       const masked = inputText
-        .replace(/Dilip Yogi/g, '[REDACTED_IDENTITY_01]')
-        .replace(/994-01-2281/g, '[REDACTED_NID_HASH]')
-        .replace(/\$48,000/g, '[QUANTITY_BAND_SECURE]');
+        .replace(/Dilip Yogi/g, '[CONFIDENTIAL_LEGAL_ENTITY]')
+        .replace(/994-01-2281/g, '[REDACTED_NATIONAL_ID_HASH]')
+        .replace(/#NP-88392/g, '[ANONYMIZED_DOC_REF]')
+        .replace(/\$48,000/g, '[SECURE_TRANSACTION_BAND]');
       
       setPipelineState({
         processed: true,
         redactedText: masked,
-        tokensCount: Math.round(inputText.length / 3.8),
-        latency: '11.4ms',
-        leakageRisk: '0.00% (Air-Gapped Enclave)'
+        tokensCount: Math.round(inputText.length / 3.6),
+        latency: '9.8ms',
+        entitiesRedacted: 4
       });
-      setIsSimulating(false);
-    }, 600);
+      setIsMasking(false);
+    }, 450);
   };
 
-  const capabilities = [
+  const handleRunAgentWorkflow = () => {
+    setIsAgentRunning(true);
+    setAgentStep(0);
+    const intervals = [300, 700, 1100, 1500];
+    intervals.forEach((delay, idx) => {
+      setTimeout(() => {
+        setAgentStep(idx + 1);
+        if (idx === intervals.length - 1) {
+          setIsAgentRunning(false);
+        }
+      }, delay);
+    });
+  };
+
+  // AI Portfolio Initiatives List
+  const aiInitiatives = [
     {
-      tag: "CORE CAPABILITY 01",
-      title: "Multi-Agent DAG Execution Graphs",
-      desc: "Decomposing complex enterprise workflows into supervised, deterministic agentic nodes with human-in-the-loop consensus protocols."
+      id: 'disaster' as AiTabType,
+      title: 'AI Disaster Management Framework',
+      status: 'Operational Telemetry Ingest',
+      statusColor: 'text-cohere-teal',
+      category: 'Geological & Hydrological AI',
+      desc: '3-layer national early warning architecture combining sensor telemetry, physics-guided hydrodynamic modeling, and automated evacuation broadcast agents.',
+      highlights: [
+        'Real-time ingestion from Department of Hydrology & Meteorology (DHM) telemetry',
+        'Physics-Informed Neural Networks forecasting flash floods up to 6 hours ahead',
+        'Automated Devanagari voice IVR and Cell Broadcast alerts triggered in < 30 seconds'
+      ]
     },
     {
-      tag: "CORE CAPABILITY 02",
-      title: "Sovereign Low-Bit Quantization",
-      desc: "Deploying 4-bit and 8-bit quantized models optimized for on-premise edge hardware without reliance on foreign API endpoints."
+      id: 'agents' as AiTabType,
+      title: 'B2B Multi-Agent Workflow Engine',
+      status: 'Production Deployment',
+      statusColor: 'text-cohere-ink',
+      category: 'Autonomous Process Automation',
+      desc: 'Directed Acyclic Graph (DAG) multi-agent swarms designed specifically for Nepal cross-border trade, customs classification, and logistics routing.',
+      highlights: [
+        'Automated ASYCUDA Harmonized System (HS Code) classification with 99.2% precision',
+        'Verification of Letters of Credit (LC) and cross-border customs declarations',
+        'Deterministic execution with verifiable cryptographic audit hashes'
+      ]
     },
     {
-      tag: "CORE CAPABILITY 03",
-      title: "Air-Gapped Knowledge Retrieval (RAG)",
-      desc: "Sub-second hybrid vector search and neural reranking operating entirely inside your corporate firewall and localized VPC."
+      id: 'doc-intel' as AiTabType,
+      title: 'Document Intelligence & PII Redaction',
+      status: 'Production Deployment',
+      statusColor: 'text-cohere-ink',
+      category: 'NLP & Vision Tooling',
+      desc: 'High-precision document parsing engine supporting bilingual English-Devanagari text, tabular data extraction, and air-gapped PII redaction.',
+      highlights: [
+        'Sub-15ms on-premise regex and NER masking of citizenship and banking identifiers',
+        'Devanagari OCR specialized for official Nepali government and legal formats',
+        'Strict zero-egress data boundary: no third-party API exposure'
+      ]
+    },
+    {
+      id: 'sovereign' as AiTabType,
+      title: 'Applied Sovereign AI (R&D Pilot)',
+      status: 'Active R&D & Pilot Testing',
+      statusColor: 'text-cohere-coral',
+      category: 'Research & Infrastructure Pilot',
+      desc: 'Active research exploration into hosting fine-tuned open-weight models on Nepal’s green hydroelectric compute with specialized Devanagari tokenizers.',
+      highlights: [
+        'Exploratory pilot: Evaluating energy-efficient inference utilizing Nepal’s hydropower',
+        'Custom bilingual tokenizers fine-tuned for Nepali legal and technical vocabulary',
+        'Air-gapped model weight hosting research to evaluate true data residency'
+      ]
     }
   ];
 
-  const enterpriseTracks = [
-    {
-      sector: "Fintech & Banking",
-      spec: "Real-time AML, balance reconciliation, and fraud detection with encrypted PII telemetry."
-    },
-    {
-      sector: "Healthcare & Clinical Systems",
-      spec: "Diagnostic report summarization and EHR knowledge graphs under strict patient data privacy."
-    },
-    {
-      sector: "Sovereign Governance",
-      spec: "Devanagari NLP tokenization and localized civil records automated indexing with zero cloud leaks."
-    }
-  ];
-
-  // ──── HOME PREVIEW WIDGET (SUMMARY VIEW) ────
+  // ──── HOME SUMMARY PREVIEW (FOR HOME LANDING PAGE) ────
   if (summaryOnly) {
     return (
-      <section className="py-20 sm:py-28 bg-[#f5f4f0] border-b border-black/[0.06]">
+      <section id="ai-solutions-summary" className="py-20 sm:py-28 bg-[#f5f4f0] border-b border-black/[0.06]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           
           <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6">
             <div className="max-w-2xl space-y-3">
-              <span className="font-mono text-xs text-cohere-coral font-semibold uppercase tracking-widest">
-                ENTERPRISE CAPABILITIES
-              </span>
+              <div className="flex items-center gap-2 text-xs font-mono text-cohere-slate">
+                <span className="font-semibold text-cohere-ink uppercase tracking-wider">AI Portfolio</span>
+                <span aria-hidden="true">·</span>
+                <span>Applied Automation & Research</span>
+                <span aria-hidden="true">·</span>
+                <span>Nepal & Global</span>
+              </div>
+
               <h2 className="font-display text-3xl sm:text-4xl font-extrabold text-cohere-ink tracking-tight">
-                Sovereign AI Systems Architecture
+                AI Solutions & Innovation Hub
               </h2>
+
               <p className="text-cohere-subtle text-sm sm:text-base leading-relaxed">
-                Transform enterprise workflows with multi-agent topologies and air-gapped language models designed for total data privacy.
+                We organize all artificial intelligence systems under one structured heading: production tools for disaster management, multi-agent workflows, and document intelligence, alongside our sovereign AI R&D pilot.
               </p>
             </div>
 
             <button
-              onClick={onViewFull}
-              className="rounded-full px-6 py-3 text-xs font-semibold bg-cohere-ink hover:bg-black text-white shadow-sm flex items-center gap-2 self-start md:self-auto transition-all"
+              onClick={() => onViewFull?.('overview')}
+              className="rounded-full px-6 py-3 text-xs font-semibold bg-cohere-ink hover:bg-black text-white shadow-sm flex items-center gap-2 self-start md:self-auto transition-all active:scale-95 whitespace-nowrap"
             >
-              <span>Explore AI Solutions</span>
+              <span>Explore All AI Tools</span>
               <ArrowRight size={14} />
             </button>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {capabilities.map((cap, idx) => (
+          {/* 4 Cards Grid */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            {aiInitiatives.map((item) => (
               <div 
-                key={idx}
-                className="p-7 rounded-2xl bg-white border border-black/[0.06] hover:border-black/[0.15] transition-all space-y-4 shadow-sm"
+                key={item.id}
+                className="p-6 rounded-2xl bg-white border border-black/[0.06] hover:border-black/[0.15] transition-all flex flex-col justify-between space-y-5 shadow-sm"
               >
-                <div className="font-mono text-[11px] text-cohere-slate">{cap.tag}</div>
-                <h3 className="text-lg font-bold text-cohere-ink leading-snug">{cap.title}</h3>
-                <p className="text-xs text-cohere-subtle leading-relaxed">{cap.desc}</p>
-                <div className="pt-2 flex items-center text-xs font-mono font-semibold text-cohere-coral gap-1">
-                  <span>Air-gapped boundary</span>
-                  <CheckCircle2 size={13} />
+                <div className="space-y-3">
+                  <div className="flex items-center justify-between text-[11px] font-mono">
+                    <span className="text-cohere-slate">{item.category}</span>
+                    <span className={`font-semibold ${item.statusColor}`}>
+                      {item.id === 'sovereign' ? 'R&D Pilot' : 'Active'}
+                    </span>
+                  </div>
+
+                  <h3 className="text-base font-bold text-cohere-ink leading-snug">
+                    {item.title}
+                  </h3>
+
+                  <p className="text-xs text-cohere-subtle leading-relaxed line-clamp-3">
+                    {item.desc}
+                  </p>
+                </div>
+
+                <div className="pt-3 border-t border-black/[0.06]">
+                  <button
+                    onClick={() => onViewFull?.(item.id)}
+                    className="w-full py-2 px-3 rounded-lg text-xs font-mono font-semibold text-cohere-ink bg-black/[0.03] hover:bg-black/[0.08] transition-colors flex items-center justify-between"
+                  >
+                    <span>Inspect Tool</span>
+                    <ArrowRight size={12} />
+                  </button>
                 </div>
               </div>
             ))}
@@ -129,122 +214,444 @@ export default function AiSolutions({ summaryOnly, onViewFull }: AiSolutionsProp
     );
   }
 
-  // ──── FULL DEDICATED SOVEREIGN AI VIEW ────
+  // ──── FULL DEDICATED AI SOLUTIONS PORTAL ────
   return (
-    <div className="py-16 sm:py-24 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-20">
+    <div className="py-16 sm:py-24 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-16">
       
-      {/* Header */}
+      {/* Editorial Header */}
       <div className="max-w-3xl space-y-4">
-        <span className="font-mono text-xs text-cohere-coral font-semibold uppercase tracking-widest">
-          PROJECT ALPINE ARCHITECTURE
-        </span>
-        <h1 className="font-display text-4xl sm:text-6xl font-extrabold text-cohere-ink tracking-tight">
-          Sovereign AI for regulated enterprises.
+        <div className="flex items-center gap-2 text-xs font-mono text-cohere-slate">
+          <span className="font-semibold text-cohere-ink uppercase tracking-wider">MounTech AI Division</span>
+          <span aria-hidden="true">·</span>
+          <span>Applied Systems</span>
+          <span aria-hidden="true">·</span>
+          <span>Sovereign & Enterprise</span>
+        </div>
+
+        <h1 className="font-display text-4xl sm:text-6xl font-extrabold text-cohere-ink tracking-tight text-balance">
+          Artificial Intelligence Systems & Tools
         </h1>
+
         <p className="text-lg text-cohere-subtle leading-relaxed">
-          Full-stack local models, deterministic agents, and zero-egress data enclaves engineered to replace fragile external cloud APIs.
+          Explore our unified portfolio of applied artificial intelligence: from real-time flood early warning systems and B2B multi-agent pipelines to Devanagari document intelligence and our sovereign AI R&D pilot.
         </p>
       </div>
 
-      {/* ── INTERACTIVE SOVEREIGN PIPELINE SIMULATOR ── */}
-      <div className="rounded-2xl bg-[#0d1117] text-white border border-white/10 p-6 sm:p-10 shadow-2xl space-y-8">
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-white/10 pb-6">
-          <div className="space-y-1">
-            <span className="font-mono text-xs text-cohere-teal uppercase">INTERACTIVE SANDBOX</span>
-            <h2 className="text-xl font-bold text-white flex items-center gap-2">
-              <Terminal size={20} className="text-cohere-coral" />
-              <span>Project Alpine: Zero-Leakage Pipeline Simulator</span>
+      {/* ── INTERACTIVE FILTER TABS (FUNCTIONAL BUTTONS) ── */}
+      <div className="flex items-center gap-1.5 p-1.5 bg-[#eeece7] rounded-xl overflow-x-auto">
+        <button
+          onClick={() => setActiveTab('overview')}
+          className={`px-4 py-2 text-xs font-medium rounded-lg whitespace-nowrap transition-all ${
+            activeTab === 'overview'
+              ? 'bg-white text-cohere-ink font-semibold shadow-sm'
+              : 'text-cohere-slate hover:text-cohere-ink'
+          }`}
+        >
+          All AI Tools Overview
+        </button>
+
+        <button
+          onClick={() => setActiveTab('disaster')}
+          className={`px-4 py-2 text-xs font-medium rounded-lg whitespace-nowrap transition-all flex items-center gap-1.5 ${
+            activeTab === 'disaster'
+              ? 'bg-white text-cohere-ink font-semibold shadow-sm'
+              : 'text-cohere-slate hover:text-cohere-ink'
+          }`}
+        >
+          <Waves size={13} className="text-cohere-teal" />
+          <span>Disaster Management AI</span>
+        </button>
+
+        <button
+          onClick={() => setActiveTab('agents')}
+          className={`px-4 py-2 text-xs font-medium rounded-lg whitespace-nowrap transition-all flex items-center gap-1.5 ${
+            activeTab === 'agents'
+              ? 'bg-white text-cohere-ink font-semibold shadow-sm'
+              : 'text-cohere-slate hover:text-cohere-ink'
+          }`}
+        >
+          <Bot size={13} className="text-cohere-ink" />
+          <span>B2B Multi-Agent Workflows</span>
+        </button>
+
+        <button
+          onClick={() => setActiveTab('doc-intel')}
+          className={`px-4 py-2 text-xs font-medium rounded-lg whitespace-nowrap transition-all flex items-center gap-1.5 ${
+            activeTab === 'doc-intel'
+              ? 'bg-white text-cohere-ink font-semibold shadow-sm'
+              : 'text-cohere-slate hover:text-cohere-ink'
+          }`}
+        >
+          <FileText size={13} className="text-cohere-coral" />
+          <span>Document Intelligence & PII</span>
+        </button>
+
+        <button
+          onClick={() => setActiveTab('sovereign')}
+          className={`px-4 py-2 text-xs font-medium rounded-lg whitespace-nowrap transition-all flex items-center gap-1.5 ${
+            activeTab === 'sovereign'
+              ? 'bg-white text-cohere-ink font-semibold shadow-sm'
+              : 'text-cohere-slate hover:text-cohere-ink'
+          }`}
+        >
+          <Cpu size={13} className="text-cohere-coral" />
+          <span>Sovereign AI (R&D Pilot)</span>
+        </button>
+      </div>
+
+      {/* ── TAB 1: OVERVIEW / ALL AI TOOLS ── */}
+      {activeTab === 'overview' && (
+        <div className="space-y-12 animate-in fade-in duration-200">
+          
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            {aiInitiatives.map((item) => (
+              <div 
+                key={item.id}
+                className="p-8 rounded-2xl bg-white border border-black/[0.08] hover:border-black/[0.18] transition-all space-y-5 shadow-sm flex flex-col justify-between"
+              >
+                <div className="space-y-3">
+                  <div className="flex items-center justify-between text-xs font-mono">
+                    <span className="text-cohere-slate">{item.category}</span>
+                    <span className={`font-semibold ${item.statusColor}`}>
+                      {item.status}
+                    </span>
+                  </div>
+
+                  <h3 className="font-display text-2xl font-bold text-cohere-ink">
+                    {item.title}
+                  </h3>
+
+                  <p className="text-xs sm:text-sm text-cohere-subtle leading-relaxed">
+                    {item.desc}
+                  </p>
+
+                  <div className="space-y-2 pt-3 border-t border-black/[0.06]">
+                    {item.highlights.map((h, hIdx) => (
+                      <div key={hIdx} className="flex items-start gap-2 text-xs text-cohere-ink/90">
+                        <CheckCircle2 size={13} className="text-cohere-teal shrink-0 mt-0.5" />
+                        <span>{h}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                <div className="pt-4 border-t border-black/[0.06]">
+                  <button
+                    onClick={() => setActiveTab(item.id)}
+                    className="w-full py-2.5 px-4 rounded-xl text-xs font-semibold bg-cohere-ink hover:bg-black text-white transition-all flex items-center justify-center gap-2 shadow-sm"
+                  >
+                    <span>Launch & Deep Dive: {item.title}</span>
+                    <ArrowRight size={13} />
+                  </button>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          {/* AI Architecture Overview Note */}
+          <div className="p-6 rounded-2xl bg-[#eeece7] text-cohere-ink text-xs leading-relaxed flex flex-col sm:flex-row items-center justify-between gap-4 border border-black/[0.08]">
+            <div className="space-y-1">
+              <div className="font-bold text-sm">Need a custom AI tool or machine learning pipeline?</div>
+              <p className="text-cohere-subtle max-w-xl">
+                We architect tailored agentic workflows, geospatial risk modeling, and on-premise NLP tools under strict intellectual property agreements.
+              </p>
+            </div>
+            <a
+              href="#contact"
+              className="rounded-full px-5 py-2.5 text-xs font-semibold bg-cohere-ink text-white hover:bg-black transition-all whitespace-nowrap"
+            >
+              Discuss Custom Tooling
+            </a>
+          </div>
+
+        </div>
+      )}
+
+      {/* ── TAB 2: DISASTER MANAGEMENT AI (EMBEDDED RICH FRAMEWORK) ── */}
+      {activeTab === 'disaster' && (
+        <div className="space-y-8 animate-in fade-in duration-200">
+          <div className="p-4 rounded-xl bg-cohere-teal/10 border border-cohere-teal/20 text-xs text-cohere-ink flex items-center justify-between">
+            <div>
+              <strong>Featured Operational Initiative:</strong> National Hydrological Early Warning Telemetry & Physics-Guided Neural Forecasting.
+            </div>
+            <button
+              onClick={() => setActiveTab('overview')}
+              className="font-mono text-[11px] underline text-cohere-teal hover:text-cohere-ink"
+            >
+              ← Back to All AI Tools
+            </button>
+          </div>
+
+          {/* Render the full Disaster Framework Component */}
+          <div className="rounded-2xl overflow-hidden border border-white/10 shadow-xl">
+            <DisasterFramework />
+          </div>
+        </div>
+      )}
+
+      {/* ── TAB 3: B2B MULTI-AGENT WORKFLOWS ── */}
+      {activeTab === 'agents' && (
+        <div className="space-y-8 animate-in fade-in duration-200">
+          
+          <div className="max-w-3xl space-y-2">
+            <div className="text-xs font-mono text-cohere-slate">AUTONOMOUS MULTI-AGENT WORKFLOWS</div>
+            <h2 className="text-2xl sm:text-3xl font-bold font-display text-cohere-ink">
+              Deterministic B2B Agent Swarms
             </h2>
+            <p className="text-xs sm:text-sm text-cohere-subtle leading-relaxed">
+              Designed to replace error-prone manual document processing for South Asian cross-border trade, customs harmonized code classification, and automated regulatory compliance.
+            </p>
           </div>
 
-          <div className="flex items-center gap-2 text-xs font-mono text-white/60">
-            <span className="px-2.5 py-1 rounded bg-white/10 text-cohere-teal font-semibold">
-              TLS 1.3 Air-Gapped
-            </span>
+          {/* Interactive Agent Simulator */}
+          <div className="p-6 sm:p-8 rounded-2xl bg-[#0d1117] text-white border border-white/10 shadow-xl space-y-6">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-white/10 pb-4">
+              <div className="space-y-1">
+                <span className="text-[10px] font-mono uppercase text-cohere-coral">INTERACTIVE AGENT WORKBENCH</span>
+                <h3 className="text-lg font-bold text-white flex items-center gap-2">
+                  <Bot size={18} className="text-cohere-coral" />
+                  <span>Customs ASYCUDA & Trade Compliance Agent Graph</span>
+                </h3>
+              </div>
+
+              <button
+                onClick={handleRunAgentWorkflow}
+                disabled={isAgentRunning}
+                className="rounded-full px-5 py-2 text-xs font-mono font-bold bg-cohere-coral hover:bg-[#ff6340] text-white flex items-center gap-2 transition-all disabled:opacity-50"
+              >
+                <Play size={12} className={isAgentRunning ? 'animate-spin' : ''} />
+                <span>{isAgentRunning ? 'Executing Agent Swarm...' : 'Run Trade Verification DAG'}</span>
+              </button>
+            </div>
+
+            {/* Workflow Steps Visualizer */}
+            <div className="grid grid-cols-1 sm:grid-cols-4 gap-3 text-xs font-mono">
+              {[
+                { step: 1, label: 'Ingest Invoices & L/C', desc: 'Devanagari/English OCR extraction' },
+                { step: 2, label: 'HS Code Classifier', desc: '8-digit tariff mapping (99.2% audit)' },
+                { step: 3, label: 'Cross-Border Anomaly', desc: 'Birgunj/Tatopani route validation' },
+                { step: 4, label: 'Audit Hash Verified', desc: 'Deterministic signoff for customs' }
+              ].map((s) => {
+                const isComplete = agentStep >= s.step;
+                const isCurrent = agentStep === s.step && isAgentRunning;
+
+                return (
+                  <div 
+                    key={s.step}
+                    className={`p-4 rounded-xl border transition-all ${
+                      isComplete 
+                        ? 'bg-black/60 border-cohere-teal/60 text-white' 
+                        : isCurrent 
+                        ? 'bg-cohere-coral/20 border-cohere-coral text-white animate-pulse'
+                        : 'bg-white/5 border-white/5 text-white/50'
+                    }`}
+                  >
+                    <div className="flex items-center justify-between mb-2">
+                      <span className="text-[10px] text-white/40">NODE 0{s.step}</span>
+                      {isComplete && <CheckCircle2 size={13} className="text-cohere-teal" />}
+                    </div>
+                    <div className="font-bold text-white text-xs mb-1">{s.label}</div>
+                    <div className="text-[11px] text-white/60">{s.desc}</div>
+                  </div>
+                );
+              })}
+            </div>
+
+            {/* Telemetry Output Box */}
+            <div className="p-4 rounded-xl bg-black/80 border border-white/5 font-mono text-xs text-white/80 space-y-1.5">
+              <div className="text-[10px] text-white/40 uppercase">DAG Execution Output:</div>
+              <div className="text-cohere-teal">
+                ✓ Document NP-88392 harmonized with HS Code 8471.50.00 (Processing Units)
+              </div>
+              <div className="text-white/70">
+                • Letter of Credit (SCBNL-LC-2026) verified against shipping manifest with zero discrepancy.
+              </div>
+              <div className="text-white/50 text-[11px]">
+                Deterministic Run Hash: 0x8a94f1c98421b920 • Latency: 38.4ms
+              </div>
+            </div>
+
           </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 text-xs">
+            <div className="p-6 rounded-2xl bg-white border border-black/[0.08] space-y-2">
+              <div className="font-bold text-cohere-ink">ASYCUDA Integration</div>
+              <p className="text-cohere-subtle leading-relaxed">
+                Connects directly into automated systems for customs data without disrupting existing clearing agents.
+              </p>
+            </div>
+            <div className="p-6 rounded-2xl bg-white border border-black/[0.08] space-y-2">
+              <div className="font-bold text-cohere-ink">Human-in-the-Loop Consensus</div>
+              <p className="text-cohere-subtle leading-relaxed">
+                Low-confidence predictions automatically route to compliance officers for manual verification.
+              </p>
+            </div>
+            <div className="p-6 rounded-2xl bg-white border border-black/[0.08] space-y-2">
+              <div className="font-bold text-cohere-ink">Zero Hallucination Guarantee</div>
+              <p className="text-cohere-subtle leading-relaxed">
+                Structured JSON schema enforcement ensures zero arithmetic drift in tariff calculations.
+              </p>
+            </div>
+          </div>
+
         </div>
+      )}
 
-        {/* Input Text Area */}
-        <div className="space-y-3">
-          <label className="text-xs font-mono text-white/60 block">
-            SIMULATION PAYLOAD (ENTERPRISE TRANSACTION WITH SENSITIVE IDENTIFIERS)
-          </label>
-          <textarea
-            rows={3}
-            value={inputText}
-            onChange={(e) => setInputText(e.target.value)}
-            className="w-full p-4 rounded-xl bg-black/50 border border-white/10 text-white font-mono text-xs focus:outline-none focus:border-cohere-coral resize-none"
-          />
+      {/* ── TAB 4: DOCUMENT INTELLIGENCE & PII REDACTION ── */}
+      {activeTab === 'doc-intel' && (
+        <div className="space-y-8 animate-in fade-in duration-200">
+          
+          <div className="max-w-3xl space-y-2">
+            <div className="text-xs font-mono text-cohere-slate">AIR-GAPPED DOCUMENT INTELLIGENCE</div>
+            <h2 className="text-2xl sm:text-3xl font-bold font-display text-cohere-ink">
+              Devanagari OCR & PII Redaction Sandbox
+            </h2>
+            <p className="text-xs sm:text-sm text-cohere-subtle leading-relaxed">
+              Test our sub-15ms on-premise regex and NER masking tool. Sensitive national IDs, citizen records, and bank accounts are sanitized before any model processing.
+            </p>
+          </div>
 
-          <button
-            onClick={handleSimulate}
-            disabled={isSimulating}
-            className="rounded-full px-6 py-2.5 text-xs font-mono font-bold bg-cohere-coral hover:bg-[#ff6340] text-white flex items-center gap-2 transition-all disabled:opacity-50"
-          >
-            {isSimulating ? (
-              <>
-                <RefreshCw size={13} className="animate-spin" />
-                <span>Running Zero-Trust Pipeline...</span>
-              </>
-            ) : (
-              <>
-                <Cpu size={13} />
-                <span>Simulate Ingestion & PII Masking</span>
-              </>
+          {/* Interactive PII Sandbox */}
+          <div className="p-6 sm:p-8 rounded-2xl bg-[#0d1117] text-white border border-white/10 shadow-xl space-y-6">
+            <div className="flex items-center justify-between border-b border-white/10 pb-4">
+              <span className="text-xs font-mono text-cohere-teal">LIVE PII REDACTION PLAYGROUND</span>
+              <span className="text-[11px] font-mono text-white/50">Air-Gapped Client Runtime</span>
+            </div>
+
+            <div className="space-y-2">
+              <label className="text-xs font-mono text-white/60 block">
+                ENTERPRISE SAMPLE TEXT (WITH SENSITIVE CITIZENSHIP / ACCOUNT IDENTIFIERS):
+              </label>
+              <textarea
+                rows={3}
+                value={inputText}
+                onChange={(e) => setInputText(e.target.value)}
+                className="w-full p-4 rounded-xl bg-black/60 border border-white/10 text-white font-mono text-xs focus:outline-none focus:border-cohere-coral resize-none"
+              />
+
+              <button
+                onClick={handleSimulateMasking}
+                disabled={isMasking}
+                className="rounded-full px-6 py-2.5 text-xs font-mono font-bold bg-cohere-coral hover:bg-[#ff6340] text-white flex items-center gap-2 transition-all disabled:opacity-50"
+              >
+                {isMasking ? (
+                  <>
+                    <RefreshCw size={13} className="animate-spin" />
+                    <span>Redacting Identifiers...</span>
+                  </>
+                ) : (
+                  <>
+                    <Cpu size={13} />
+                    <span>Sanitize & Redact PII (Sub-15ms)</span>
+                  </>
+                )}
+              </button>
+            </div>
+
+            {pipelineState.processed && (
+              <div className="p-5 rounded-xl bg-black/80 border border-white/10 space-y-3 animate-in fade-in duration-200">
+                <div className="flex items-center justify-between text-xs font-mono text-cohere-teal border-b border-white/10 pb-2">
+                  <span>SANITIZED DOCUMENT OUTPUT</span>
+                  <span>Latency: {pipelineState.latency}</span>
+                </div>
+
+                <div className="font-mono text-xs text-white/90 leading-relaxed bg-black/40 p-3 rounded-lg border border-white/5">
+                  {pipelineState.redactedText}
+                </div>
+
+                <div className="grid grid-cols-3 gap-2 font-mono text-[11px] pt-1">
+                  <div className="p-2 rounded bg-white/5">
+                    <div className="text-white/40">Redacted Items</div>
+                    <div className="text-cohere-teal font-bold">{pipelineState.entitiesRedacted} Fields</div>
+                  </div>
+                  <div className="p-2 rounded bg-white/5">
+                    <div className="text-white/40">Tokens Evaluated</div>
+                    <div className="text-white font-bold">{pipelineState.tokensCount} Tokens</div>
+                  </div>
+                  <div className="p-2 rounded bg-white/5">
+                    <div className="text-white/40">External Leakage</div>
+                    <div className="text-cohere-teal font-bold">0.00% Safe</div>
+                  </div>
+                </div>
+              </div>
             )}
-          </button>
+
+          </div>
+
         </div>
+      )}
 
-        {/* Pipeline Output Result */}
-        {pipelineState.processed && (
-          <div className="p-6 rounded-xl bg-black/70 border border-white/10 space-y-4 animate-in fade-in duration-300">
-            <div className="flex items-center justify-between text-xs font-mono text-cohere-teal border-b border-white/10 pb-2">
-              <span>ZERO-TRUST OUTPUT TRANSCRIPTION</span>
-              <span>Latency: {pipelineState.latency}</span>
+      {/* ── TAB 5: SOVEREIGN AI (HONEST R&D & PILOT EXPLORATION) ── */}
+      {activeTab === 'sovereign' && (
+        <div className="space-y-8 animate-in fade-in duration-200">
+          
+          {/* Honest Transparent Framing Banner */}
+          <div className="p-6 rounded-2xl bg-amber-50 border border-amber-200 text-amber-950 space-y-2">
+            <div className="flex items-center gap-2 font-mono text-xs font-bold text-amber-800 uppercase tracking-wider">
+              <Cpu size={15} />
+              <span>Research & Development Status: Active Pilot Initiative</span>
+            </div>
+            <p className="text-xs sm:text-sm leading-relaxed text-amber-900">
+              Sovereign AI is currently in active research, development, and pilot prototyping at MounTech Solution. While our production-ready commercial offerings focus on <strong>Mountech Academy</strong>, <strong>Enterprise Data Science</strong>, and <strong>Consulting Advisory</strong>, Project Alpine is our dedicated exploration into the feasibility of sovereign language models utilizing Nepal's hydroelectric compute.
+            </p>
+          </div>
+
+          <div className="max-w-3xl space-y-2">
+            <h2 className="text-2xl sm:text-3xl font-bold font-display text-cohere-ink">
+              Project Alpine: Sovereign AI Exploration Blueprint
+            </h2>
+            <p className="text-xs sm:text-sm text-cohere-subtle leading-relaxed">
+              Investigating the technical and economic viability of hosting air-gapped open weights inside Nepal with zero cross-border telemetry.
+            </p>
+          </div>
+
+          {/* R&D Pilot Milestones */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div className="p-6 rounded-2xl bg-white border border-black/[0.08] space-y-3">
+              <div className="text-xs font-mono text-cohere-coral font-bold">PHASE 1: BENCHMARKING</div>
+              <h3 className="text-base font-bold text-cohere-ink">Devanagari Tokenizer Optimization</h3>
+              <p className="text-xs text-cohere-subtle leading-relaxed">
+                Standard tokenizers fragment Nepali words into 4x more tokens than English. We are training custom byte-level BPE tokenizers to reduce inference cost by 65%.
+              </p>
+              <div className="pt-2 text-[11px] font-mono text-cohere-teal">Status: Research Complete</div>
             </div>
 
-            <div className="font-mono text-xs text-white/90 leading-relaxed bg-black/40 p-4 rounded-lg border border-white/5">
-              {pipelineState.redactedText}
+            <div className="p-6 rounded-2xl bg-white border border-black/[0.08] space-y-3">
+              <div className="text-xs font-mono text-cohere-coral font-bold">PHASE 2: PROTOTYPING</div>
+              <h3 className="text-base font-bold text-cohere-ink">Hydroelectric Compute Sizing</h3>
+              <p className="text-xs text-cohere-subtle leading-relaxed">
+                Evaluating local server rack energy metrics coupled to Nepal's monsoon hydroelectric surplus, targeting carbon-neutral enterprise model inference.
+              </p>
+              <div className="pt-2 text-[11px] font-mono text-cohere-coral">Status: Pilot Hardware Testing</div>
             </div>
 
-            <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 font-mono text-[11px] pt-2">
-              <div className="p-2.5 rounded bg-white/5">
-                <div className="text-white/40">External Leakage</div>
-                <div className="text-cohere-teal font-bold">{pipelineState.leakageRisk}</div>
-              </div>
-              <div className="p-2.5 rounded bg-white/5">
-                <div className="text-white/40">Tokens Processed</div>
-                <div className="text-white font-bold">{pipelineState.tokensCount} tokens</div>
-              </div>
-              <div className="p-2.5 rounded bg-white/5 col-span-2 sm:col-span-1">
-                <div className="text-white/40">Execution Node</div>
-                <div className="text-cohere-coral font-bold">Local Kathmandu Cluster</div>
-              </div>
+            <div className="p-6 rounded-2xl bg-white border border-black/[0.08] space-y-3">
+              <div className="text-xs font-mono text-cohere-coral font-bold">PHASE 3: AIR-GAPPED TESTING</div>
+              <h3 className="text-base font-bold text-cohere-ink">Zero-Egress Institutional Pilot</h3>
+              <p className="text-xs text-cohere-subtle leading-relaxed">
+                Designing air-gapped container topologies with strict kernel firewall rules to prevent proprietary enterprise data from exfiltrating outside Nepal.
+              </p>
+              <div className="pt-2 text-[11px] font-mono text-cohere-slate">Status: Engineering Blueprint</div>
             </div>
           </div>
-        )}
-      </div>
 
-      {/* ── INDUSTRY BLUEPRINTS ── */}
-      <div className="space-y-6">
-        <div>
-          <span className="font-mono text-xs text-cohere-slate uppercase tracking-widest">
-            PROVEN TRACKS
-          </span>
-          <h2 className="font-display text-2xl font-bold text-cohere-ink mt-1">
-            Enterprise Deployment Profiles
-          </h2>
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {enterpriseTracks.map((track, idx) => (
-            <div key={idx} className="p-6 rounded-2xl bg-cohere-stone/60 border border-black/[0.08] space-y-2">
-              <div className="font-mono text-xs text-cohere-coral font-bold uppercase">{track.sector}</div>
-              <p className="text-xs text-cohere-subtle leading-relaxed">{track.spec}</p>
+          <div className="p-6 rounded-2xl bg-[#eeece7] border border-black/[0.08] flex flex-col sm:flex-row items-center justify-between gap-4">
+            <div className="text-xs text-cohere-ink space-y-1">
+              <div className="font-bold">Interested in collaborating on Sovereign AI research?</div>
+              <p className="text-cohere-subtle">
+                We partner with academic institutions, MLDSN research fellows, and national infrastructure planners.
+              </p>
             </div>
-          ))}
+            <a
+              href="#contact"
+              className="rounded-full px-5 py-2.5 text-xs font-semibold bg-cohere-ink hover:bg-black text-white transition-all whitespace-nowrap"
+            >
+              Contact Research Lead
+            </a>
+          </div>
+
         </div>
-      </div>
+      )}
 
     </div>
   );

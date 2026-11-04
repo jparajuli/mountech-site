@@ -1,37 +1,30 @@
 import React, { useState } from 'react';
 import { 
-  ArrowRight, Terminal, Shield, Cpu, Activity, 
-  Layers, Lock, Sparkles, Check, Copy, Play, ArrowUpRight
+  ArrowRight, Database, Cpu, GraduationCap, 
+  Layers, CheckCircle2, Play, ArrowUpRight, BarChart3, Users
 } from 'lucide-react';
 
 interface HeroProps {
-  setRoute?: (route: { page: string; courseId: string }) => void;
+  setRoute?: (route: { page: string; courseId: string; aiTab?: 'overview' | 'disaster' | 'sovereign' | 'agents' | 'doc-intel' }) => void;
 }
 
 export default function Hero({ setRoute }: HeroProps) {
-  const [activeTab, setActiveTab] = useState<'agents' | 'rag' | 'security'>('agents');
-  const [copied, setCopied] = useState(false);
+  const [activeTab, setActiveTab] = useState<'datascience' | 'agents' | 'academy'>('academy');
   const [isRunning, setIsRunning] = useState(false);
   const [telemetryLogs, setTelemetryLogs] = useState<string[]>([
-    "[09:14:02.102] DAG Router: Initiating sovereign pipeline handshake...",
-    "[09:14:02.145] Auth: Enclave verified • Hardware token valid",
-    "[09:14:02.189] Rerank: Cosine similarity matched 8 candidate passages",
-    "[09:14:02.240] Synthesis: Streaming 124 tokens/sec on local node"
+    "[10:15:01] System Ingest: ETL pipeline active across 4 regional nodes",
+    "[10:15:02] Analytics Engine: Partition aggregated (24,190 records in 18ms)",
+    "[10:15:03] Academy Intake: Fall Cohort registration open for 40h Tracks",
+    "[10:15:04] AI Router: Document parsing & DAG agent readiness nominal"
   ]);
 
   const handleRunSimulation = () => {
     setIsRunning(true);
-    const newLog = `[${new Date().toLocaleTimeString()}.${Math.floor(Math.random() * 900 + 100)}] Query dispatched -> Multi-agent node completed in 14.8ms`;
+    const newLog = `[${new Date().toLocaleTimeString()}] Telemetry Benchmark: Query dispatched -> Executed in 12.4ms across localized pipeline`;
     setTimeout(() => {
-      setTelemetryLogs(prev => [newLog, ...prev.slice(0, 4)]);
+      setTelemetryLogs(prev => [newLog, ...prev.slice(0, 3)]);
       setIsRunning(false);
     }, 400);
-  };
-
-  const handleCopyInstall = () => {
-    navigator.clipboard.writeText('npm install @mountech/sovereign-agent');
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2000);
   };
 
   return (
@@ -43,66 +36,103 @@ export default function Hero({ setRoute }: HeroProps) {
 
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
-        {/* ── MONUMENTAL COHERE-STYLE TYPOGRAPHIC HERO ── */}
+        {/* ── MONUMENTAL EDITORIAL HERO STATEMENT ── */}
         <div className="max-w-4xl space-y-6">
           
-          {/* Status Capsule Pill */}
-          <div className="inline-flex items-center gap-2.5 px-3.5 py-1.5 rounded-full bg-black/[0.04] border border-black/[0.08] text-[11px] font-mono text-cohere-slate">
-            <span className="w-2 h-2 rounded-full bg-cohere-teal animate-pulse" />
-            <span className="font-semibold text-cohere-ink uppercase tracking-wider">
-              SOVEREIGN TECH MATRIX 2026
-            </span>
-            <span className="text-black/30">•</span>
-            <span>Kathmandu Nodes Active</span>
+          {/* Subtle Unboxed Kicker Metadata */}
+          <div className="flex items-center gap-2 text-xs font-mono text-cohere-slate">
+            <span className="font-semibold text-cohere-ink uppercase tracking-wider">MounTech Solution</span>
+            <span aria-hidden="true">·</span>
+            <span>Est. 2018 in Kathmandu</span>
+            <span aria-hidden="true">·</span>
+            <span className="text-cohere-teal font-medium">Enterprise & Education Matrix</span>
           </div>
 
           {/* Monumental Headline */}
-          <h1 className="font-display text-4xl sm:text-6xl lg:text-7xl font-extrabold text-cohere-ink tracking-[-0.04em] leading-[1.06]">
-            Applied AI & Data Science <br className="hidden sm:inline" />
-            Infrastructure for Nepal.
+          <h1 className="font-display text-4xl sm:text-6xl lg:text-7xl font-extrabold text-cohere-ink tracking-[-0.04em] leading-[1.06] text-balance">
+            Applied AI, Data Science & Technical Education for Nepal.
           </h1>
 
           {/* Restrained Editorial Body Text */}
           <p className="text-lg sm:text-xl text-cohere-subtle max-w-2xl font-normal leading-relaxed">
-            MounTech Solution engineers sovereign multi-agent execution graphs, localized LLM inferencing fabrics, and resilient hydro-powered compute. Zero cloud leaks, deterministic accuracy.
+            Delivering high-throughput data engineering, enterprise technology consulting, hands-on masterclasses via Mountech Academy, and specialized AI tools—grounded in the nationwide MLDSN community.
           </p>
 
-          {/* Two Distinct Conversion Funnel CTA Paths */}
+          {/* Conversion Funnel CTA Paths */}
           <div className="pt-2 flex flex-wrap items-center gap-3.5">
             <button
-              id="cta-enterprise-consulting"
-              onClick={() => setRoute?.({ page: 'consulting', courseId: 'ai-agents' })}
-              className="rounded-full px-7 py-3.5 text-sm font-semibold bg-cohere-ink hover:bg-black text-white shadow-md shadow-black/10 transition-all flex items-center gap-2 group active:scale-95"
+              id="cta-mountech-academy"
+              onClick={() => setRoute?.({ page: 'school', courseId: 'ai-agents' })}
+              className="rounded-full px-7 py-3.5 text-sm font-semibold bg-cohere-ink hover:bg-black text-white shadow-md shadow-black/10 transition-all flex items-center gap-2 group active:scale-95 whitespace-nowrap"
             >
-              <span>Enterprise AI Consulting</span>
+              <GraduationCap size={16} />
+              <span>Explore Mountech Academy</span>
               <ArrowRight size={15} className="group-hover:translate-x-0.5 transition-transform" />
             </button>
 
             <button
-              id="cta-mountech-academy"
-              onClick={() => setRoute?.({ page: 'school', courseId: 'ai-agents' })}
-              className="rounded-full px-7 py-3.5 text-sm font-semibold bg-cohere-stone hover:bg-[#e4e2dc] text-cohere-ink border border-black/[0.08] transition-all active:scale-95 flex items-center gap-2"
+              id="cta-enterprise-consulting"
+              onClick={() => setRoute?.({ page: 'consulting', courseId: 'ai-agents' })}
+              className="rounded-full px-7 py-3.5 text-sm font-semibold bg-cohere-stone hover:bg-[#e4e2dc] text-cohere-ink border border-black/[0.08] transition-all active:scale-95 flex items-center gap-2 whitespace-nowrap"
             >
-              <span>Mountech Academy</span>
+              <span>Enterprise Consulting</span>
               <ArrowUpRight size={14} className="text-cohere-slate" />
             </button>
 
             <button
-              onClick={() => {
-                const el = document.getElementById('disaster-framework');
-                if (el) {
-                  el.scrollIntoView({ behavior: 'smooth' });
-                } else {
-                  setRoute?.({ page: 'home', courseId: 'ai-agents' });
-                  setTimeout(() => {
-                    document.getElementById('disaster-framework')?.scrollIntoView({ behavior: 'smooth' });
-                  }, 150);
-                }
-              }}
-              className="px-4 py-3 text-xs font-mono text-cohere-slate hover:text-cohere-ink flex items-center gap-1.5 transition-colors"
+              onClick={() => setRoute?.({ page: 'datascience', courseId: 'ai-agents' })}
+              className="rounded-full px-5 py-3.5 text-sm font-medium text-cohere-ink hover:bg-black/[0.04] transition-all flex items-center gap-1.5 whitespace-nowrap"
             >
-              <span>Disaster AI Framework</span>
-              <ArrowUpRight size={13} />
+              <Database size={15} className="text-cohere-teal" />
+              <span>Data Science Matrix</span>
+            </button>
+
+            <button
+              onClick={() => setRoute?.({ page: 'ai', courseId: 'ai-agents', aiTab: 'overview' })}
+              className="px-4 py-3 text-xs font-mono text-cohere-slate hover:text-cohere-ink flex items-center gap-1.5 transition-colors whitespace-nowrap"
+            >
+              <Cpu size={14} className="text-cohere-coral" />
+              <span>AI Tools & Initiatives</span>
+              <ArrowUpRight size={12} />
+            </button>
+          </div>
+
+          {/* 5 Core Pillars Unboxed Summary Strip */}
+          <div className="pt-4 flex flex-wrap items-center gap-x-6 gap-y-2 text-xs text-cohere-slate border-t border-black/[0.06]">
+            <span className="font-semibold text-cohere-ink">5 Core Focus Areas:</span>
+            <button 
+              onClick={() => setRoute?.({ page: 'school', courseId: 'ai-agents' })}
+              className="hover:text-cohere-ink hover:underline font-medium"
+            >
+              1. Academy (40h Masterclasses)
+            </button>
+            <span aria-hidden="true" className="text-black/20">·</span>
+            <button 
+              onClick={() => setRoute?.({ page: 'datascience', courseId: 'ai-agents' })}
+              className="hover:text-cohere-ink hover:underline font-medium"
+            >
+              2. Data Science Infrastructure
+            </button>
+            <span aria-hidden="true" className="text-black/20">·</span>
+            <button 
+              onClick={() => setRoute?.({ page: 'consulting', courseId: 'ai-agents' })}
+              className="hover:text-cohere-ink hover:underline font-medium"
+            >
+              3. Technology Consulting
+            </button>
+            <span aria-hidden="true" className="text-black/20">·</span>
+            <button 
+              onClick={() => setRoute?.({ page: 'ai', courseId: 'ai-agents' })}
+              className="hover:text-cohere-ink hover:underline font-medium text-cohere-coral"
+            >
+              4. AI Solutions & Tools
+            </button>
+            <span aria-hidden="true" className="text-black/20">·</span>
+            <button 
+              onClick={() => setRoute?.({ page: 'community', courseId: 'ai-agents' })}
+              className="hover:text-cohere-ink hover:underline font-medium"
+            >
+              5. MLDSN Community
             </button>
           </div>
 
@@ -117,6 +147,30 @@ export default function Hero({ setRoute }: HeroProps) {
             {/* Console Tabs */}
             <div className="flex items-center gap-1.5">
               <button
+                onClick={() => setActiveTab('academy')}
+                className={`px-3.5 py-1.5 rounded-lg text-xs font-mono transition-all flex items-center gap-2 ${
+                  activeTab === 'academy'
+                    ? 'bg-white/10 text-white font-semibold'
+                    : 'text-white/60 hover:text-white hover:bg-white/5'
+                }`}
+              >
+                <GraduationCap size={14} className="text-cohere-teal" />
+                <span>Mountech Academy</span>
+              </button>
+
+              <button
+                onClick={() => setActiveTab('datascience')}
+                className={`px-3.5 py-1.5 rounded-lg text-xs font-mono transition-all flex items-center gap-2 ${
+                  activeTab === 'datascience'
+                    ? 'bg-white/10 text-white font-semibold'
+                    : 'text-white/60 hover:text-white hover:bg-white/5'
+                }`}
+              >
+                <BarChart3 size={14} className="text-[#38bdf8]" />
+                <span>Data Science Matrix</span>
+              </button>
+
+              <button
                 onClick={() => setActiveTab('agents')}
                 className={`px-3.5 py-1.5 rounded-lg text-xs font-mono transition-all flex items-center gap-2 ${
                   activeTab === 'agents'
@@ -125,31 +179,7 @@ export default function Hero({ setRoute }: HeroProps) {
                 }`}
               >
                 <Cpu size={14} className="text-cohere-coral" />
-                <span>Multi-Agent Router</span>
-              </button>
-
-              <button
-                onClick={() => setActiveTab('rag')}
-                className={`px-3.5 py-1.5 rounded-lg text-xs font-mono transition-all flex items-center gap-2 ${
-                  activeTab === 'rag'
-                    ? 'bg-white/10 text-white font-semibold'
-                    : 'text-white/60 hover:text-white hover:bg-white/5'
-                }`}
-              >
-                <Layers size={14} className="text-[#38bdf8]" />
-                <span>Sovereign RAG</span>
-              </button>
-
-              <button
-                onClick={() => setActiveTab('security')}
-                className={`px-3.5 py-1.5 rounded-lg text-xs font-mono transition-all flex items-center gap-2 ${
-                  activeTab === 'security'
-                    ? 'bg-white/10 text-white font-semibold'
-                    : 'text-white/60 hover:text-white hover:bg-white/5'
-                }`}
-              >
-                <Shield size={14} className="text-cohere-teal" />
-                <span>Zero-Trust Enclave</span>
+                <span>AI Tools & Workflows</span>
               </button>
             </div>
 
@@ -161,16 +191,7 @@ export default function Hero({ setRoute }: HeroProps) {
                 className="px-3 py-1.5 rounded-md bg-cohere-coral hover:bg-[#ff6340] text-white text-xs font-mono font-semibold flex items-center gap-1.5 transition-all active:scale-95 disabled:opacity-50"
               >
                 <Play size={12} className={isRunning ? 'animate-spin' : ''} />
-                <span>{isRunning ? 'Synthesizing...' : 'Run Simulation'}</span>
-              </button>
-
-              <button
-                onClick={handleCopyInstall}
-                className="hidden sm:flex items-center gap-1 px-2.5 py-1.5 rounded-md bg-white/5 hover:bg-white/10 text-white/70 text-[11px] font-mono border border-white/5 transition-colors"
-                title="Copy package command"
-              >
-                {copied ? <Check size={12} className="text-cohere-teal" /> : <Copy size={12} />}
-                <span>{copied ? 'Copied' : 'SDK'}</span>
+                <span>{isRunning ? 'Benchmarking...' : 'Run Diagnostics'}</span>
               </button>
             </div>
 
@@ -182,78 +203,77 @@ export default function Hero({ setRoute }: HeroProps) {
             {/* Left Column: Interactive Telemetry State */}
             <div className="lg:col-span-7 p-5 sm:p-7 space-y-4">
               <div className="flex items-center justify-between text-xs font-mono text-white/50 border-b border-white/5 pb-3">
-                <span>PIPELINE DISPATCH WORKBENCH</span>
+                <span>OPERATIONAL CAPABILITY CONSOLE</span>
                 <span className="text-cohere-teal flex items-center gap-1">
-                  <span className="w-1.5 h-1.5 rounded-full bg-cohere-teal inline-block" />
-                  Latency: 14.8ms
+                  Verified Engine Nominal
                 </span>
               </div>
 
-              {activeTab === 'agents' && (
+              {activeTab === 'academy' && (
                 <div className="space-y-3 font-mono text-xs">
                   <div className="p-3 rounded-lg bg-black/40 border border-white/5 text-white/80">
-                    <span className="text-cohere-coral font-bold">Input Context: </span>
-                    "Reconcile Q4 balance ledger against localized microservice transactions with PII masking."
+                    <span className="text-cohere-teal font-bold">Featured Masterclass: </span>
+                    "Agentic AI Systems: Building Autonomous Multi-Agent Workflows (40 Hours)"
                   </div>
 
                   <div className="space-y-1.5 text-[11px]">
                     <div className="flex items-center gap-2 text-white/70">
                       <span className="text-cohere-teal">✓</span>
-                      <span>Supervisor Node: DAG decomposed into 3 sub-tasks</span>
+                      <span>Syllabus: LangGraph, AutoGen, Human-in-the-Loop Consensus</span>
                     </div>
                     <div className="flex items-center gap-2 text-white/70">
                       <span className="text-cohere-teal">✓</span>
-                      <span>Masking Agent: Redacted 14 Nepali citizenship / account IDs</span>
+                      <span>Capstones: Automated trade auditing & financial ledger reconciliation</span>
                     </div>
                     <div className="flex items-center gap-2 text-white/70">
                       <span className="text-cohere-teal">✓</span>
-                      <span>Ledger Agent: Deterministic arithmetic check validated</span>
+                      <span>Certification: Verified digital credential backed by MLDSN Nepal</span>
                     </div>
                   </div>
                 </div>
               )}
 
-              {activeTab === 'rag' && (
+              {activeTab === 'datascience' && (
                 <div className="space-y-3 font-mono text-xs">
                   <div className="p-3 rounded-lg bg-black/40 border border-white/5 text-white/80">
-                    <span className="text-[#38bdf8] font-bold">Vector Strategy: </span>
-                    "Hybrid BM25 + Devanagari/English Cross-Encoder Reranker"
+                    <span className="text-[#38bdf8] font-bold">Data Architecture: </span>
+                    "Distributed Lakehouse & Fast OLAP Ingest for Nepali Enterprises"
                   </div>
 
                   <div className="grid grid-cols-2 gap-2 text-[11px]">
                     <div className="p-2 rounded bg-white/5">
-                      <div className="text-white/40">Recall Accuracy</div>
-                      <div className="text-white font-bold text-sm">99.4% Top-3</div>
+                      <div className="text-white/40">Query Response</div>
+                      <div className="text-white font-bold text-sm tabular-nums">&lt; 18ms</div>
                     </div>
                     <div className="p-2 rounded bg-white/5">
-                      <div className="text-white/40">Chunking Overlap</div>
-                      <div className="text-white font-bold text-sm">128 tokens / 15%</div>
+                      <div className="text-white/40">Pipeline Throughput</div>
+                      <div className="text-white font-bold text-sm tabular-nums">75,000 evt/s</div>
                     </div>
                   </div>
                 </div>
               )}
 
-              {activeTab === 'security' && (
+              {activeTab === 'agents' && (
                 <div className="space-y-3 font-mono text-xs">
                   <div className="p-3 rounded-lg bg-black/40 border border-white/5 text-white/80">
-                    <span className="text-cohere-teal font-bold">Boundary Defense: </span>
-                    "Zero External Egress • On-Premise GPU Inference Gateway"
+                    <span className="text-cohere-coral font-bold">AI Portfolio: </span>
+                    "Disaster Management AI · B2B Multi-Agent Workflows · Sovereign AI R&D"
                   </div>
 
                   <div className="space-y-1 text-[11px] text-white/70">
-                    <div>• Air-gapped model weights in encrypted NVMe array</div>
-                    <div>• Localized tokenizers preventing telemetry exfiltration</div>
-                    <div>• Compliant with Nepal Data Governance & GDPR protocols</div>
+                    <div>• Disaster AI: 3-layer hydrology telemetry & river surge warning</div>
+                    <div>• Enterprise Agents: Customs classification & automated compliance</div>
+                    <div>• Sovereign AI (R&D): Exploring localized LLMs on green hydro-compute</div>
                   </div>
                 </div>
               )}
 
               {/* Stream Logs Output */}
               <div className="pt-2 border-t border-white/5">
-                <div className="text-[10px] font-mono text-white/40 uppercase mb-1.5">Live Telemetry Terminal</div>
+                <div className="text-[10px] font-mono text-white/40 uppercase mb-1.5">Operational Activity Logs</div>
                 <div className="p-3 rounded-lg bg-black/60 font-mono text-[11px] text-white/70 space-y-1 h-28 overflow-y-auto">
                   {telemetryLogs.map((log, idx) => (
-                    <div key={idx} className={idx === 0 ? "text-cohere-coral" : "text-white/60"}>
+                    <div key={idx} className={idx === 0 ? "text-cohere-teal" : "text-white/60"}>
                       {log}
                     </div>
                   ))}
@@ -261,43 +281,43 @@ export default function Hero({ setRoute }: HeroProps) {
               </div>
             </div>
 
-            {/* Right Column: Key Metric Pillars */}
+            {/* Right Column: Key Operational Pillars */}
             <div className="lg:col-span-5 p-5 sm:p-7 bg-[#10141d] flex flex-col justify-between space-y-6">
               <div>
                 <span className="text-[10px] font-mono text-white/40 uppercase tracking-widest block mb-4">
-                  PERFORMANCE SPECS
+                  CAPABILITY MATRIX
                 </span>
 
                 <div className="space-y-5">
                   <div>
                     <div className="flex items-baseline justify-between">
-                      <span className="text-3xl sm:text-4xl font-extrabold font-mono text-white tracking-tight">100%</span>
-                      <span className="text-xs font-mono text-cohere-teal font-semibold">ZERO LEAKAGE</span>
+                      <span className="text-3xl sm:text-4xl font-extrabold font-mono text-white tracking-tight tabular-nums">40h</span>
+                      <span className="text-xs font-mono text-cohere-teal font-semibold">APPLIED ACADEMY</span>
                     </div>
-                    <p className="text-xs text-white/50 mt-1">Data sovereignty compliance with air-gapped boundary execution.</p>
+                    <p className="text-xs text-white/50 mt-1">Rigorous cohort masterclasses in AI agents, transformers, and data engineering.</p>
                   </div>
 
                   <div className="border-t border-white/5 pt-4">
                     <div className="flex items-baseline justify-between">
-                      <span className="text-3xl sm:text-4xl font-extrabold font-mono text-white tracking-tight">&lt; 15ms</span>
-                      <span className="text-xs font-mono text-cohere-coral font-semibold">P99 LATENCY</span>
+                      <span className="text-3xl sm:text-4xl font-extrabold font-mono text-white tracking-tight tabular-nums">3 Tiers</span>
+                      <span className="text-xs font-mono text-cohere-coral font-semibold">DATA SCIENCE</span>
                     </div>
-                    <p className="text-xs text-white/50 mt-1">Direct kernel quantization on localized edge and cluster compute.</p>
+                    <p className="text-xs text-white/50 mt-1">Scalable storage, automated analytics, and predictive modeling for SMB to Enterprise.</p>
                   </div>
 
                   <div className="border-t border-white/5 pt-4">
                     <div className="flex items-baseline justify-between">
-                      <span className="text-3xl sm:text-4xl font-extrabold font-mono text-white tracking-tight">10,000+</span>
-                      <span className="text-xs font-mono text-[#38bdf8] font-semibold">MLDSN NETWORK</span>
+                      <span className="text-3xl sm:text-4xl font-extrabold font-mono text-white tracking-tight tabular-nums">10,000+</span>
+                      <span className="text-xs font-mono text-[#38bdf8] font-semibold">MLDSN ALLIANCE</span>
                     </div>
-                    <p className="text-xs text-white/50 mt-1">Ecosystem engineering partnership across Nepal since 2018.</p>
+                    <p className="text-xs text-white/50 mt-1">Non-profit research and community alliance advancing Nepal's technical talent since 2018.</p>
                   </div>
                 </div>
               </div>
 
               <div className="pt-4 border-t border-white/10 flex items-center justify-between text-xs font-mono text-white/60">
-                <span>Cluster State: NOMINAL</span>
-                <span className="text-cohere-teal">● Active TLS 1.3</span>
+                <span>Kathmandu HQ & Online Tracks</span>
+                <span className="text-cohere-teal font-semibold">Admissions Active</span>
               </div>
             </div>
 
