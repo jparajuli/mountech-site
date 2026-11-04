@@ -1,6 +1,6 @@
 {
   "name": "MounTech Solutions",
-  "description": "Applied AI, enterprise data science, technical consulting, Mountech Academy masterclasses, and national community empowerment through MLDSN Nepal.",
+  "description": "Promoting AI Solutions & Capacity Building in Nepal: Bridging the gap between global AI advancements and local implementation by delivering tailored AI education, workforce upskilling, and enterprise solution adoption across Nepal.",
   "requestFramePermissions": [],
   "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
 }

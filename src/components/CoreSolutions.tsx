@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { 
   GraduationCap, Database, Building2, Cpu, Users, 
-  ArrowRight, CheckCircle2, ShieldCheck, ArrowUpRight
+  ArrowRight, CheckCircle2, ShieldCheck, ArrowUpRight,
+  Sparkles, Globe2, BookOpen, Briefcase
 } from 'lucide-react';
 
 interface CoreSolutionsProps {
@@ -37,9 +38,9 @@ const KEY_AREAS: KeyArea[] = [
       'Interactive enrollment with instant admission pass generation and transparent tuition'
     ],
     metrics: [
-      { label: 'Cohort Format', value: '40 Hours Live' },
+      { label: 'Curriculum', value: '40 Hours Live' },
       { label: 'Masterclasses', value: '10+ Tracks' },
-      { label: 'Alumni Network', value: '1,200+ Trained' }
+      { label: 'Cohort Size', value: 'Mentored Cohorts' }
     ],
     targetPage: 'school',
     ctaText: 'Explore Masterclasses',
@@ -92,20 +93,20 @@ const KEY_AREAS: KeyArea[] = [
   {
     id: 'ai',
     number: '04',
-    title: 'AI Solutions & Tools',
-    kicker: 'Applied Automation & Research',
-    tagline: 'Disaster management AI, autonomous multi-agent workflows, and sovereign AI R&D.',
-    description: 'Our unified AI umbrella consolidates practical automation engines alongside cutting-edge research: from national hydrological flood prediction to B2B customs clearance and sovereign LLM pilots.',
+    title: 'AI Solutions & Capacity Building',
+    kicker: 'Core Strategic Portfolio Pillar',
+    tagline: 'Bridging the gap between global AI advancements and local implementation across Nepal.',
+    description: 'Promoting AI Solutions & Capacity Building in Nepal is one of our core strategic portfolio pillars. We actively bridge the gap between global AI developments and practical local implementation by delivering tailored AI education, workforce upskilling, and enterprise solution adoption across Nepal.',
     highlights: [
-      'AI Disaster Management: 3-layer architecture for river basin flood forecasting and early warnings',
-      'B2B Multi-Agent Workflows: Automated trade compliance, ASYCUDA classification, and LC verification',
-      'Document Intelligence: Devanagari OCR, automated legal extraction, and air-gapped PII redaction',
-      'Sovereign AI (R&D Pilot): Active research into localized LLMs powered by Nepal’s hydroelectric compute'
+      'Tailored AI Education: Applied curriculum and hands-on cohorts through Mountech Academy',
+      'Workforce Upskilling: Corporate workshops preparing executive leadership and developer teams',
+      'Enterprise Solution Adoption: Production deployment of multi-agent workflows, customs automation, and document OCR',
+      'National Resilience & R&D: AI Disaster Management flood warning and Sovereign AI hydro-compute pilot'
     ],
     metrics: [
-      { label: 'Disaster Ingest', value: '10s Grid Update' },
-      { label: 'Agent Latency', value: '< 45ms / doc' },
-      { label: 'Sovereign Stage', value: 'Active R&D Pilot' }
+      { label: 'Strategic Mandate', value: 'Capacity Building' },
+      { label: 'Local Impact', value: 'Nationwide' },
+      { label: 'Delivery Horizon', value: 'Production + Pilot' }
     ],
     targetPage: 'ai',
     ctaText: 'Discover AI Portfolio',
@@ -136,7 +137,7 @@ const KEY_AREAS: KeyArea[] = [
 ];
 
 export default function CoreSolutions({ onSelectSolution }: CoreSolutionsProps) {
-  const [activeAreaId, setActiveAreaId] = useState<string>('academy');
+  const [activeAreaId, setActiveAreaId] = useState<string>('ai');
 
   return (
     <section 
@@ -147,7 +148,7 @@ export default function CoreSolutions({ onSelectSolution }: CoreSolutionsProps) 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
         
         {/* Section Header */}
-        <header className="max-w-3xl mb-14 space-y-4">
+        <header className="max-w-3xl mb-10 space-y-4">
           <div className="flex items-center gap-2 text-xs font-mono text-cohere-slate">
             <span className="font-semibold text-cohere-ink uppercase tracking-wider">Five Strategic Pillars</span>
             <span aria-hidden="true">·</span>
@@ -165,18 +166,92 @@ export default function CoreSolutions({ onSelectSolution }: CoreSolutionsProps) 
           </p>
         </header>
 
+        {/* ── CORE STRATEGIC PORTFOLIO PILLAR FEATURE BANNER ── */}
+        <div className="mb-12 p-6 sm:p-8 rounded-2xl bg-gradient-to-br from-white via-[#fbfbfa] to-cohere-stone/70 border border-cohere-coral/20 shadow-md relative overflow-hidden">
+          <div className="absolute top-0 right-0 w-80 h-80 bg-cohere-coral/[0.04] rounded-full blur-2xl pointer-events-none" />
+          
+          <div className="relative flex flex-col lg:flex-row lg:items-center justify-between gap-6">
+            <div className="space-y-3 max-w-3xl">
+              <div className="flex items-center gap-2 text-xs font-mono text-cohere-coral font-semibold uppercase tracking-wider">
+                <Globe2 size={14} />
+                <span>Core Strategic Portfolio Pillar</span>
+                <span aria-hidden="true">·</span>
+                <span>National AI Capacity</span>
+              </div>
+
+              <h3 className="font-display text-2xl sm:text-3xl font-extrabold text-cohere-ink tracking-tight">
+                Promoting AI Solutions & Capacity Building in Nepal
+              </h3>
+
+              <p className="text-sm sm:text-base text-cohere-ink/80 leading-relaxed font-normal">
+                Bridging the gap between global AI advancements and local implementation by delivering tailored AI education, workforce upskilling, and enterprise solution adoption across Nepal.
+              </p>
+
+              {/* 3 Core Execution Vectors */}
+              <div className="pt-2 grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs font-mono">
+                <div className="p-3 rounded-xl bg-white border border-black/[0.06] space-y-1">
+                  <div className="flex items-center gap-1.5 font-bold text-cohere-ink">
+                    <BookOpen size={13} className="text-cohere-teal" />
+                    <span>Tailored AI Education</span>
+                  </div>
+                  <div className="text-[11px] text-cohere-subtle">
+                    40-hour hands-on masterclasses via Mountech Academy.
+                  </div>
+                </div>
+
+                <div className="p-3 rounded-xl bg-white border border-black/[0.06] space-y-1">
+                  <div className="flex items-center gap-1.5 font-bold text-cohere-ink">
+                    <Briefcase size={13} className="text-[#38bdf8]" />
+                    <span>Workforce Upskilling</span>
+                  </div>
+                  <div className="text-[11px] text-cohere-subtle">
+                    Corporate sprints for executive leadership & core devs.
+                  </div>
+                </div>
+
+                <div className="p-3 rounded-xl bg-white border border-black/[0.06] space-y-1">
+                  <div className="flex items-center gap-1.5 font-bold text-cohere-ink">
+                    <Cpu size={13} className="text-cohere-coral" />
+                    <span>Enterprise Solution Adoption</span>
+                  </div>
+                  <div className="text-[11px] text-cohere-subtle">
+                    Disaster AI, B2B multi-agents & document intelligence.
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div className="flex flex-col sm:flex-row lg:flex-col gap-2.5 shrink-0">
+              <button
+                onClick={() => onSelectSolution?.('ai')}
+                className="rounded-full px-6 py-3 text-xs font-semibold bg-cohere-ink hover:bg-black text-white shadow-sm transition-all flex items-center justify-center gap-2 whitespace-nowrap active:scale-95"
+              >
+                <span>Explore AI Solutions</span>
+                <ArrowRight size={13} />
+              </button>
+              <button
+                onClick={() => onSelectSolution?.('school')}
+                className="rounded-full px-6 py-3 text-xs font-semibold bg-white hover:bg-cohere-stone text-cohere-ink border border-black/[0.1] shadow-sm transition-all flex items-center justify-center gap-2 whitespace-nowrap active:scale-95"
+              >
+                <span>View Upskilling Academy</span>
+                <ArrowUpRight size={13} className="text-cohere-slate" />
+              </button>
+            </div>
+          </div>
+        </div>
+
         {/* ── 5 PILLARS BENTO GRID ── */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {KEY_AREAS.map((area, idx) => {
             const isSelected = activeAreaId === area.id;
-            const isMarquee = idx === 0 || idx === 3; // Academy and AI Solutions given prominent focus
+            const isMarquee = idx === 3; // AI Solutions & Capacity Building given prominent focus
 
             return (
               <article 
                 key={area.id}
                 onMouseEnter={() => setActiveAreaId(area.id)}
                 className={`rounded-2xl p-6 sm:p-7 flex flex-col justify-between transition-all duration-200 border ${
-                  isMarquee && idx === 3 ? 'md:col-span-2 lg:col-span-1' : ''
+                  isMarquee ? 'md:col-span-2 lg:col-span-1' : ''
                 } ${
                   isSelected 
                     ? 'bg-white border-cohere-ink shadow-lg ring-1 ring-black/5 -translate-y-0.5' 

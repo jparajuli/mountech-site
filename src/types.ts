@@ -4,24 +4,6 @@ export interface RouteState {
   aiTab?: 'overview' | 'disaster' | 'sovereign' | 'agents' | 'doc-intel';
 }
 
-export interface TrustPartner {
-  id: string;
-  name: string;
-  nepaliName?: string;
-  category: 'Banking' | 'Telecom' | 'NGO & Research' | 'Government & Public';
-  tagline: string;
-  sampleBadge: string;
-}
-
-export interface StatMetric {
-  id: string;
-  label: string;
-  value: string;
-  unit?: string;
-  description: string;
-  trend: string;
-}
-
 export interface CoreSolution {
   id: string;
   title: string;

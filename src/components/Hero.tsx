@@ -40,12 +40,12 @@ export default function Hero({ setRoute }: HeroProps) {
         <div className="max-w-4xl space-y-6">
           
           {/* Subtle Unboxed Kicker Metadata */}
-          <div className="flex items-center gap-2 text-xs font-mono text-cohere-slate">
+          <div className="flex flex-wrap items-center gap-2 text-xs font-mono text-cohere-slate">
             <span className="font-semibold text-cohere-ink uppercase tracking-wider">MounTech Solution</span>
             <span aria-hidden="true">·</span>
             <span>Est. 2018 in Kathmandu</span>
             <span aria-hidden="true">·</span>
-            <span className="text-cohere-teal font-medium">Enterprise & Education Matrix</span>
+            <span className="text-cohere-coral font-semibold">Promoting AI Solutions & Capacity Building</span>
           </div>
 
           {/* Monumental Headline */}
@@ -55,7 +55,7 @@ export default function Hero({ setRoute }: HeroProps) {
 
           {/* Restrained Editorial Body Text */}
           <p className="text-lg sm:text-xl text-cohere-subtle max-w-2xl font-normal leading-relaxed">
-            Delivering high-throughput data engineering, enterprise technology consulting, hands-on masterclasses via Mountech Academy, and specialized AI tools—grounded in the nationwide MLDSN community.
+            Bridging the gap between global AI advancements and local implementation by delivering tailored AI education, workforce upskilling, and enterprise solution adoption across Nepal.
           </p>
 
           {/* Conversion Funnel CTA Paths */}

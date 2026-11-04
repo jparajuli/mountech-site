@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Header from './components/Header';
 import Hero from './components/Hero';
-import TrustSignals from './components/TrustSignals';
 import CoreSolutions from './components/CoreSolutions';
 import DisasterFramework from './components/DisasterFramework';
 import School from './components/School';
@@ -45,7 +44,7 @@ export default function App() {
     }
     metaDescription.setAttribute(
       'content',
-      'MounTech Solution delivers applied AI, enterprise data science, technical consulting, Mountech Academy masterclasses, and community empowerment through MLDSN Nepal.'
+      'Promoting AI Solutions & Capacity Building in Nepal: Bridging the gap between global AI advancements and local implementation by delivering tailored AI education, workforce upskilling, and enterprise solution adoption across Nepal.'
     );
 
     // Synchronize Meta Keywords for Search Engines
@@ -73,7 +72,6 @@ export default function App() {
         {route.page === 'home' && (
           <>
             <Hero setRoute={setRoute} />
-            <TrustSignals />
             <CoreSolutions onSelectSolution={(page) => setRoute({ page, courseId: route.courseId, aiTab: 'overview' })} />
             
             {/* Pillar 1: Academy Spotlight */}

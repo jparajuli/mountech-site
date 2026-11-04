@@ -146,20 +146,18 @@ export default function AiSolutions({ summaryOnly, initialTab = 'overview', onVi
           
           <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6">
             <div className="max-w-2xl space-y-3">
-              <div className="flex items-center gap-2 text-xs font-mono text-cohere-slate">
-                <span className="font-semibold text-cohere-ink uppercase tracking-wider">AI Portfolio</span>
+              <div className="flex flex-wrap items-center gap-2 text-xs font-mono text-cohere-slate">
+                <span className="font-semibold text-cohere-coral uppercase tracking-wider">Strategic Portfolio Pillar</span>
                 <span aria-hidden="true">·</span>
-                <span>Applied Automation & Research</span>
-                <span aria-hidden="true">·</span>
-                <span>Nepal & Global</span>
+                <span className="text-cohere-ink font-medium">Capacity Building in Nepal</span>
               </div>
 
               <h2 className="font-display text-3xl sm:text-4xl font-extrabold text-cohere-ink tracking-tight">
-                AI Solutions & Innovation Hub
+                Promoting AI Solutions & Capacity Building
               </h2>
 
               <p className="text-cohere-subtle text-sm sm:text-base leading-relaxed">
-                We organize all artificial intelligence systems under one structured heading: production tools for disaster management, multi-agent workflows, and document intelligence, alongside our sovereign AI R&D pilot.
+                Bridging the gap between global AI advancements and local implementation by delivering tailored AI education, workforce upskilling, and enterprise solution adoption across Nepal.
               </p>
             </div>
 
@@ -220,20 +218,20 @@ export default function AiSolutions({ summaryOnly, initialTab = 'overview', onVi
       
       {/* Editorial Header */}
       <div className="max-w-3xl space-y-4">
-        <div className="flex items-center gap-2 text-xs font-mono text-cohere-slate">
-          <span className="font-semibold text-cohere-ink uppercase tracking-wider">MounTech AI Division</span>
+        <div className="flex flex-wrap items-center gap-2 text-xs font-mono text-cohere-slate">
+          <span className="font-semibold text-cohere-coral uppercase tracking-wider">Core Strategic Portfolio Pillar</span>
           <span aria-hidden="true">·</span>
-          <span>Applied Systems</span>
+          <span>Applied Systems & Education</span>
           <span aria-hidden="true">·</span>
-          <span>Sovereign & Enterprise</span>
+          <span>Nationwide Capacity</span>
         </div>
 
         <h1 className="font-display text-4xl sm:text-6xl font-extrabold text-cohere-ink tracking-tight text-balance">
-          Artificial Intelligence Systems & Tools
+          Promoting AI Solutions & Capacity Building in Nepal
         </h1>
 
         <p className="text-lg text-cohere-subtle leading-relaxed">
-          Explore our unified portfolio of applied artificial intelligence: from real-time flood early warning systems and B2B multi-agent pipelines to Devanagari document intelligence and our sovereign AI R&D pilot.
+          Bridging the gap between global AI advancements and local implementation by delivering tailored AI education, workforce upskilling, and enterprise solution adoption across Nepal. Explore our unified portfolio of operational systems, agentic workflows, and research pilots below.
         </p>
       </div>
 

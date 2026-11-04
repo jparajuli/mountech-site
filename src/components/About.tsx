@@ -80,11 +80,11 @@ export default function About({ summaryOnly, setRoute }: AboutProps) {
               </span>
 
               <h2 className="font-display text-3xl sm:text-4xl font-extrabold text-cohere-ink tracking-[-0.03em] leading-tight">
-                Engineering sovereign intelligence with mathematical rigor.
+                Promoting AI Solutions &amp; Capacity Building in Nepal.
               </h2>
 
               <p className="text-cohere-subtle text-base leading-relaxed">
-                MounTech Solution was established by five systems architects and researchers to build localized high-performance AI infrastructure. We believe modern enterprise intelligence requires absolute sovereignty over data, deterministic workflows, and zero external dependency leaks.
+                MounTech Solution was established by five systems architects and researchers with a central strategic mandate: bridging the gap between global AI advancements and local implementation by delivering tailored AI education, workforce upskilling, and enterprise solution adoption across Nepal.
               </p>
 
               <div className="pt-2">
@@ -143,7 +143,7 @@ export default function About({ summaryOnly, setRoute }: AboutProps) {
           Securing the Foundations.
         </h1>
         <p className="text-lg text-cohere-subtle leading-relaxed">
-          MounTech Solution unites academic research, enterprise computing pipelines, and deep community education. Rooted in the high peaks of Nepal and deploying systems across global enterprises.
+          MounTech Solution unites academic research, enterprise computing pipelines, and deep community education. Promoting AI Solutions &amp; Capacity Building in Nepal is one of our core strategic portfolio pillars: bridging the gap between global AI advancements and local implementation by delivering tailored AI education, workforce upskilling, and enterprise solution adoption across Nepal.
         </p>
       </div>
 

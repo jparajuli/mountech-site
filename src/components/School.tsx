@@ -51,14 +51,16 @@ export default function School({ summaryOnly, detailOnly, route, setRoute }: Sch
           
           <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6">
             <div className="max-w-2xl space-y-3">
-              <span className="font-mono text-xs text-cohere-slate uppercase tracking-widest">
-                INTENSIVE APPLIED ACADEMY
-              </span>
+              <div className="flex flex-wrap items-center gap-2 text-xs font-mono text-cohere-slate">
+                <span className="font-semibold text-cohere-coral uppercase tracking-wider">AI Capacity Building &amp; Upskilling</span>
+                <span aria-hidden="true">·</span>
+                <span>Mountech Academy</span>
+              </div>
               <h2 className="font-display text-3xl sm:text-4xl font-extrabold text-cohere-ink tracking-tight">
-                40-Hour Applied Engineering Cohorts
+                Tailored AI Education &amp; Workforce Upskilling
               </h2>
               <p className="text-cohere-subtle text-sm sm:text-base leading-relaxed">
-                Hands-on masterclasses designed by systems engineers. Master multi-agent systems, sovereign transformer architectures, and zero-trust cloud infrastructure.
+                Bridging the gap between global AI advancements and local implementation by delivering tailored 40-hour engineering cohorts, corporate upskilling, and enterprise solution readiness across Nepal.
               </p>
             </div>
 
@@ -197,14 +199,18 @@ export default function School({ summaryOnly, detailOnly, route, setRoute }: Sch
       
       {/* Header */}
       <div className="max-w-3xl space-y-4">
-        <span className="font-mono text-xs text-cohere-slate uppercase tracking-widest">
-          PROFESSIONAL EDUCATION LAYER
-        </span>
+        <div className="flex flex-wrap items-center gap-2 text-xs font-mono text-cohere-slate">
+          <span className="font-semibold text-cohere-coral uppercase tracking-wider">Strategic Portfolio Pillar</span>
+          <span aria-hidden="true">·</span>
+          <span>Tailored AI Education &amp; Upskilling</span>
+          <span aria-hidden="true">·</span>
+          <span>Nationwide Capacity</span>
+        </div>
         <h1 className="font-display text-4xl sm:text-6xl font-extrabold text-cohere-ink tracking-tight">
-          MounTech Tech Academy
+          Mountech Academy
         </h1>
         <p className="text-lg text-cohere-subtle leading-relaxed">
-          Sovereign AI systems, multi-agent reasoning graphs, and deep cloud engineering. Designed for developers, senior architects, and engineering leaders.
+          Bridging the gap between global AI advancements and local implementation by delivering tailored AI education, workforce upskilling, and enterprise engineering masterclasses across Nepal.
         </p>
       </div>
 
