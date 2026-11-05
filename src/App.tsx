@@ -2,10 +2,8 @@ import React, { useState, useEffect } from 'react';
 import Header from './components/Header';
 import Hero from './components/Hero';
 import CoreSolutions from './components/CoreSolutions';
-import DisasterFramework from './components/DisasterFramework';
 import School from './components/School';
 import DataScience from './components/DataScience';
-import Research from './components/Research';
 import Contact from './components/Contact';
 import AiSolutions, { AiTabType } from './components/AiSolutions';
 import Consulting from './components/Consulting';
@@ -30,7 +28,7 @@ export default function App() {
       ai: 'AI Solutions & Innovations Hub | MounTech Solution',
       disaster: 'AI Disaster Management Framework | MounTech Solution',
       community: 'MLDSN Community Hub | Machine Learning & Data Science Nepal',
-      about: 'Brand Architecture & Leadership | MounTech Solution'
+      about: 'Company Identity & Leadership | MounTech Solution'
     };
 
     document.title = titles[route.page] || 'MounTech Solution | Applied AI & Data Science for Nepal';
@@ -56,7 +54,7 @@ export default function App() {
     }
     metaKeywords.setAttribute(
       'content',
-      'Academy, Data Science, Technology Consulting, AI Solutions, Disaster Management AI, Multi-Agent Workflows, Sovereign AI Pilot, MLDSN Nepal, Kathmandu Tech'
+      'AI Capacity Building Nepal, Tailored AI Education, Workforce Upskilling, Enterprise Solution Adoption, Mountech Academy, Data Science, Technology Consulting, MLDSN Nepal'
     );
   }, [route.page, route.courseId, route.aiTab]);
 
@@ -68,34 +66,25 @@ export default function App() {
       {/* Main Dynamic Viewport */}
       <main className="flex-1">
         
-        {/* ── HOME LANDING VIEW ── */}
+        {/* ── HOME LANDING VIEW (STREAMLINED & NON-REDUNDANT) ── */}
         {route.page === 'home' && (
           <>
             <Hero setRoute={setRoute} />
             <CoreSolutions onSelectSolution={(page) => setRoute({ page, courseId: route.courseId, aiTab: 'overview' })} />
             
-            {/* Pillar 1: Academy Spotlight */}
+            {/* Featured Focus 1: Academy Masterclasses Spotlight */}
             <School summaryOnly={true} route={route} setRoute={setRoute} />
             
-            {/* Pillar 2: Data Science Matrix */}
-            <DataScience />
-            
-            {/* Pillar 3: Technology Consulting */}
-            <Consulting summaryOnly={true} onViewFull={() => setRoute({ page: 'consulting', courseId: route.courseId })} />
-            
-            {/* Pillar 4: AI Solutions & Tools (Disaster AI, Agents, Sovereign AI R&D) */}
+            {/* Featured Focus 2: AI Solutions & Capacity Building Spotlight */}
             <AiSolutions 
               summaryOnly={true} 
               onViewFull={(tab?: AiTabType) => setRoute({ page: 'ai', courseId: route.courseId, aiTab: tab || 'overview' })} 
             />
             
-            {/* Pillar 5: Community Hub (MLDSN Nepal) */}
+            {/* Non-Profit Ecosystem Alliance */}
             <Community summaryOnly={true} setRoute={setRoute} />
             
-            {/* Corporate Profile & Founders */}
-            <About summaryOnly={true} setRoute={setRoute} />
-            
-            {/* Enterprise Inquiry & Contact */}
+            {/* Enterprise Direct Inquiry & Contact */}
             <Contact />
           </>
         )}
@@ -132,7 +121,7 @@ export default function App() {
           </div>
         )}
 
-        {/* ── AI SOLUTIONS & INNOVATIONS HUB (Houses Disaster AI, Sovereign AI R&D, Agents, Doc Intel) ── */}
+        {/* ── AI SOLUTIONS & CAPACITY BUILDING HUB ── */}
         {route.page === 'ai' && (
           <div>
             <AiSolutions 
@@ -143,7 +132,7 @@ export default function App() {
           </div>
         )}
 
-        {/* ── SEAMLESS ROUTE FOR DISASTER AI (DIRECTLY NESTED WITHIN AI HEADING) ── */}
+        {/* ── SEAMLESS ROUTE FOR DISASTER AI ── */}
         {route.page === 'disaster' && (
           <div>
             <AiSolutions 
@@ -162,7 +151,7 @@ export default function App() {
           </div>
         )}
 
-        {/* ── CORPORATE PROFILE & BRAND ARCHITECTURE ── */}
+        {/* ── CORPORATE PROFILE & FOUNDING ARCHITECTS ── */}
         {route.page === 'about' && (
           <div>
             <About summaryOnly={false} setRoute={setRoute} />
@@ -188,7 +177,7 @@ export default function App() {
               </button>
               
               <p className="text-white/60 text-xs leading-relaxed max-w-sm">
-                MounTech Solution (MTS) delivers applied AI, enterprise data science, technical consulting, and professional masterclasses through Mountech Academy, backed by the nationwide MLDSN community.
+                MounTech Solution delivers applied AI, enterprise data science, technical consulting, and professional masterclasses through Mountech Academy, backed by the nationwide MLDSN community.
               </p>
               
               <div className="flex items-center gap-3 pt-2">
@@ -233,7 +222,7 @@ export default function App() {
                     onClick={() => setRoute({ page: 'ai', courseId: 'ai-agents', aiTab: 'overview' })}
                     className="hover:text-white transition-colors text-cohere-coral"
                   >
-                    AI Solutions & Tools
+                    AI Solutions & Capacity
                   </button>
                 </li>
                 <li>
@@ -308,7 +297,7 @@ export default function App() {
                     onClick={() => setRoute({ page: 'about', courseId: 'ai-agents' })}
                     className="hover:text-white transition-colors"
                   >
-                    Brand Architecture
+                    Guiding Principles
                   </button>
                 </li>
                 <li>
@@ -338,7 +327,7 @@ export default function App() {
           {/* Bottom Bar */}
           <div className="pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-[11px] font-mono">
             <div>
-              © 2026 MounTech Solution (MTS). All systems rights reserved.
+              © 2026 MounTech Solution (MTS). All rights reserved.
             </div>
             <div className="flex items-center gap-4 text-white/50">
               <button 

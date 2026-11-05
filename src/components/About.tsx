@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
+import React from 'react';
 import Logo from './Logo';
 import { 
   Users, Shield, Terminal, BookOpen, Layers, 
-  Network, Copy, Check, Download, ArrowRight, ArrowUpRight
+  Network, ArrowRight, CheckCircle2, Globe2, Cpu
 } from 'lucide-react';
 
 interface AboutProps {
@@ -11,8 +11,6 @@ interface AboutProps {
 }
 
 export default function About({ summaryOnly, setRoute }: AboutProps) {
-  const [copiedSvg, setCopiedSvg] = useState(false);
-
   const team = [
     {
       name: "Surya Basnet",
@@ -33,7 +31,7 @@ export default function About({ summaryOnly, setRoute }: AboutProps) {
       role: "Co-Founder & Education Director",
       focus: "Technical Pedagogy, Applied Intelligence Curricula & Engineering Academies",
       initials: "SS",
-      icon: <BookOpen size={18} className="text-cohere-blue" />
+      icon: <BookOpen size={18} className="text-cohere-teal" />
     },
     {
       name: "Tej Shahi",
@@ -51,73 +49,76 @@ export default function About({ summaryOnly, setRoute }: AboutProps) {
     }
   ];
 
-  const brandColors = [
-    { name: "Cohere Ink", hex: "#17171c", role: "Primary Canvas Anchor & Brand Dominance" },
-    { name: "Coral Ember", hex: "#ff7759", role: "Tactile Product Accent & Dynamic Warmth" },
-    { name: "Enterprise Green", hex: "#003c33", role: "Security Enclave & Sovereign Trust" },
-    { name: "Mineral Stone", hex: "#eeece7", role: "Card Fill & Subtle Surface Contrast" },
+  const principles = [
+    {
+      title: "Promoting Local Capacity Building",
+      desc: "Bridging the gap between global AI advancements and local implementation through tailored education, developer masterclasses, and executive upskilling across Nepal."
+    },
+    {
+      title: "Pragmatic & Deterministic Engineering",
+      desc: "Focusing on verifiable, production-ready systems with auditable logic—from hydrological disaster sensors to automated cross-border customs trade compliance."
+    },
+    {
+      title: "Data Sovereignty & Institutional Privacy",
+      desc: "Advocating for secure, localized data governance and exploring sovereign computing to ensure Nepal's sensitive data remains protected within national borders."
+    }
   ];
-
-  const handleCopySvg = () => {
-    const svgString = `<svg width="64" height="64" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="32" cy="32" r="30" stroke="rgba(0,0,0,0.1)" stroke-width="1" stroke-dasharray="2 3"/><path d="M 12 48 L 26 22 L 32 32 L 20 48 Z" fill="#00a389"/><path d="M 32 12 L 44 48 L 32 40 L 22 48 Z" fill="#17171c"/><path d="M 32 12 L 52 48 L 40 48 Z" fill="#ff7759"/></svg>`;
-    navigator.clipboard.writeText(svgString);
-    setCopiedSvg(true);
-    setTimeout(() => setCopiedSvg(false), 2000);
-  };
 
   // ──── HOME PREVIEW (SUMMARY VIEW) ────
   if (summaryOnly) {
     return (
-      <section className="py-20 sm:py-28 bg-cohere-canvas border-b border-black/[0.06]">
+      <section className="py-16 sm:py-24 bg-cohere-canvas border-b border-black/[0.06]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-center">
             
             {/* Left Narrative */}
-            <div className="lg:col-span-5 space-y-6">
-              <span className="font-mono text-xs text-cohere-slate uppercase tracking-widest block">
-                FOUNDED IN KATHMANDU • GLOBAL REACH
-              </span>
+            <div className="lg:col-span-5 space-y-4">
+              <div className="flex items-center gap-2 text-xs font-mono text-cohere-slate">
+                <span className="font-semibold text-cohere-ink uppercase tracking-wider">About MounTech</span>
+                <span aria-hidden="true">·</span>
+                <span>Kathmandu, Nepal</span>
+              </div>
 
-              <h2 className="font-display text-3xl sm:text-4xl font-extrabold text-cohere-ink tracking-[-0.03em] leading-tight">
-                Promoting AI Solutions &amp; Capacity Building in Nepal.
+              <h2 className="font-display text-2xl sm:text-3xl font-extrabold text-cohere-ink tracking-tight">
+                Promoting AI Solutions &amp; Capacity Building in Nepal
               </h2>
 
-              <p className="text-cohere-subtle text-base leading-relaxed">
-                MounTech Solution was established by five systems architects and researchers with a central strategic mandate: bridging the gap between global AI advancements and local implementation by delivering tailored AI education, workforce upskilling, and enterprise solution adoption across Nepal.
+              <p className="text-cohere-subtle text-sm leading-relaxed">
+                MounTech Solution was founded by five systems architects and researchers with a unifying vision: bridging the divide between cutting-edge global AI and practical domestic implementation across education, enterprise, and civil infrastructure.
               </p>
 
               <div className="pt-2">
                 <button
                   onClick={() => setRoute({ page: 'about', courseId: 'ai-agents' })}
-                  className="rounded-full px-6 py-3 text-xs font-semibold bg-cohere-ink hover:bg-black text-white shadow-sm flex items-center gap-2 group transition-all"
+                  className="rounded-full px-5 py-2.5 text-xs font-semibold bg-cohere-ink hover:bg-black text-white shadow-sm flex items-center gap-2 transition-all active:scale-95"
                 >
-                  <span>Explore Brand Manifesto & Team</span>
-                  <ArrowRight size={14} className="group-hover:translate-x-0.5 transition-transform" />
+                  <span>Meet the Founding Team</span>
+                  <ArrowRight size={13} />
                 </button>
               </div>
             </div>
 
             {/* Right Founders Grid Preview */}
-            <div className="lg:col-span-7 grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div className="lg:col-span-7 grid grid-cols-1 sm:grid-cols-2 gap-3.5">
               {team.slice(0, 4).map((member, idx) => (
                 <div 
                   key={idx}
-                  className="p-5 rounded-2xl bg-cohere-stone/70 border border-black/[0.06] hover:border-black/[0.15] transition-all space-y-3"
+                  className="p-4 sm:p-5 rounded-xl bg-white border border-black/[0.07] hover:border-black/[0.18] transition-all space-y-2 shadow-sm"
                 >
                   <div className="flex items-center justify-between">
-                    <div className="w-8 h-8 rounded-full bg-white border border-black/[0.08] flex items-center justify-center font-mono text-xs font-bold text-cohere-ink">
+                    <div className="w-8 h-8 rounded-full bg-cohere-stone border border-black/[0.08] flex items-center justify-center font-mono text-xs font-bold text-cohere-ink">
                       {member.initials}
                     </div>
-                    <span className="font-mono text-[10px] text-cohere-slate">FOUNDING CELL</span>
+                    <span className="text-[10px] font-mono text-cohere-slate">Architect</span>
                   </div>
 
                   <div>
                     <h3 className="text-sm font-bold text-cohere-ink">{member.name}</h3>
-                    <div className="text-xs text-cohere-coral font-medium">{member.role}</div>
+                    <div className="text-[11px] text-cohere-coral font-medium">{member.role}</div>
                   </div>
 
-                  <p className="text-xs text-cohere-subtle leading-relaxed">{member.focus}</p>
+                  <p className="text-[11px] text-cohere-subtle leading-snug line-clamp-2">{member.focus}</p>
                 </div>
               ))}
             </div>
@@ -131,85 +132,60 @@ export default function About({ summaryOnly, setRoute }: AboutProps) {
 
   // ──── FULL DEDICATED ABOUT & IDENTITY VIEW ────
   return (
-    <div className="py-16 sm:py-24 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-20">
+    <div className="py-16 sm:py-24 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-16">
       
       {/* Brand Header */}
       <div className="max-w-3xl space-y-4">
-        <span className="font-mono text-xs text-cohere-slate uppercase tracking-widest">
-          CORPORATE ARCHITECTURE & IDENTITY
-        </span>
-        <h1 className="font-display text-4xl sm:text-6xl font-extrabold text-cohere-ink tracking-[-0.04em]">
-          Summiting AI. <br />
-          Securing the Foundations.
+        <div className="flex items-center gap-2 text-xs font-mono text-cohere-slate">
+          <span className="font-semibold text-cohere-ink uppercase tracking-wider">Company Identity &amp; Leadership</span>
+          <span aria-hidden="true">·</span>
+          <span>MounTech Solution</span>
+        </div>
+
+        <h1 className="font-display text-4xl sm:text-6xl font-extrabold text-cohere-ink tracking-tight text-balance">
+          Summiting AI. Securing the Foundations.
         </h1>
+
         <p className="text-lg text-cohere-subtle leading-relaxed">
-          MounTech Solution unites academic research, enterprise computing pipelines, and deep community education. Promoting AI Solutions &amp; Capacity Building in Nepal is one of our core strategic portfolio pillars: bridging the gap between global AI advancements and local implementation by delivering tailored AI education, workforce upskilling, and enterprise solution adoption across Nepal.
+          MounTech Solution unites academic research, enterprise computing pipelines, and deep technical education. Promoting AI Solutions &amp; Capacity Building in Nepal is our core mandate: delivering tailored AI education, workforce upskilling, and enterprise solution adoption across Nepal.
         </p>
       </div>
 
-      {/* ── BRAND GEOMETRY & LOGO EXPLORER SECTION ── */}
-      <div className="p-8 sm:p-12 rounded-2xl bg-cohere-stone/60 border border-black/[0.08] space-y-8">
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-black/[0.06] pb-6">
-          <div>
-            <span className="font-mono text-xs text-cohere-coral font-semibold uppercase">IDENTITY SPECIFICATION</span>
-            <h2 className="font-display text-2xl font-bold text-cohere-ink mt-1">The Geometric Himalayan Emblem</h2>
-          </div>
-
-          <button
-            onClick={handleCopySvg}
-            className="rounded-full px-5 py-2 text-xs font-mono font-semibold bg-white hover:bg-black hover:text-white border border-black/[0.12] text-cohere-ink shadow-sm flex items-center gap-2 transition-all self-start sm:self-auto"
-          >
-            {copiedSvg ? <Check size={14} className="text-cohere-teal" /> : <Copy size={14} />}
-            <span>{copiedSvg ? 'Vector SVG Copied!' : 'Copy Vector SVG'}</span>
-          </button>
+      {/* ── CORE GUIDING PRINCIPLES SECTION ── */}
+      <div className="space-y-6">
+        <div>
+          <span className="text-xs font-mono text-cohere-slate uppercase tracking-wider">
+            FOUNDATIONAL VALUES
+          </span>
+          <h2 className="font-display text-2xl font-bold text-cohere-ink mt-1">
+            Our Guiding Principles
+          </h2>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
-          <div className="lg:col-span-4 flex items-center justify-center p-8 bg-white rounded-2xl border border-black/[0.06] shadow-inner">
-            <Logo size={96} animated={true} />
-          </div>
-
-          <div className="lg:col-span-8 space-y-4 text-sm text-cohere-subtle leading-relaxed">
-            <p>
-              <strong className="text-cohere-ink">Optical Form & Meaning: </strong>
-              The brand emblem combines three sculpted crystalline facets representing the Himalayan summit profile. Each facet delineates a core engineering boundary: distributed compute infrastructure, sovereign language tokenization, and deterministic multi-agent routing.
-            </p>
-            <p>
-              <strong className="text-cohere-ink">Mathematical Grid: </strong>
-              Precision Voronoi-inspired angular cuts maintain optical legibility from 16px micro-favicons up to monumental architectural displays.
-            </p>
-          </div>
-        </div>
-
-        {/* Color Palette Chips */}
-        <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 pt-4">
-          {brandColors.map((color, idx) => (
-            <div key={idx} className="p-4 rounded-xl bg-white border border-black/[0.06] space-y-2">
-              <div 
-                className="w-full h-8 rounded-md border border-black/[0.08]"
-                style={{ backgroundColor: color.hex }}
-              />
-              <div>
-                <div className="text-xs font-bold text-cohere-ink">{color.name}</div>
-                <div className="text-[11px] font-mono text-cohere-slate">{color.hex}</div>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          {principles.map((p, idx) => (
+            <div key={idx} className="p-7 rounded-2xl bg-white border border-black/[0.08] space-y-3 shadow-sm">
+              <div className="text-xs font-mono text-cohere-coral font-bold">
+                PRINCIPLE 0{idx + 1}
               </div>
-              <div className="text-[10px] text-cohere-subtle leading-tight">{color.role}</div>
+              <h3 className="text-lg font-bold text-cohere-ink">{p.title}</h3>
+              <p className="text-xs text-cohere-subtle leading-relaxed">{p.desc}</p>
             </div>
           ))}
         </div>
       </div>
 
       {/* ── THE 5 FOUNDING SYSTEMS ARCHITECTS ── */}
-      <div className="space-y-8">
+      <div className="space-y-6 pt-4 border-t border-black/[0.06]">
         <div>
           <span className="font-mono text-xs text-cohere-slate uppercase tracking-widest">
             ENGINEERING LEADERSHIP
           </span>
-          <h2 className="font-display text-3xl font-extrabold text-cohere-ink tracking-tight mt-1">
+          <h2 className="font-display text-2xl sm:text-3xl font-extrabold text-cohere-ink tracking-tight mt-1">
             Founding Systems Architects
           </h2>
-          <p className="text-cohere-subtle text-sm max-w-2xl mt-1">
-            Combining over two decades of distributed computing, cloud mesh engineering, and applied deep learning research.
+          <p className="text-cohere-subtle text-xs sm:text-sm max-w-2xl mt-1">
+            Combining extensive backgrounds in distributed computing, cloud mesh engineering, and applied deep learning research.
           </p>
         </div>
 
@@ -217,7 +193,7 @@ export default function About({ summaryOnly, setRoute }: AboutProps) {
           {team.map((member, idx) => (
             <div 
               key={idx}
-              className="p-6 sm:p-7 rounded-2xl bg-white border border-black/[0.08] hover:border-black/[0.2] transition-all space-y-4 shadow-sm"
+              className="p-6 rounded-2xl bg-white border border-black/[0.08] hover:border-black/[0.18] transition-all space-y-3.5 shadow-sm"
             >
               <div className="flex items-center justify-between">
                 <div className="w-10 h-10 rounded-full bg-cohere-stone border border-black/[0.08] flex items-center justify-center font-mono text-xs font-bold text-cohere-ink">
@@ -237,7 +213,7 @@ export default function About({ summaryOnly, setRoute }: AboutProps) {
 
               <div className="pt-3 border-t border-black/[0.06] flex items-center justify-between text-[11px] font-mono text-cohere-slate">
                 <span>Kathmandu, Nepal</span>
-                <span className="text-cohere-ink font-semibold">Active Node</span>
+                <span className="text-cohere-ink font-semibold">Sanepa Office</span>
               </div>
             </div>
           ))}
