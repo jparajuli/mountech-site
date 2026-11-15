@@ -62,7 +62,9 @@ export default function School({ summaryOnly, detailOnly, route, setRoute }: Sch
                 </h2>
 
                 <p className="text-sm sm:text-base text-[#5A6D7E] leading-relaxed">
-                  Hands-on 40-hour tracks blending 30% foundations with 70% production labs across Agentic AI, Transformers, MLOps, Cybersecurity, and Cloud Operations.
+                  Hands-on <strong className="font-bold text-[#0F1E2E]">40-hour tracks</strong> blending{' '}
+                  <strong className="font-bold text-[#0F1E2E]">30% foundations</strong> with{' '}
+                  <strong className="font-bold text-[#0F1E2E]">70% production labs</strong> across Agentic AI, Transformers, MLOps, Cybersecurity, and Cloud Operations.
                 </p>
 
                 <div className="pt-2">
@@ -212,7 +214,7 @@ export default function School({ summaryOnly, detailOnly, route, setRoute }: Sch
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
         <div className="lg:col-span-7 space-y-4">
           <div className="flex flex-wrap items-center gap-2 text-xs font-mono text-[#5A6D7E]">
-            <span className="font-semibold text-[#0284C7]">Technical Education</span>
+            <span className="font-semibold text-[#0284C7]">Applied Engineering &amp; AI</span>
             <span aria-hidden="true">·</span>
             <span className="text-[#15803D]">Workforce Upskilling</span>
           </div>
@@ -220,7 +222,10 @@ export default function School({ summaryOnly, detailOnly, route, setRoute }: Sch
             Mountech Academy
           </h1>
           <p className="text-base sm:text-lg text-[#5A6D7E] leading-relaxed max-w-2xl">
-            Delivering tailored 40-hour AI, Data Engineering, Cybersecurity, and Cloud Infrastructure cohorts across Nepal.
+            Delivering tailored <strong className="font-bold text-[#0F1E2E]">40-hour AI</strong>,{' '}
+            <strong className="font-bold text-[#0F1E2E]">Data Engineering</strong>,{' '}
+            <strong className="font-bold text-[#0F1E2E]">Cybersecurity</strong>, and{' '}
+            <strong className="font-bold text-[#0F1E2E]">Cloud Infrastructure</strong> cohorts across Nepal.
           </p>
         </div>
 

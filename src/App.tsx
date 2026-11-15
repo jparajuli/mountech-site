@@ -168,7 +168,10 @@ export default function App() {
               </button>
 
               <p className="text-[#CBD5E1] text-xs leading-relaxed max-w-sm">
-                Applied AI, Data Science, Technology Consulting, and Technical Education for Nepal.
+                <strong className="font-bold text-white">Applied AI</strong>,{' '}
+                <strong className="font-bold text-white">Data Science</strong>,{' '}
+                <strong className="font-bold text-white">Technology Consulting</strong>, and{' '}
+                <strong className="font-bold text-white">Mountech Academy</strong> for Nepal.
               </p>
 
               <div className="text-xs text-[#94A3B8] font-mono">

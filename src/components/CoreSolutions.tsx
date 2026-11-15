@@ -27,8 +27,8 @@ const CORE_PILLARS: CorePillar[] = [
     id: 'academy',
     number: '01',
     title: 'Mountech Academy',
-    subtitle: 'Technical Education',
-    description: '40-hour intensive cohorts in Agentic AI, Transformers, MLOps, Cybersecurity, and Cloud.',
+    subtitle: '40-Hour Intensive Cohorts',
+    description: 'Hands-on cohorts in Agentic AI, Transformers, MLOps, Cybersecurity, and Cloud.',
     targetPage: 'school',
     icon: <GraduationCap size={18} className="text-[#0284C7]" />,
   },
@@ -103,7 +103,11 @@ export default function CoreSolutions({ onSelectSolution }: CoreSolutionsProps) 
               </h2>
 
               <p className="text-sm sm:text-base text-[#5A6D7E] leading-relaxed">
-                Bridging the gap between global AI advancements and local implementation through tailored AI education, workforce upskilling, and enterprise solution adoption.
+                Bridging the gap between <strong className="font-bold text-[#0F1E2E]">global AI advancements</strong> and{' '}
+                <strong className="font-bold text-[#0F1E2E]">local implementation</strong> through{' '}
+                <strong className="font-bold text-[#0F1E2E]">Mountech Academy</strong>,{' '}
+                <strong className="font-bold text-[#0F1E2E]">workforce upskilling</strong>, and{' '}
+                <strong className="font-bold text-[#0F1E2E]">enterprise solution adoption</strong>.
               </p>
             </div>
           </div>
@@ -154,8 +158,8 @@ export default function CoreSolutions({ onSelectSolution }: CoreSolutionsProps) 
         {/* Compact Interactive Our Approach Strip */}
         <div className="rounded-2xl bg-white border border-[#E2E8F0] p-6 sm:p-7 space-y-5 shadow-subtle">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
-            <div className="text-xs font-mono font-semibold text-[#0F1E2E]">
-              Our Approach: Research → Innovation → Engineering → Implementation → Impact
+            <div className="text-xs font-mono text-[#5A6D7E]">
+              <strong className="font-bold text-[#0F1E2E]">Our Approach:</strong> Research → Innovation → Engineering → Implementation → Impact
             </div>
             <span className="text-xs text-[#5A6D7E]">Select a stage to view focus</span>
           </div>

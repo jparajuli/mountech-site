@@ -56,7 +56,10 @@ export default function Hero({ setRoute }: HeroProps) {
             </h1>
 
             <p className="text-base sm:text-lg text-[#CBD5E1] leading-relaxed max-w-xl">
-              Applied AI, Data Science, Technology Consulting, and Technical Education for Nepal—turning research and engineering into practical local capability.
+              <strong className="font-bold text-white">Applied AI</strong>,{' '}
+              <strong className="font-bold text-white">Data Science</strong>,{' '}
+              <strong className="font-bold text-white">Technology Consulting</strong>, and{' '}
+              <strong className="font-bold text-white">Mountech Academy</strong> for Nepal—turning research and engineering into practical local capability.
             </p>
 
             <div className="pt-1 flex flex-wrap items-center gap-3.5">

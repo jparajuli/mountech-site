@@ -22,7 +22,7 @@ export default function Header({ route, setRoute }: HeaderProps) {
     { label: 'Services', page: 'services', activePages: ['services', 'datascience', 'consulting'] },
     { label: 'Research', page: 'ai', activePages: ['ai', 'disaster'] },
     { label: 'Projects', page: 'projects', activePages: ['projects'] },
-    { label: 'Education', page: 'school', activePages: ['school', 'course-detail', 'community'] },
+    { label: 'Academy', page: 'school', activePages: ['school', 'course-detail', 'community'] },
   ];
 
   const handleNavClick = (page: string) => {

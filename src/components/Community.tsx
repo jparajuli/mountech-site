@@ -63,7 +63,10 @@ export default function Community({ summaryOnly, setRoute }: CommunityProps) {
                   MLDSN Nepal Community Hub
                 </h2>
                 <p className="text-sm text-[#5A6D7E] leading-relaxed">
-                  Machine Learning and Data Science Network (MLDSN) Nepal unites students, researchers, and engineers through open workshops, hackathons, and research fellowships.
+                  <strong className="font-bold text-[#0F1E2E]">Machine Learning and Data Science Network (MLDSN) Nepal</strong> unites students, researchers, and engineers through{' '}
+                  <strong className="font-bold text-[#0F1E2E]">open workshops</strong>,{' '}
+                  <strong className="font-bold text-[#0F1E2E]">hackathons</strong>, and{' '}
+                  <strong className="font-bold text-[#0F1E2E]">research fellowships</strong>.
                 </p>
               </div>
 

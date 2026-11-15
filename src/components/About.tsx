@@ -29,7 +29,7 @@ export default function About({ summaryOnly, setRoute }: AboutProps) {
     },
     {
       name: 'Sarbagya R. Shakya',
-      role: 'Co-Founder & Education Director',
+      role: 'Co-Founder & Academy Director',
       focus: 'Technical Pedagogy, Applied Intelligence Curricula & Engineering Academies',
       initials: 'SS',
       icon: <BookOpen size={18} className="text-[#0284C7]" />,
@@ -54,7 +54,7 @@ export default function About({ summaryOnly, setRoute }: AboutProps) {
     {
       number: '01',
       title: 'Promoting Local Capacity Building',
-      desc: 'Bridging the gap between global AI advancements and local implementation by delivering tailored AI education, workforce upskilling, and enterprise solution adoption across Nepal.',
+      desc: 'Bridging the gap between global AI advancements and local implementation by delivering Mountech Academy programs, workforce upskilling, and enterprise solution adoption across Nepal.',
     },
     {
       number: '02',
@@ -99,13 +99,14 @@ export default function About({ summaryOnly, setRoute }: AboutProps) {
                   </h2>
 
                   <p className="text-sm sm:text-base text-[#5A6D7E] leading-relaxed">
-                    Founded by five systems architects and researchers, MounTech Solution builds self-reliant engineering capability in Nepal through production data systems, applied AI research, and hands-on cohort training.
+                    Founded by <strong className="font-bold text-[#0F1E2E]">five systems architects and researchers</strong>,{' '}
+                    <strong className="font-bold text-[#0F1E2E]">MounTech Solution</strong> builds self-reliant engineering capability in Nepal through production data systems, applied AI research, and hands-on <strong className="font-bold text-[#0F1E2E]">Mountech Academy</strong> cohorts.
                   </p>
                 </div>
 
                 <div className="pt-4 border-t border-[#E2E8F0] space-y-1.5">
-                  <div className="text-xs font-mono font-semibold text-[#0F1E2E]">Founding Architects</div>
-                  <p className="text-xs text-[#5A6D7E]">
+                  <div className="text-xs font-mono font-bold text-[#0F1E2E]">Founding Architects</div>
+                  <p className="text-xs font-semibold text-[#334155]">
                     Surya Basnet · Jhanak Parajuli · Sarbagya R. Shakya · Tej Shahi · Dilip Yogi
                   </p>
                 </div>
@@ -150,7 +151,11 @@ export default function About({ summaryOnly, setRoute }: AboutProps) {
           </h1>
 
           <p className="text-base sm:text-lg text-[#5A6D7E] leading-relaxed">
-            MounTech Solution unites applied AI research, enterprise data engineering, systems consulting, and technical education—delivering tailored AI education, workforce upskilling, and enterprise solution adoption across Nepal.
+            <strong className="font-bold text-[#0F1E2E]">MounTech Solution</strong> unites{' '}
+            <strong className="font-bold text-[#0F1E2E]">applied AI research</strong>,{' '}
+            <strong className="font-bold text-[#0F1E2E]">enterprise data engineering</strong>,{' '}
+            <strong className="font-bold text-[#0F1E2E]">systems consulting</strong>, and{' '}
+            <strong className="font-bold text-[#0F1E2E]">Mountech Academy</strong>—delivering practical cohorts, workforce upskilling, and enterprise solution adoption across Nepal.
           </p>
         </div>
 

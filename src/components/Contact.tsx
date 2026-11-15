@@ -92,7 +92,8 @@ export default function Contact() {
                 Connect with our architects &amp; admissions desk.
               </h2>
               <p className="text-[#5A6D7E] text-sm leading-relaxed mt-3">
-                Partner with MounTech Solution on applied AI engineering, enterprise data architectures, corporate upskilling, or Mountech Academy cohorts.
+                Partner with <strong className="font-bold text-[#0F1E2E]">MounTech Solution</strong> on applied AI engineering, enterprise data architectures, corporate upskilling, or{' '}
+                <strong className="font-bold text-[#0F1E2E]">Mountech Academy cohorts</strong>.
               </p>
             </div>
 
@@ -146,7 +147,7 @@ export default function Contact() {
                 <div>
                   <div className="text-[11px] font-mono text-[#5A6D7E]">Office Hours &amp; Response</div>
                   <div className="text-sm font-semibold text-[#0F1E2E]">
-                    Sun – Fri, 9:00 AM – 6:00 PM NPT · 24h Response SLA
+                    Sun – Fri, 9:00 AM – 6:00 PM NPT · <strong className="font-bold text-[#15803D]">24h Response SLA</strong>
                   </div>
                 </div>
               </div>

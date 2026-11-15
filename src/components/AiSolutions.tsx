@@ -218,7 +218,9 @@ export default function AiSolutions({ summaryOnly, initialTab = 'overview', onVi
         </h1>
 
         <p className="text-base sm:text-lg text-[#5A6D7E] leading-relaxed">
-          Bridging the gap between global AI advancements and local implementation by delivering tailored AI education, workforce upskilling, and enterprise solution adoption across Nepal.
+          Bridging the gap between <strong className="font-bold text-[#0F1E2E]">global AI advancements</strong> and{' '}
+          <strong className="font-bold text-[#0F1E2E]">local implementation</strong> by delivering{' '}
+          <strong className="font-bold text-[#0F1E2E]">Mountech Academy</strong> training, workforce upskilling, and enterprise solution adoption across Nepal.
         </p>
       </div>
 
