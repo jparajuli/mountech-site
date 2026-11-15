@@ -173,7 +173,7 @@ export default function App() {
                 onClick={() => setRoute({ page: 'home', courseId: 'ai-agents', aiTab: 'overview' })}
                 className="text-left focus:outline-none"
               >
-                <Logo size={36} showText={true} theme="dark" />
+                <Logo size={56} theme="dark" />
               </button>
               
               <p className="text-white/60 text-xs leading-relaxed max-w-sm">

@@ -33,7 +33,7 @@ export default function Header({ route, setRoute }: HeaderProps) {
             onClick={() => handleNavClick('home')}
             className="flex items-center gap-2 text-left focus:outline-none shrink-0"
           >
-            <Logo size={28} showText={true} />
+            <Logo size={48} />
           </button>
 
           {/* Zone 2: 5 Clean Single-Line Nav Links */}

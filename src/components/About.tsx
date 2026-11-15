@@ -1,5 +1,4 @@
 import React from 'react';
-import Logo from './Logo';
 import { 
   Users, Shield, Terminal, BookOpen, Layers, 
   Network, ArrowRight, CheckCircle2, Globe2, Cpu
