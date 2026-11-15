@@ -8,18 +8,20 @@ export default {
     extend: {
       colors: {
         mt: {
-          navy: '#101828',
-          navySoft: '#182235',
-          blue: '#2563EB',
-          blueDark: '#1D4ED8',
-          cyan: '#22D3EE',
-          indigo: '#6366F1',
-          ice: '#EFF6FF',
-          canvas: '#F8FAFC',
-          surface: '#FFFFFF',
-          ink: '#172033',
-          muted: '#64748B',
-          border: '#E2E8F0',
+          navy: '#0B1924',       // Deep Alpine Slate (dark hero/footer surface)
+          navySoft: '#122636',   // Elevated dark card surface
+          sky: '#0284C7',        // Accessible Sky Cyan (matches logo MounTech cyan)
+          skyBright: '#2EB6E0',  // Exact Logo Mountain/MounTech Cyan
+          skyDark: '#0369A1',    // Hover / AA contrast Sky
+          green: '#15803D',      // Evergreen Pine (matches logo Solution/trees green)
+          greenBright: '#22C55E',// Highlight Pine on dark surfaces
+          ice: '#F0F9FF',        // Light Glacial Sky tint
+          mint: '#F0FDF4',       // Soft Evergreen tint
+          canvas: '#F8FAFC',     // Crisp off-white page canvas
+          surface: '#FFFFFF',    // Pure white card surface
+          ink: '#0F1E2E',        // Primary text
+          muted: '#5A6D7E',      // Secondary text
+          border: '#E2E8F0',     // Subtle hairline border
         },
         bg: 'var(--bg)',
         surface: 'var(--surface)',
@@ -39,9 +41,9 @@ export default {
         mono: ['"JetBrains Mono"', 'monospace'],
       },
       boxShadow: {
-        'subtle': '0 1px 2px 0 rgba(16, 24, 40, 0.04)',
-        'elevated': '0 12px 32px -8px rgba(16, 24, 40, 0.08), 0 4px 12px -4px rgba(16, 24, 40, 0.04)',
-        'glow-blue': '0 10px 30px -10px rgba(37, 99, 235, 0.35)',
+        'subtle': '0 1px 2px 0 rgba(11, 25, 36, 0.04)',
+        'elevated': '0 12px 32px -8px rgba(11, 25, 36, 0.08), 0 4px 12px -4px rgba(11, 25, 36, 0.04)',
+        'glow-brand': '0 10px 30px -10px rgba(2, 132, 199, 0.35)',
       },
     },
   },

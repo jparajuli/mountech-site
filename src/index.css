@@ -5,15 +5,15 @@
 :root {
   --bg: #F8FAFC;
   --surface: #FFFFFF;
-  --card: #EFF6FF;
+  --card: #F0F9FF;
   --border: #E2E8F0;
-  --accent: #2563EB;
-  --accent-dim: rgba(37, 99, 235, 0.08);
-  --accent2: #22D3EE;
-  --green: #0D9488;
-  --text: #172033;
+  --accent: #0284C7;
+  --accent-dim: rgba(2, 132, 199, 0.08);
+  --accent2: #15803D;
+  --green: #15803D;
+  --text: #0F1E2E;
   --text-sub: #334155;
-  --text-muted: #64748B;
+  --text-muted: #5A6D7E;
 }
 
 *, *::before, *::after {
@@ -26,7 +26,7 @@ html {
 
 body {
   background-color: #F8FAFC;
-  color: #172033;
+  color: #0F1E2E;
   font-family: 'Plus Jakarta Sans', 'Manrope', -apple-system, BlinkMacSystemFont, sans-serif;
   overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
@@ -34,7 +34,6 @@ body {
   line-height: 1.6;
 }
 
-/* Balanced Display Headlines */
 h1, h2, .text-balance {
   text-wrap: balance;
 }
@@ -43,13 +42,11 @@ h1, h2, .text-balance {
   font-variant-numeric: tabular-nums;
 }
 
-/* Focus Accessibility */
 :focus-visible {
-  outline: 2px solid #2563EB;
+  outline: 2px solid #0284C7;
   outline-offset: 2px;
 }
 
-/* Custom Scrollbar */
 ::-webkit-scrollbar {
   width: 6px;
   height: 6px;
@@ -65,30 +62,29 @@ h1, h2, .text-balance {
   background: #94A3B8;
 }
 
-/* Architectural Grid Texture */
 .mt-grid-light {
   background-image:
-    linear-gradient(rgba(16, 24, 40, 0.035) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(16, 24, 40, 0.035) 1px, transparent 1px);
+    linear-gradient(rgba(11, 25, 36, 0.035) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(11, 25, 36, 0.035) 1px, transparent 1px);
   background-size: 48px 48px;
 }
 
 .mt-grid-dark {
   background-image:
-    linear-gradient(rgba(255, 255, 255, 0.045) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255, 255, 255, 0.045) 1px, transparent 1px);
+    linear-gradient(rgba(255, 255, 255, 0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.04) 1px, transparent 1px);
   background-size: 48px 48px;
 }
 
 .mt-hero-gradient {
   background:
-    radial-gradient(ellipse 70% 55% at 75% 15%, rgba(37, 99, 235, 0.24) 0%, transparent 65%),
-    radial-gradient(ellipse 55% 45% at 15% 85%, rgba(34, 211, 238, 0.12) 0%, transparent 60%),
-    linear-gradient(180deg, #101828 0%, #0F172A 100%);
+    radial-gradient(ellipse 68% 55% at 78% 18%, rgba(46, 182, 224, 0.18) 0%, transparent 65%),
+    radial-gradient(ellipse 52% 45% at 18% 84%, rgba(22, 163, 74, 0.14) 0%, transparent 60%),
+    linear-gradient(180deg, #0B1924 0%, #0E202E 100%);
 }
 
 .mt-gradient-text {
-  background: linear-gradient(135deg, #2563EB 0%, #22D3EE 100%);
+  background: linear-gradient(135deg, #2EB6E0 0%, #22C55E 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }

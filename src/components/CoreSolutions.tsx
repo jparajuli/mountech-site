@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
-  Brain, BarChart3, FlaskConical, Cpu, Layers, GraduationCap, ArrowRight, Globe2
+  GraduationCap, Database, Cpu, Building2, Users, ArrowRight
 } from 'lucide-react';
 import { RevealBlock, InteractiveCard } from './MotionPrimitives';
 
@@ -11,7 +11,7 @@ interface CoreSolutionsProps {
   ) => void;
 }
 
-interface ExpertiseArea {
+interface CorePillar {
   id: string;
   number: string;
   title: string;
@@ -20,167 +20,186 @@ interface ExpertiseArea {
   targetPage: string;
   aiTab?: 'overview' | 'disaster' | 'sovereign' | 'agents' | 'doc-intel';
   icon: React.ReactNode;
-  featured?: boolean;
 }
 
-const EXPERTISE_AREAS: ExpertiseArea[] = [
+const CORE_PILLARS: CorePillar[] = [
   {
-    id: 'ai-ml',
+    id: 'academy',
     number: '01',
-    title: 'Artificial Intelligence & Machine Learning',
-    subtitle: 'Applied Modeling · Disaster Prediction · Bilingual NLP',
-    description:
-      'Production machine learning systems engineered for real-world Nepali contexts—spanning physics-informed hydrological flood forecasting, temporal graph networks, and domain-tuned models.',
-    targetPage: 'ai',
-    aiTab: 'disaster',
-    icon: <Brain size={20} className="text-[#2563EB]" />,
-    featured: true,
+    title: 'Mountech Academy',
+    subtitle: 'Technical Education',
+    description: '40-hour intensive cohorts in Agentic AI, Transformers, MLOps, Cybersecurity, and Cloud.',
+    targetPage: 'school',
+    icon: <GraduationCap size={18} className="text-[#0284C7]" />,
   },
   {
-    id: 'data-science',
+    id: 'datascience',
     number: '02',
     title: 'Data Science & Analytics',
-    subtitle: 'ETL Pipelines · Vector OLAP · Enterprise Warehouses',
-    description:
-      'Structured data architectures across SMB and enterprise scales, utilizing PostgreSQL, DuckDB, ClickHouse, Qdrant, and Apache Iceberg for low-latency decision intelligence.',
+    subtitle: 'Pipelines & OLAP',
+    description: 'Automated ETL pipelines, vector indexing, and scalable lakehouse tiers from SMB to enterprise.',
     targetPage: 'datascience',
-    icon: <BarChart3 size={20} className="text-[#2563EB]" />,
+    icon: <Database size={18} className="text-[#15803D]" />,
   },
   {
-    id: 'applied-research',
+    id: 'consulting',
     number: '03',
-    title: 'Applied AI Research',
-    subtitle: 'Devanagari Tokenization · Sovereign AI Pilot',
-    description:
-      'Dedicated research under Project Alpine investigating custom Devanagari BPE tokenizers, air-gapped model execution, and energy-efficient hydroelectric compute sizing.',
-    targetPage: 'ai',
-    aiTab: 'sovereign',
-    icon: <FlaskConical size={20} className="text-[#6366F1]" />,
-  },
-  {
-    id: 'ai-engineering',
-    number: '04',
-    title: 'AI Engineering and Solutions',
-    subtitle: 'Multi-Agent DAGs · Document OCR · PII Redaction',
-    description:
-      'Deterministic multi-agent workflows for ASYCUDA trade compliance and air-gapped Devanagari document parsing with sub-15ms sensitive entity masking.',
-    targetPage: 'ai',
-    aiTab: 'agents',
-    icon: <Cpu size={20} className="text-[#2563EB]" />,
-  },
-  {
-    id: 'emerging-tech',
-    number: '05',
-    title: 'Emerging Technologies',
-    subtitle: 'Cloud-Native DevSecOps · Distributed Systems · Quantum Foundations',
-    description:
-      'Systems modernization advisory, zero-trust Kubernetes deployments, cryptographic consensus architecture, and research readiness in emerging computational paradigms.',
+    title: 'Technology Consulting',
+    subtitle: 'Modernization & DevSecOps',
+    description: 'Legacy systems refactoring, zero-trust cloud operations, and practical AI integration.',
     targetPage: 'consulting',
-    icon: <Layers size={20} className="text-[#0891B2]" />,
+    icon: <Building2 size={18} className="text-[#0284C7]" />,
   },
   {
-    id: 'education-training',
-    number: '06',
-    title: 'Technical Education and Training',
-    subtitle: 'Mountech Academy · 40-Hour Intensive Cohorts',
-    description:
-      'Practitioner-led 40-hour engineering masterclasses and workforce upskilling across Agentic AI, Transformers, MLOps, Cybersecurity, Data Engineering, and Cloud Operations.',
-    targetPage: 'school',
-    icon: <GraduationCap size={20} className="text-[#2563EB]" />,
-    featured: true,
+    id: 'ai',
+    number: '04',
+    title: 'Applied AI & Research',
+    subtitle: 'Disaster AI · Agents · Pilot',
+    description: 'Hydrological flood modeling, customs multi-agent DAGs, Devanagari PII masking, and Sovereign AI R&D.',
+    targetPage: 'ai',
+    aiTab: 'overview',
+    icon: <Cpu size={18} className="text-[#15803D]" />,
+  },
+  {
+    id: 'community',
+    number: '05',
+    title: 'MLDSN Community',
+    subtitle: 'Nepal Ecosystem',
+    description: 'Non-profit network connecting 10,000+ AI learners, fellowships, and open workshops since 2018.',
+    targetPage: 'community',
+    icon: <Users size={18} className="text-[#0284C7]" />,
   },
 ];
 
+const APPROACH_STEPS = [
+  { step: '01', title: 'Research', focus: 'Evaluate local constraints, telemetry signals, and Devanagari language characteristics.' },
+  { step: '02', title: 'Innovation', focus: 'Adapt neural and deterministic architectures for Nepal compute and operational realities.' },
+  { step: '03', title: 'Engineering', focus: 'Build typed pipelines, hardened containers, and auditable multi-agent graphs.' },
+  { step: '04', title: 'Implementation', focus: 'Integrate smoothly into institutional workflows with air-gapped privacy safeguards.' },
+  { step: '05', title: 'Impact', focus: 'Transfer capability through hands-on team upskilling and Academy cohorts.' },
+];
+
 export default function CoreSolutions({ onSelectSolution }: CoreSolutionsProps) {
+  const [activeStage, setActiveStage] = useState(0);
+
   return (
     <section
       id="core-expertise"
-      aria-label="Our Core Expertise"
-      className="py-20 sm:py-28 bg-[#F8FAFC] border-b border-[#E2E8F0] relative"
+      aria-label="Core Areas & Approach"
+      className="py-16 sm:py-24 bg-[#F8FAFC] border-b border-[#E2E8F0]"
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
-        {/* Header & Capacity Building Mandate */}
         <RevealBlock>
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-end">
-            <div className="lg:col-span-7 space-y-3">
-              <div className="flex items-center gap-2 text-xs font-mono text-[#2563EB] font-semibold">
-                <span>Our Core Expertise</span>
+          <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-6">
+            <div className="max-w-2xl space-y-2.5">
+              <div className="flex items-center gap-2 text-xs font-mono text-[#0284C7] font-semibold">
+                <span>Five Focus Areas</span>
                 <span aria-hidden="true" className="text-[#94A3B8]">·</span>
-                <span className="text-[#64748B] font-normal">Six Integrated Practices</span>
+                <span className="text-[#15803D]">Nepal Capacity Building</span>
               </div>
 
-              <h2 className="font-display text-3xl sm:text-4xl font-extrabold text-[#172033] tracking-tight">
-                Focused capabilities across research, engineering, and education.
+              <h2 className="font-display text-3xl sm:text-4xl font-extrabold text-[#0F1E2E] tracking-tight">
+                Promoting AI Solutions &amp; Capacity Building in Nepal
               </h2>
 
-              <p className="text-base text-[#64748B] leading-relaxed max-w-2xl">
-                Every service reflects active engineering practice at MounTech Solution—combining foundational computer science, production data systems, and tailored training for Nepal&apos;s technical ecosystem.
-              </p>
-            </div>
-
-            {/* Strategic Portfolio Pillar Strip */}
-            <div className="lg:col-span-5 p-5 rounded-2xl bg-[#EFF6FF] border border-[#BFDBFE] space-y-2.5">
-              <div className="flex items-center gap-2 text-xs font-semibold text-[#2563EB]">
-                <Globe2 size={15} />
-                <span>Strategic Portfolio Mandate</span>
-              </div>
-              <h3 className="font-display text-base font-bold text-[#172033]">
-                Promoting AI Solutions &amp; Capacity Building in Nepal
-              </h3>
-              <p className="text-xs text-[#334155] leading-relaxed">
-                Bridging the gap between global AI advancements and local implementation by delivering tailored AI education, workforce upskilling, and enterprise solution adoption across Nepal.
+              <p className="text-sm sm:text-base text-[#5A6D7E] leading-relaxed">
+                Bridging the gap between global AI advancements and local implementation through tailored AI education, workforce upskilling, and enterprise solution adoption.
               </p>
             </div>
           </div>
         </RevealBlock>
 
-        {/* Asymmetric 6-Card Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {EXPERTISE_AREAS.map((area) => (
+        {/* Clean 5-Pillar Grid */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
+          {CORE_PILLARS.map((pillar) => (
             <InteractiveCard
-              key={area.id}
-              onClick={() => onSelectSolution?.(area.targetPage, area.aiTab)}
-              className="group cursor-pointer rounded-2xl bg-white border border-[#E2E8F0] hover:border-[#2563EB]/50 hover:shadow-elevated transition-all p-7 flex flex-col justify-between space-y-6"
+              key={pillar.id}
+              onClick={() => onSelectSolution?.(pillar.targetPage, pillar.aiTab)}
+              className="group cursor-pointer rounded-2xl bg-white border border-[#E2E8F0] hover:border-[#0284C7]/60 hover:shadow-elevated transition-all p-5 flex flex-col justify-between space-y-5"
             >
-              <div className="space-y-4">
+              <div className="space-y-3">
                 <div className="flex items-center justify-between">
-                  <div className="w-10 h-10 rounded-xl bg-[#EFF6FF] border border-[#DBEAFE] flex items-center justify-center">
-                    {area.icon}
+                  <div className="w-9 h-9 rounded-lg bg-[#F0F9FF] border border-[#BAE6FD]/60 flex items-center justify-center">
+                    {pillar.icon}
                   </div>
-                  <span className="font-mono text-xs font-semibold text-[#64748B] tabular-nums">
-                    {area.number}
+                  <span className="font-mono text-xs font-semibold text-[#5A6D7E] tabular-nums">
+                    {pillar.number}
                   </span>
                 </div>
 
-                <div className="space-y-1.5">
-                  <div className="text-xs text-[#64748B] font-medium">
-                    {area.subtitle}
+                <div>
+                  <div className="text-[11px] font-mono text-[#15803D] font-medium">
+                    {pillar.subtitle}
                   </div>
-                  <h3 className="font-display text-lg font-bold text-[#172033] group-hover:text-[#2563EB] transition-colors">
-                    {area.title}
+                  <h3 className="font-display text-base font-bold text-[#0F1E2E] group-hover:text-[#0284C7] transition-colors mt-0.5">
+                    {pillar.title}
                   </h3>
                 </div>
 
-                <p className="text-sm text-[#64748B] leading-relaxed">
-                  {area.description}
+                <p className="text-xs text-[#5A6D7E] leading-relaxed">
+                  {pillar.description}
                 </p>
               </div>
 
-              <div className="pt-4 border-t border-[#E2E8F0]">
-                <button
-                  type="button"
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    onSelectSolution?.(area.targetPage, area.aiTab);
-                  }}
-                  className="inline-flex items-center gap-2 text-xs font-semibold text-[#2563EB] group-hover:text-[#1D4ED8] transition-colors whitespace-nowrap"
-                >
-                  <span>Discover more</span>
-                  <ArrowRight size={13} className="group-hover:translate-x-1 transition-transform" />
-                </button>
+              <div className="pt-3 border-t border-[#E2E8F0]">
+                <span className="inline-flex items-center gap-1.5 text-xs font-semibold text-[#0284C7] group-hover:text-[#0369A1]">
+                  <span>Explore</span>
+                  <ArrowRight size={12} className="group-hover:translate-x-1 transition-transform" />
+                </span>
               </div>
             </InteractiveCard>
           ))}
+        </div>
+
+        {/* Compact Interactive Our Approach Strip */}
+        <div className="rounded-2xl bg-white border border-[#E2E8F0] p-6 sm:p-7 space-y-5 shadow-subtle">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+            <div className="text-xs font-mono font-semibold text-[#0F1E2E]">
+              Our Approach: Research → Innovation → Engineering → Implementation → Impact
+            </div>
+            <span className="text-xs text-[#5A6D7E]">Select a stage to view focus</span>
+          </div>
+
+          <div className="grid grid-cols-2 sm:grid-cols-5 gap-2.5">
+            {APPROACH_STEPS.map((s, idx) => {
+              const isSelected = idx === activeStage;
+              return (
+                <button
+                  key={s.step}
+                  type="button"
+                  onClick={() => setActiveStage(idx)}
+                  className={`px-3.5 py-2.5 rounded-lg border text-left transition-colors flex items-center gap-2 ${
+                    isSelected
+                      ? 'bg-[#0B1924] border-[#0B1924] text-white'
+                      : 'bg-[#F8FAFC] border-[#E2E8F0] text-[#0F1E2E] hover:bg-[#F0F9FF]'
+                  }`}
+                >
+                  <span
+                    className={`font-mono text-xs font-semibold tabular-nums ${
+                      isSelected ? 'text-[#2EB6E0]' : 'text-[#0284C7]'
+                    }`}
+                  >
+                    {s.step}
+                  </span>
+                  <span className="text-xs font-semibold truncate">{s.title}</span>
+                </button>
+              );
+            })}
+          </div>
+
+          <div className="pt-3 border-t border-[#E2E8F0] flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-sm text-[#334155]">
+            <div>
+              <strong className="text-[#0F1E2E]">{APPROACH_STEPS[activeStage].title}: </strong>
+              {APPROACH_STEPS[activeStage].focus}
+            </div>
+            <button
+              type="button"
+              onClick={() => onSelectSolution?.('services')}
+              className="text-xs font-semibold text-[#15803D] hover:underline whitespace-nowrap shrink-0 self-start sm:self-auto"
+            >
+              Consulting &amp; Data Services →
+            </button>
+          </div>
         </div>
       </div>
     </section>

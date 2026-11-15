@@ -186,7 +186,7 @@ export default function SecureEnrollmentModal({
   )}`;
 
   return (
-    <div className="fixed inset-0 z-50 bg-[#101828]/70 backdrop-blur-sm flex items-center justify-center p-3 sm:p-5">
+    <div className="fixed inset-0 z-50 bg-[#0B1924]/70 backdrop-blur-sm flex items-center justify-center p-3 sm:p-5">
       <div
         className="bg-white rounded-2xl border border-[#E2E8F0] max-w-xl w-full p-6 sm:p-8 shadow-elevated relative max-h-[92vh] overflow-y-auto space-y-6"
         onClick={(e) => e.stopPropagation()}
@@ -195,7 +195,7 @@ export default function SecureEnrollmentModal({
           type="button"
           onClick={onClose}
           aria-label="Close enrollment dialog"
-          className="absolute top-5 right-5 p-2 rounded-lg text-[#64748B] hover:text-[#172033] hover:bg-[#F8FAFC] transition-colors"
+          className="absolute top-5 right-5 p-2 rounded-lg text-[#5A6D7E] hover:text-[#0F1E2E] hover:bg-[#F8FAFC] transition-colors"
         >
           <X size={18} />
         </button>
@@ -203,11 +203,11 @@ export default function SecureEnrollmentModal({
         {/* Stepper Header */}
         <div className="space-y-3 pr-8">
           <div className="flex items-center justify-between text-xs font-mono">
-            <span className="font-semibold text-[#2563EB] flex items-center gap-1.5">
+            <span className="font-semibold text-[#0284C7] flex items-center gap-1.5">
               <ShieldCheck size={14} />
               <span>Mountech Academy Admission</span>
             </span>
-            <span className="text-[#64748B]">
+            <span className="text-[#5A6D7E]">
               {step === 'details' && 'Step 1 of 3 · Registration'}
               {step === 'payment' && 'Step 2 of 3 · Payment'}
               {step === 'verifying' && 'Processing Clearance'}
@@ -215,9 +215,9 @@ export default function SecureEnrollmentModal({
             </span>
           </div>
 
-          <div className="h-1.5 w-full bg-[#EFF6FF] rounded-full overflow-hidden">
+          <div className="h-1.5 w-full bg-[#F0F9FF] rounded-full overflow-hidden">
             <div
-              className="h-full bg-[#2563EB] transition-all duration-300"
+              className="h-full bg-[#0284C7] transition-all duration-300"
               style={{
                 width:
                   step === 'details' ? '33%' :
@@ -229,21 +229,21 @@ export default function SecureEnrollmentModal({
         </div>
 
         {/* Course Summary Banner */}
-        <div className="p-4 rounded-xl bg-[#EFF6FF]/70 border border-[#BFDBFE] flex items-center justify-between gap-4">
+        <div className="p-4 rounded-xl bg-[#F0F9FF]/80 border border-[#BAE6FD] flex items-center justify-between gap-4">
           <div>
-            <div className="text-[11px] font-mono text-[#2563EB]">
+            <div className="text-[11px] font-mono text-[#0284C7]">
               Academy Masterclass · 40-Hour Cohort
             </div>
-            <h3 className="font-bold text-sm text-[#172033]">{course.title}</h3>
-            <p className="text-xs text-[#64748B]">
+            <h3 className="font-bold text-sm text-[#0F1E2E]">{course.title}</h3>
+            <p className="text-xs text-[#5A6D7E]">
               Lead Faculty: {course.instructor.split('(')[0]}
             </p>
           </div>
           <div className="text-right shrink-0">
-            <div className="font-display font-extrabold text-base text-[#172033] tabular-nums">
+            <div className="font-display font-extrabold text-base text-[#0F1E2E] tabular-nums">
               {course.costLocal}
             </div>
-            <div className="text-[11px] font-mono text-[#64748B] tabular-nums">
+            <div className="text-[11px] font-mono text-[#5A6D7E] tabular-nums">
               {course.costGlobal}
             </div>
           </div>
@@ -263,7 +263,7 @@ export default function SecureEnrollmentModal({
                   value={form.name}
                   onChange={(e) => setForm({ ...form, name: e.target.value })}
                   placeholder="e.g. Suman Adhikari"
-                  className="w-full px-3.5 py-2.5 rounded-lg bg-[#F8FAFC] border border-[#E2E8F0] text-xs text-[#172033] focus:outline-none focus:border-[#2563EB]"
+                  className="w-full px-3.5 py-2.5 rounded-lg bg-[#F8FAFC] border border-[#E2E8F0] text-xs text-[#0F1E2E] focus:outline-none focus:border-[#0284C7]"
                 />
               </div>
 
@@ -279,17 +279,17 @@ export default function SecureEnrollmentModal({
                     onChange={(e) => setForm({ ...form, email: e.target.value })}
                     onBlur={() => setEmailTouched(true)}
                     placeholder="e.g. suman@tech.com.np"
-                    className={`w-full px-3.5 py-2.5 rounded-lg bg-[#F8FAFC] border text-xs text-[#172033] focus:outline-none ${
+                    className={`w-full px-3.5 py-2.5 rounded-lg bg-[#F8FAFC] border text-xs text-[#0F1E2E] focus:outline-none ${
                       emailTouched && !emailValidation.isValid
                         ? 'border-amber-500'
-                        : 'border-[#E2E8F0] focus:border-[#2563EB]'
+                        : 'border-[#E2E8F0] focus:border-[#0284C7]'
                     }`}
                   />
                   {emailTouched && emailValidation.suggestion && (
                     <button
                       type="button"
                       onClick={() => setForm({ ...form, email: `${form.email.split('@')[0]}@${emailValidation.suggestion}` })}
-                      className="text-[11px] font-mono text-[#2563EB] hover:underline mt-1 block"
+                      className="text-[11px] font-mono text-[#0284C7] hover:underline mt-1 block"
                     >
                       Did you mean @{emailValidation.suggestion}? Click to correct.
                     </button>
@@ -311,7 +311,7 @@ export default function SecureEnrollmentModal({
                     value={form.phone}
                     onChange={(e) => setForm({ ...form, phone: e.target.value })}
                     placeholder="+977 98XXXXXXXX"
-                    className="w-full px-3.5 py-2.5 rounded-lg bg-[#F8FAFC] border border-[#E2E8F0] text-xs text-[#172033] focus:outline-none focus:border-[#2563EB]"
+                    className="w-full px-3.5 py-2.5 rounded-lg bg-[#F8FAFC] border border-[#E2E8F0] text-xs text-[#0F1E2E] focus:outline-none focus:border-[#0284C7]"
                   />
                 </div>
               </div>
@@ -324,7 +324,7 @@ export default function SecureEnrollmentModal({
                   <select
                     value={form.experience}
                     onChange={(e) => setForm({ ...form, experience: e.target.value })}
-                    className="w-full px-3.5 py-2.5 rounded-lg bg-[#F8FAFC] border border-[#E2E8F0] text-xs text-[#172033] focus:outline-none focus:border-[#2563EB]"
+                    className="w-full px-3.5 py-2.5 rounded-lg bg-[#F8FAFC] border border-[#E2E8F0] text-xs text-[#0F1E2E] focus:outline-none focus:border-[#0284C7]"
                   >
                     <option>Beginner (0-1 years)</option>
                     <option>Intermediate (1-3 years)</option>
@@ -342,14 +342,14 @@ export default function SecureEnrollmentModal({
                     value={form.organization}
                     onChange={(e) => setForm({ ...form, organization: e.target.value })}
                     placeholder="e.g. IOE Pulchowk / Organization"
-                    className="w-full px-3.5 py-2.5 rounded-lg bg-[#F8FAFC] border border-[#E2E8F0] text-xs text-[#172033] focus:outline-none focus:border-[#2563EB]"
+                    className="w-full px-3.5 py-2.5 rounded-lg bg-[#F8FAFC] border border-[#E2E8F0] text-xs text-[#0F1E2E] focus:outline-none focus:border-[#0284C7]"
                   />
                 </div>
               </div>
             </div>
 
-            <div className="p-3.5 rounded-xl bg-[#F8FAFC] border border-[#E2E8F0] flex items-start gap-2.5 text-xs text-[#64748B] leading-relaxed">
-              <Lock size={15} className="text-[#2563EB] shrink-0 mt-0.5" />
+            <div className="p-3.5 rounded-xl bg-[#F8FAFC] border border-[#E2E8F0] flex items-start gap-2.5 text-xs text-[#5A6D7E] leading-relaxed">
+              <Lock size={15} className="text-[#0284C7] shrink-0 mt-0.5" />
               <span>
                 Your registration reserves a priority cohort seat. Syllabus details, repository access, and calendar invites are issued upon payment reference verification.
               </span>
@@ -358,7 +358,7 @@ export default function SecureEnrollmentModal({
             <button
               type="submit"
               disabled={!form.name.trim() || !form.phone.trim() || (emailTouched && !emailValidation.isValid)}
-              className="w-full rounded-lg py-3 text-xs font-semibold bg-[#2563EB] hover:bg-[#1D4ED8] text-white shadow-subtle flex items-center justify-center gap-2 transition-colors disabled:opacity-50"
+              className="w-full rounded-lg py-3 text-xs font-semibold bg-[#0284C7] hover:bg-[#0369A1] text-white shadow-subtle flex items-center justify-center gap-2 transition-colors disabled:opacity-50 whitespace-nowrap shrink-0"
             >
               <span>Continue to Payment &amp; Settlement</span>
               <ArrowRight size={14} />
@@ -385,8 +385,8 @@ export default function SecureEnrollmentModal({
                     }}
                     className={`p-3 rounded-lg border text-center transition-colors ${
                       gateway === gt
-                        ? 'border-[#2563EB] bg-[#2563EB] text-white font-semibold'
-                        : 'border-[#E2E8F0] bg-[#F8FAFC] text-[#64748B] hover:text-[#172033]'
+                        ? 'border-[#0284C7] bg-[#0284C7] text-white font-semibold'
+                        : 'border-[#E2E8F0] bg-[#F8FAFC] text-[#5A6D7E] hover:text-[#0F1E2E]'
                     }`}
                   >
                     <div className="text-xs capitalize">{gt === 'connectips' ? 'ConnectIPS' : gt}</div>
@@ -400,34 +400,34 @@ export default function SecureEnrollmentModal({
 
             <div className="p-4 rounded-xl bg-[#F8FAFC] border border-[#E2E8F0] space-y-2.5">
               <div className="flex items-center justify-between border-b border-[#E2E8F0] pb-2 text-xs font-mono">
-                <span className="text-[#64748B]">Official Beneficiary Account</span>
-                <span className="font-semibold text-[#2563EB]">Verified Merchant</span>
+                <span className="text-[#5A6D7E]">Official Beneficiary Account</span>
+                <span className="font-semibold text-[#15803D]">Verified Merchant</span>
               </div>
 
               {gateway === 'esewa' && (
-                <div className="space-y-1.5 text-xs text-[#172033]">
+                <div className="space-y-1.5 text-xs text-[#0F1E2E]">
                   <div><strong>Beneficiary:</strong> MounTech Solutions Pvt. Ltd.</div>
                   <div><strong>eSewa ID / Mobile:</strong> <span className="font-mono font-bold bg-white px-2 py-0.5 rounded border border-[#E2E8F0]">xxxxxx</span></div>
                   <div><strong>Tuition Payable:</strong> <span className="font-bold tabular-nums">{course.costLocal}</span></div>
-                  <div className="text-[11px] text-[#64748B] pt-1">
+                  <div className="text-[11px] text-[#5A6D7E] pt-1">
                     Send tuition via eSewa and include remarks: <em>{form.name.split(' ')[0]} - {course.id}</em>
                   </div>
                 </div>
               )}
 
               {gateway === 'khalti' && (
-                <div className="space-y-1.5 text-xs text-[#172033]">
+                <div className="space-y-1.5 text-xs text-[#0F1E2E]">
                   <div><strong>Beneficiary:</strong> MounTech Academy Nepal</div>
                   <div><strong>Khalti ID / Mobile:</strong> <span className="font-mono font-bold bg-white px-2 py-0.5 rounded border border-[#E2E8F0]">xxxxxx</span></div>
                   <div><strong>Tuition Payable:</strong> <span className="font-bold tabular-nums">{course.costLocal}</span></div>
-                  <div className="text-[11px] text-[#64748B] pt-1">
+                  <div className="text-[11px] text-[#5A6D7E] pt-1">
                     Transfer tuition via Khalti app and enter the Khalti Transaction ID below.
                   </div>
                 </div>
               )}
 
               {gateway === 'connectips' && (
-                <div className="space-y-1.5 text-xs text-[#172033]">
+                <div className="space-y-1.5 text-xs text-[#0F1E2E]">
                   <div><strong>Bank:</strong> Standard Chartered Bank Nepal Ltd.</div>
                   <div><strong>Account Name:</strong> MounTech Solutions Pvt. Ltd.</div>
                   <div><strong>Account Number:</strong> <span className="font-mono font-bold bg-white px-2 py-0.5 rounded border border-[#E2E8F0]">xxxxxx</span></div>
@@ -437,10 +437,10 @@ export default function SecureEnrollmentModal({
               )}
 
               {gateway === 'card' && (
-                <div className="space-y-1.5 text-xs text-[#172033]">
+                <div className="space-y-1.5 text-xs text-[#0F1E2E]">
                   <div><strong>Merchant:</strong> MounTech International Tuition</div>
                   <div><strong>International Tuition:</strong> <span className="font-bold tabular-nums">{course.costGlobal}</span></div>
-                  <div className="text-[11px] text-[#64748B] pt-1">
+                  <div className="text-[11px] text-[#5A6D7E] pt-1">
                     Enter the Payment Reference from your card receipt or wire confirmation.
                   </div>
                 </div>
@@ -460,9 +460,9 @@ export default function SecureEnrollmentModal({
                   if (refError) setRefError('');
                 }}
                 placeholder={GATEWAY_METADATA[gateway].placeholderRef}
-                className="w-full px-3.5 py-2.5 rounded-lg bg-[#F8FAFC] border border-[#E2E8F0] text-xs font-mono text-[#172033] focus:outline-none focus:border-[#2563EB]"
+                className="w-full px-3.5 py-2.5 rounded-lg bg-[#F8FAFC] border border-[#E2E8F0] text-xs font-mono text-[#0F1E2E] focus:outline-none focus:border-[#0284C7]"
               />
-              <p className="text-[11px] text-[#64748B] mt-1">
+              <p className="text-[11px] text-[#5A6D7E] mt-1">
                 {GATEWAY_METADATA[gateway].helperText}
               </p>
 
@@ -478,7 +478,7 @@ export default function SecureEnrollmentModal({
               <label className="block text-xs font-medium text-[#334155] mb-1">
                 Payment Slip / Receipt Screenshot (Optional)
               </label>
-              <label className="border border-dashed border-[#CBD5E1] hover:border-[#2563EB] rounded-lg p-3 flex items-center justify-center gap-2 cursor-pointer bg-[#F8FAFC] text-xs text-[#64748B] transition-colors">
+              <label className="border border-dashed border-[#CBD5E1] hover:border-[#0284C7] rounded-lg p-3 flex items-center justify-center gap-2 cursor-pointer bg-[#F8FAFC] text-xs text-[#5A6D7E] transition-colors">
                 <Upload size={14} />
                 <span>{selectedFile ? selectedFile.name : 'Upload Screenshot (PNG, JPG, PDF)'}</span>
                 <input
@@ -498,7 +498,7 @@ export default function SecureEnrollmentModal({
               <button
                 type="button"
                 onClick={() => setStep('details')}
-                className="text-xs font-medium text-[#64748B] hover:text-[#172033] underline"
+                className="text-xs font-medium text-[#5A6D7E] hover:text-[#0F1E2E] underline whitespace-nowrap shrink-0"
               >
                 ← Back to Details
               </button>
@@ -506,7 +506,7 @@ export default function SecureEnrollmentModal({
               <button
                 type="submit"
                 disabled={!transactionRef.trim() || isVerifying}
-                className="rounded-lg px-5 py-2.5 text-xs font-semibold bg-[#2563EB] hover:bg-[#1D4ED8] text-white shadow-subtle flex items-center gap-2 transition-colors disabled:opacity-50"
+                className="rounded-lg px-5 py-2.5 text-xs font-semibold bg-[#15803D] hover:bg-[#166534] text-white shadow-subtle flex items-center gap-2 transition-colors disabled:opacity-50 whitespace-nowrap shrink-0"
               >
                 <ShieldCheck size={14} />
                 <span>Confirm &amp; Reserve Admission</span>
@@ -518,13 +518,13 @@ export default function SecureEnrollmentModal({
         {/* STEP 3 */}
         {step === 'verifying' && (
           <div className="py-10 text-center space-y-4">
-            <div className="w-12 h-12 rounded-xl bg-[#2563EB] text-white flex items-center justify-center mx-auto">
+            <div className="w-12 h-12 rounded-xl bg-[#0284C7] text-white flex items-center justify-center mx-auto">
               <RefreshCw size={22} className="animate-spin" />
             </div>
-            <h4 className="font-bold text-lg text-[#172033]">
+            <h4 className="font-bold text-lg text-[#0F1E2E]">
               Verifying Payment &amp; Seat Allocation
             </h4>
-            <p className="text-xs text-[#64748B] max-w-sm mx-auto leading-relaxed">
+            <p className="text-xs text-[#5A6D7E] max-w-sm mx-auto leading-relaxed">
               Validating your transaction reference with {GATEWAY_METADATA[gateway].name} and generating your official Mountech Academy admission pass.
             </p>
           </div>
@@ -534,13 +534,13 @@ export default function SecureEnrollmentModal({
         {step === 'confirmed' && savedEnrollment && (
           <div className="space-y-5">
             <div className="text-center space-y-2">
-              <div className="w-12 h-12 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-700 flex items-center justify-center mx-auto">
+              <div className="w-12 h-12 rounded-xl bg-[#F0FDF4] border border-[#BBF7D0] text-[#15803D] flex items-center justify-center mx-auto">
                 <CheckCircle2 size={26} />
               </div>
-              <h4 className="text-xl font-bold text-[#172033]">
+              <h4 className="text-xl font-bold text-[#0F1E2E]">
                 Admission Confirmed &amp; Seat Reserved
               </h4>
-              <p className="text-xs text-[#64748B] max-w-sm mx-auto">
+              <p className="text-xs text-[#5A6D7E] max-w-sm mx-auto">
                 Your enrollment pass has been verified and stored in the academy ledger.
               </p>
             </div>
@@ -548,53 +548,53 @@ export default function SecureEnrollmentModal({
             <div className="p-5 rounded-xl bg-[#F8FAFC] border border-[#E2E8F0] space-y-4">
               <div className="flex items-center justify-between border-b border-[#E2E8F0] pb-3">
                 <div>
-                  <div className="text-[11px] font-mono text-[#64748B]">Official Admission Pass</div>
-                  <div className="font-mono text-base font-bold text-[#172033] flex items-center gap-1.5">
+                  <div className="text-[11px] font-mono text-[#5A6D7E]">Official Admission Pass</div>
+                  <div className="font-mono text-base font-bold text-[#0F1E2E] flex items-center gap-1.5">
                     <span>{savedEnrollment.receiptId}</span>
                     <button
                       type="button"
                       onClick={() => handleCopyPassId(savedEnrollment.receiptId)}
-                      className="p-1 text-[#64748B] hover:text-[#2563EB]"
+                      className="p-1 text-[#5A6D7E] hover:text-[#0284C7]"
                       title="Copy Pass ID"
                     >
-                      {copiedPassId ? <Check size={14} className="text-emerald-600" /> : <Copy size={14} />}
+                      {copiedPassId ? <Check size={14} className="text-[#15803D]" /> : <Copy size={14} />}
                     </button>
                   </div>
                 </div>
-                <span className="text-xs font-mono font-semibold text-emerald-700">
+                <span className="text-xs font-mono font-semibold text-[#15803D]">
                   Seat Reserved
                 </span>
               </div>
 
               <div className="grid grid-cols-2 gap-3 text-xs">
                 <div>
-                  <div className="text-[11px] font-mono text-[#64748B]">Participant</div>
-                  <div className="font-bold text-[#172033]">{savedEnrollment.studentName}</div>
-                  <div className="text-[11px] font-mono text-[#64748B] truncate">{savedEnrollment.studentEmail}</div>
+                  <div className="text-[11px] font-mono text-[#5A6D7E]">Participant</div>
+                  <div className="font-bold text-[#0F1E2E]">{savedEnrollment.studentName}</div>
+                  <div className="text-[11px] font-mono text-[#5A6D7E] truncate">{savedEnrollment.studentEmail}</div>
                 </div>
 
                 <div>
-                  <div className="text-[11px] font-mono text-[#64748B]">Cohort</div>
-                  <div className="font-semibold text-[#172033] line-clamp-1">{savedEnrollment.courseTitle}</div>
-                  <div className="text-[11px] font-mono text-[#64748B] tabular-nums">Tuition: {savedEnrollment.tuitionPaid}</div>
+                  <div className="text-[11px] font-mono text-[#5A6D7E]">Cohort</div>
+                  <div className="font-semibold text-[#0F1E2E] line-clamp-1">{savedEnrollment.courseTitle}</div>
+                  <div className="text-[11px] font-mono text-[#5A6D7E] tabular-nums">Tuition: {savedEnrollment.tuitionPaid}</div>
                 </div>
 
                 <div>
-                  <div className="text-[11px] font-mono text-[#64748B]">Payment Method</div>
-                  <div className="font-mono font-bold text-[#172033]">{savedEnrollment.paymentMethod.toUpperCase()}</div>
-                  <div className="text-[11px] font-mono text-[#64748B] truncate">Ref: {savedEnrollment.transactionId}</div>
+                  <div className="text-[11px] font-mono text-[#5A6D7E]">Payment Method</div>
+                  <div className="font-mono font-bold text-[#0F1E2E]">{savedEnrollment.paymentMethod.toUpperCase()}</div>
+                  <div className="text-[11px] font-mono text-[#5A6D7E] truncate">Ref: {savedEnrollment.transactionId}</div>
                 </div>
 
                 <div>
-                  <div className="text-[11px] font-mono text-[#64748B]">Schedule</div>
-                  <div className="font-semibold text-[#172033]">40h Live Interactive</div>
-                  <div className="text-[11px] font-mono text-[#64748B]">Weekends &amp; Evenings NPT</div>
+                  <div className="text-[11px] font-mono text-[#5A6D7E]">Schedule</div>
+                  <div className="font-semibold text-[#0F1E2E]">40h Live Interactive</div>
+                  <div className="text-[11px] font-mono text-[#5A6D7E]">Weekends &amp; Evenings NPT</div>
                 </div>
               </div>
             </div>
 
-            <div className="p-4 rounded-xl bg-[#EFF6FF]/60 border border-[#BFDBFE] text-xs text-[#334155] space-y-1">
-              <span className="font-semibold text-[#172033] block">Next Onboarding Steps</span>
+            <div className="p-4 rounded-xl bg-[#F0F9FF]/80 border border-[#BAE6FD] text-xs text-[#334155] space-y-1">
+              <span className="font-semibold text-[#0F1E2E] block">Next Onboarding Steps</span>
               <p>A syllabus guide and repository access invite have been queued for <strong>{savedEnrollment.studentEmail}</strong>.</p>
             </div>
 
@@ -603,15 +603,15 @@ export default function SecureEnrollmentModal({
                 <button
                   type="button"
                   onClick={handleDownloadCalendar}
-                  className="py-2.5 px-4 rounded-lg bg-[#F8FAFC] hover:bg-[#EFF6FF] text-[#172033] font-semibold text-xs border border-[#E2E8F0] flex items-center justify-center gap-2 transition-colors"
+                  className="py-2.5 px-4 rounded-lg bg-[#F8FAFC] hover:bg-[#F0F9FF] text-[#0F1E2E] font-semibold text-xs border border-[#E2E8F0] flex items-center justify-center gap-2 transition-colors whitespace-nowrap shrink-0"
                 >
-                  <Calendar size={14} className="text-[#2563EB]" />
+                  <Calendar size={14} className="text-[#0284C7]" />
                   <span>Add to Calendar (.ics)</span>
                 </button>
 
                 <a
                   href={admissionsEmailUrl}
-                  className="py-2.5 px-4 rounded-lg bg-[#EFF6FF] hover:bg-[#DBEAFE] text-[#1D4ED8] font-semibold text-xs border border-[#BFDBFE] flex items-center justify-center gap-2 transition-colors"
+                  className="py-2.5 px-4 rounded-lg bg-[#F0F9FF] hover:bg-[#E0F2FE] text-[#0369A1] font-semibold text-xs border border-[#BAE6FD] flex items-center justify-center gap-2 transition-colors whitespace-nowrap shrink-0"
                 >
                   <Mail size={14} />
                   <span>Admissions Coordinator</span>
@@ -622,7 +622,7 @@ export default function SecureEnrollmentModal({
                 <button
                   type="button"
                   onClick={handlePrint}
-                  className="flex-1 py-2.5 px-4 rounded-lg bg-white hover:bg-[#F8FAFC] text-[#172033] font-semibold text-xs border border-[#E2E8F0] flex items-center justify-center gap-2 transition-colors"
+                  className="flex-1 py-2.5 px-4 rounded-lg bg-white hover:bg-[#F8FAFC] text-[#0F1E2E] font-semibold text-xs border border-[#E2E8F0] flex items-center justify-center gap-2 transition-colors whitespace-nowrap shrink-0"
                 >
                   <Printer size={14} />
                   <span>Print / Save PDF</span>
@@ -631,7 +631,7 @@ export default function SecureEnrollmentModal({
                 <button
                   type="button"
                   onClick={onClose}
-                  className="flex-1 py-2.5 rounded-lg bg-[#101828] hover:bg-[#1E293B] text-white font-semibold text-xs transition-colors"
+                  className="flex-1 py-2.5 rounded-lg bg-[#0B1924] hover:bg-[#122636] text-white font-semibold text-xs transition-colors whitespace-nowrap shrink-0"
                 >
                   Close
                 </button>

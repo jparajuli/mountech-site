@@ -48,7 +48,7 @@ export default function Header({ route, setRoute }: HeaderProps) {
       className={`sticky top-0 z-50 transition-all duration-200 border-b ${
         scrolled
           ? 'bg-white/95 backdrop-blur-md border-[#E2E8F0] shadow-subtle'
-          : 'bg-white/90 backdrop-blur-sm border-[#E2E8F0]/80'
+          : 'bg-white/95 backdrop-blur-sm border-[#E2E8F0]/80'
       }`}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -74,15 +74,15 @@ export default function Header({ route, setRoute }: HeaderProps) {
                   onClick={() => handleNavClick(item.page)}
                   className={`relative py-2 text-sm font-medium whitespace-nowrap shrink-0 transition-colors ${
                     isActive
-                      ? 'text-[#2563EB] font-semibold'
-                      : 'text-[#64748B] hover:text-[#172033]'
+                      ? 'text-[#0284C7] font-semibold'
+                      : 'text-[#5A6D7E] hover:text-[#0F1E2E]'
                   }`}
                 >
                   <span>{item.label}</span>
                   {isActive && (
                     <span
                       aria-hidden="true"
-                      className="absolute inset-x-0 bottom-0 h-0.5 bg-[#2563EB] rounded-full"
+                      className="absolute inset-x-0 bottom-0 h-0.5 bg-gradient-to-r from-[#2EB6E0] to-[#15803D] rounded-full"
                     />
                   )}
                 </button>
@@ -95,7 +95,7 @@ export default function Header({ route, setRoute }: HeaderProps) {
             <button
               type="button"
               onClick={handleCollaborateClick}
-              className="px-4 py-2 rounded-lg text-xs font-semibold bg-[#2563EB] hover:bg-[#1D4ED8] text-white shadow-subtle transition-colors flex items-center gap-1.5 whitespace-nowrap shrink-0"
+              className="px-4 py-2 rounded-lg text-xs font-semibold bg-[#15803D] hover:bg-[#166534] text-white shadow-subtle transition-colors flex items-center gap-1.5 whitespace-nowrap shrink-0"
             >
               <span>Let&apos;s Collaborate</span>
               <ArrowRight size={13} />
@@ -107,7 +107,7 @@ export default function Header({ route, setRoute }: HeaderProps) {
             <button
               type="button"
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="p-2.5 min-h-[44px] min-w-[44px] rounded-lg text-[#172033] hover:bg-[#F8FAFC] flex items-center justify-center"
+              className="p-2.5 min-h-[44px] min-w-[44px] rounded-lg text-[#0F1E2E] hover:bg-[#F8FAFC] flex items-center justify-center"
               aria-label="Toggle navigation menu"
               aria-expanded={mobileMenuOpen}
             >
@@ -124,7 +124,7 @@ export default function Header({ route, setRoute }: HeaderProps) {
             type="button"
             onClick={() => handleNavClick('home')}
             className={`block w-full text-left px-3.5 py-2.5 rounded-lg text-sm font-medium ${
-              route.page === 'home' ? 'bg-[#EFF6FF] text-[#2563EB] font-semibold' : 'text-[#334155]'
+              route.page === 'home' ? 'bg-[#F0F9FF] text-[#0284C7] font-semibold' : 'text-[#334155]'
             }`}
           >
             Home
@@ -137,7 +137,7 @@ export default function Header({ route, setRoute }: HeaderProps) {
                 type="button"
                 onClick={() => handleNavClick(item.page)}
                 className={`block w-full text-left px-3.5 py-2.5 rounded-lg text-sm font-medium ${
-                  isActive ? 'bg-[#EFF6FF] text-[#2563EB] font-semibold' : 'text-[#334155]'
+                  isActive ? 'bg-[#F0F9FF] text-[#0284C7] font-semibold' : 'text-[#334155]'
                 }`}
               >
                 {item.label}
@@ -148,7 +148,7 @@ export default function Header({ route, setRoute }: HeaderProps) {
             type="button"
             onClick={() => handleNavClick('community')}
             className={`block w-full text-left px-3.5 py-2.5 rounded-lg text-sm font-medium ${
-              route.page === 'community' ? 'bg-[#EFF6FF] text-[#2563EB] font-semibold' : 'text-[#334155]'
+              route.page === 'community' ? 'bg-[#F0FDF4] text-[#15803D] font-semibold' : 'text-[#334155]'
             }`}
           >
             MLDSN Community
@@ -158,7 +158,7 @@ export default function Header({ route, setRoute }: HeaderProps) {
             <button
               type="button"
               onClick={handleCollaborateClick}
-              className="w-full py-3 px-4 rounded-lg text-sm font-semibold bg-[#2563EB] hover:bg-[#1D4ED8] text-white text-center flex items-center justify-center gap-2"
+              className="w-full py-3 px-4 rounded-lg text-sm font-semibold bg-[#15803D] hover:bg-[#166534] text-white text-center flex items-center justify-center gap-2"
             >
               <span>Let&apos;s Collaborate</span>
               <ArrowRight size={14} />

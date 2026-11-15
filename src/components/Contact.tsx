@@ -77,147 +77,119 @@ export default function Contact() {
   };
 
   return (
-    <section id="contact" className="py-20 sm:py-28 bg-white border-b border-[#E2E8F0]">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-16">
-        {/* Collaboration CTA Banner */}
-        <div className="rounded-2xl bg-[#101828] text-white p-8 sm:p-12 border border-[#1E293B] flex flex-col lg:flex-row lg:items-center justify-between gap-6">
-          <div className="max-w-2xl space-y-2.5">
-            <div className="text-xs font-mono text-[#22D3EE]">Collaborate with MounTech Solution</div>
-            <h2 className="font-display text-2xl sm:text-4xl font-extrabold tracking-tight text-white">
-              Partner with us on applied AI, data systems, or technical education.
-            </h2>
-            <p className="text-sm sm:text-base text-[#CBD5E1] leading-relaxed">
-              We collaborate with Nepalese enterprises, universities, research groups, and engineering teams looking to adopt reliable AI systems and build local technical capacity.
-            </p>
-          </div>
-          <div className="flex flex-wrap gap-3 shrink-0">
-            <a
-              href="mailto:info@mountech.com.np"
-              className="px-6 py-3 rounded-lg text-xs font-semibold bg-[#2563EB] hover:bg-[#1D4ED8] text-white transition-colors whitespace-nowrap"
-            >
-              Email info@mountech.com.np
-            </a>
-            <a
-              href="mailto:aimldsn@gmail.com"
-              className="px-6 py-3 rounded-lg text-xs font-semibold bg-white/10 hover:bg-white/15 text-white border border-white/15 transition-colors whitespace-nowrap"
-            >
-              Academy &amp; Community Desk
-            </a>
-          </div>
-        </div>
-
-        {/* Contact Console Split */}
+    <section id="contact" className="py-16 sm:py-24 bg-[#F8FAFC] border-b border-[#E2E8F0]">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-14 items-start">
           {/* Direct Channels */}
           <div className="lg:col-span-5 space-y-6">
             <div>
-              <div className="flex items-center gap-2 text-xs font-mono text-[#64748B] mb-2">
-                <span className="font-semibold text-[#2563EB]">Direct Inquiries</span>
+              <div className="flex items-center gap-2 text-xs font-mono text-[#5A6D7E] mb-2">
+                <span className="font-semibold text-[#0284C7]">Let&apos;s Collaborate</span>
                 <span aria-hidden="true">·</span>
-                <span>Admissions &amp; Advisory Open</span>
+                <span className="text-[#15803D]">Admissions &amp; Advisory Open</span>
               </div>
-              <h3 className="font-display text-2xl sm:text-3xl font-extrabold text-[#172033] tracking-tight">
+              <h2 className="font-display text-3xl sm:text-4xl font-extrabold text-[#0F1E2E] tracking-tight">
                 Connect with our architects &amp; admissions desk.
-              </h3>
-              <p className="text-[#64748B] text-sm leading-relaxed mt-3">
-                Reach out for enterprise architecture audits, corporate workforce upskilling, Mountech Academy cohorts, or applied research partnerships.
+              </h2>
+              <p className="text-[#5A6D7E] text-sm leading-relaxed mt-3">
+                Partner with MounTech Solution on applied AI engineering, enterprise data architectures, corporate upskilling, or Mountech Academy cohorts.
               </p>
             </div>
 
             <div className="space-y-3">
-              <div className="flex items-center gap-4 bg-[#F8FAFC] border border-[#E2E8F0] p-4 rounded-xl">
-                <div className="w-10 h-10 rounded-lg bg-[#EFF6FF] border border-[#DBEAFE] flex items-center justify-center text-[#2563EB] shrink-0">
+              <div className="flex items-center gap-4 bg-white border border-[#E2E8F0] p-4 rounded-xl shadow-subtle">
+                <div className="w-10 h-10 rounded-lg bg-[#F0F9FF] border border-[#BAE6FD] flex items-center justify-center text-[#0284C7] shrink-0">
                   <Mail size={18} />
                 </div>
                 <div>
-                  <div className="text-[11px] font-mono text-[#64748B]">Enterprise Inquiries</div>
+                  <div className="text-[11px] font-mono text-[#5A6D7E]">Enterprise Inquiries</div>
                   <a
                     href="mailto:info@mountech.com.np"
-                    className="text-sm font-semibold text-[#172033] hover:text-[#2563EB] font-mono transition-colors"
+                    className="text-sm font-semibold text-[#0F1E2E] hover:text-[#0284C7] font-mono transition-colors"
                   >
                     info@mountech.com.np
                   </a>
                 </div>
               </div>
 
-              <div className="flex items-center gap-4 bg-[#F8FAFC] border border-[#E2E8F0] p-4 rounded-xl">
-                <div className="w-10 h-10 rounded-lg bg-[#EFF6FF] border border-[#DBEAFE] flex items-center justify-center text-[#2563EB] shrink-0">
+              <div className="flex items-center gap-4 bg-white border border-[#E2E8F0] p-4 rounded-xl shadow-subtle">
+                <div className="w-10 h-10 rounded-lg bg-[#F0FDF4] border border-[#BBF7D0] flex items-center justify-center text-[#15803D] shrink-0">
                   <Mail size={18} />
                 </div>
                 <div>
-                  <div className="text-[11px] font-mono text-[#64748B]">Academy &amp; Community Admissions</div>
+                  <div className="text-[11px] font-mono text-[#5A6D7E]">Academy &amp; Community Admissions</div>
                   <a
                     href="mailto:aimldsn@gmail.com"
-                    className="text-sm font-semibold text-[#172033] hover:text-[#2563EB] font-mono transition-colors"
+                    className="text-sm font-semibold text-[#0F1E2E] hover:text-[#15803D] font-mono transition-colors"
                   >
                     aimldsn@gmail.com
                   </a>
                 </div>
               </div>
 
-              <div className="flex items-center gap-4 bg-[#F8FAFC] border border-[#E2E8F0] p-4 rounded-xl">
-                <div className="w-10 h-10 rounded-lg bg-[#EFF6FF] border border-[#DBEAFE] flex items-center justify-center text-[#0891B2] shrink-0">
+              <div className="flex items-center gap-4 bg-white border border-[#E2E8F0] p-4 rounded-xl shadow-subtle">
+                <div className="w-10 h-10 rounded-lg bg-[#F0F9FF] border border-[#BAE6FD] flex items-center justify-center text-[#0284C7] shrink-0">
                   <MapPin size={18} />
                 </div>
                 <div>
-                  <div className="text-[11px] font-mono text-[#64748B]">Headquarters</div>
-                  <div className="text-sm font-semibold text-[#172033]">
+                  <div className="text-[11px] font-mono text-[#5A6D7E]">Headquarters</div>
+                  <div className="text-sm font-semibold text-[#0F1E2E]">
                     Sanepa Heights, Lalitpur · Kathmandu Valley, Nepal
                   </div>
                 </div>
               </div>
 
-              <div className="flex items-center gap-4 bg-[#F8FAFC] border border-[#E2E8F0] p-4 rounded-xl">
-                <div className="w-10 h-10 rounded-lg bg-[#EFF6FF] border border-[#DBEAFE] flex items-center justify-center text-[#64748B] shrink-0">
+              <div className="flex items-center gap-4 bg-white border border-[#E2E8F0] p-4 rounded-xl shadow-subtle">
+                <div className="w-10 h-10 rounded-lg bg-[#F8FAFC] border border-[#E2E8F0] flex items-center justify-center text-[#5A6D7E] shrink-0">
                   <Clock size={18} />
                 </div>
                 <div>
-                  <div className="text-[11px] font-mono text-[#64748B]">Office Hours &amp; Response</div>
-                  <div className="text-sm font-semibold text-[#172033]">
+                  <div className="text-[11px] font-mono text-[#5A6D7E]">Office Hours &amp; Response</div>
+                  <div className="text-sm font-semibold text-[#0F1E2E]">
                     Sun – Fri, 9:00 AM – 6:00 PM NPT · 24h Response SLA
                   </div>
                 </div>
               </div>
             </div>
 
-            <div className="p-4 rounded-xl bg-[#EFF6FF]/60 border border-[#BFDBFE] flex items-start gap-3">
-              <ShieldCheck size={18} className="text-[#2563EB] shrink-0 mt-0.5" />
+            <div className="p-4 rounded-xl bg-[#F0F9FF] border border-[#BAE6FD] flex items-start gap-3">
+              <ShieldCheck size={18} className="text-[#15803D] shrink-0 mt-0.5" />
               <div className="text-xs text-[#334155] leading-relaxed">
-                <span className="font-semibold text-[#172033] block mb-0.5">
+                <span className="font-semibold text-[#0F1E2E] block mb-0.5">
                   Strict Confidentiality
                 </span>
-                All technical scopes, architecture reviews, and applicant records are handled under strict professional confidentiality.
+                All technical scopes, architecture discussions, and student records are handled under strict professional confidentiality.
               </div>
             </div>
           </div>
 
           {/* Inquiry Form */}
-          <div className="lg:col-span-7 bg-[#F8FAFC] border border-[#E2E8F0] rounded-2xl p-6 sm:p-10">
+          <div className="lg:col-span-7 bg-white border border-[#E2E8F0] rounded-2xl p-6 sm:p-10 shadow-subtle">
             {sentRecord ? (
               <div className="text-center py-8 space-y-5">
-                <div className="w-14 h-14 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-600 flex items-center justify-center mx-auto">
+                <div className="w-14 h-14 rounded-xl bg-[#F0FDF4] border border-[#BBF7D0] text-[#15803D] flex items-center justify-center mx-auto">
                   <CheckCircle2 size={30} />
                 </div>
                 <div>
-                  <h4 className="text-2xl font-bold text-[#172033]">Inquiry Successfully Received</h4>
-                  <p className="text-xs sm:text-sm text-[#64748B] max-w-md mx-auto mt-1.5 leading-relaxed">
-                    Thank you, <span className="font-semibold text-[#172033]">{sentRecord.name}</span>. Our team in Kathmandu has logged your inquiry and will follow up at <span className="font-mono text-[#172033]">{sentRecord.email}</span> within 24 business hours.
+                  <h3 className="text-2xl font-bold text-[#0F1E2E]">Inquiry Successfully Received</h3>
+                  <p className="text-xs sm:text-sm text-[#5A6D7E] max-w-md mx-auto mt-1.5 leading-relaxed">
+                    Thank you, <span className="font-semibold text-[#0F1E2E]">{sentRecord.name}</span>. Our team in Kathmandu has logged your inquiry and will respond to <span className="font-mono text-[#0F1E2E]">{sentRecord.email}</span> within 24 business hours.
                   </p>
                 </div>
 
-                <div className="p-4 rounded-xl bg-white border border-[#E2E8F0] max-w-md mx-auto text-xs text-left space-y-2">
-                  <div className="flex justify-between items-center text-[11px] font-mono text-[#64748B] pb-1 border-b border-[#E2E8F0]">
+                <div className="p-4 rounded-xl bg-[#F8FAFC] border border-[#E2E8F0] max-w-md mx-auto text-xs text-left space-y-2">
+                  <div className="flex justify-between items-center text-[11px] font-mono text-[#5A6D7E] pb-1 border-b border-[#E2E8F0]">
                     <span>Inquiry Reference</span>
-                    <span className="text-emerald-700 font-bold flex items-center gap-1">
+                    <span className="text-[#15803D] font-bold flex items-center gap-1">
                       <Check size={11} /> Logged
                     </span>
                   </div>
-                  <div className="text-[#172033] font-bold text-sm font-mono">{sentRecord.transmissionId}</div>
-                  <div className="text-xs text-[#64748B]">
-                    Topic: <span className="text-[#172033] font-semibold">{sentRecord.topic}</span>
+                  <div className="text-[#0F1E2E] font-bold text-sm font-mono">{sentRecord.transmissionId}</div>
+                  <div className="text-xs text-[#5A6D7E]">
+                    Topic: <span className="text-[#0F1E2E] font-semibold">{sentRecord.topic}</span>
                   </div>
-                  <div className="text-xs text-[#64748B]">
-                    Organization: <span className="text-[#172033]">{sentRecord.organization}</span>
+                  <div className="text-xs text-[#5A6D7E]">
+                    Organization: <span className="text-[#0F1E2E]">{sentRecord.organization}</span>
                   </div>
                 </div>
 
@@ -225,7 +197,7 @@ export default function Contact() {
                   <button
                     type="button"
                     onClick={() => setSentRecord(null)}
-                    className="rounded-lg px-6 py-2.5 bg-[#101828] hover:bg-[#1E293B] text-white text-xs font-semibold transition-colors"
+                    className="rounded-lg px-6 py-2.5 bg-[#0B1924] hover:bg-[#122636] text-white text-xs font-semibold transition-colors"
                   >
                     Submit Another Inquiry
                   </button>
@@ -245,8 +217,8 @@ export default function Contact() {
                         onClick={() => setTopic(t)}
                         className={`text-xs px-3 py-1.5 rounded-lg border transition-colors whitespace-nowrap ${
                           topic === t
-                            ? 'bg-[#2563EB] text-white font-semibold border-[#2563EB]'
-                            : 'bg-white text-[#64748B] border-[#E2E8F0] hover:text-[#172033]'
+                            ? 'bg-[#0284C7] text-white font-semibold border-[#0284C7]'
+                            : 'bg-[#F8FAFC] text-[#5A6D7E] border-[#E2E8F0] hover:text-[#0F1E2E]'
                         }`}
                       >
                         {t}
@@ -266,7 +238,7 @@ export default function Contact() {
                       value={form.name}
                       onChange={(e) => setForm({ ...form, name: e.target.value })}
                       placeholder="e.g. Aayush Sharma"
-                      className="w-full px-3.5 py-2.5 rounded-lg bg-white border border-[#E2E8F0] text-xs text-[#172033] focus:outline-none focus:border-[#2563EB]"
+                      className="w-full px-3.5 py-2.5 rounded-lg bg-[#F8FAFC] border border-[#E2E8F0] text-xs text-[#0F1E2E] focus:outline-none focus:border-[#0284C7]"
                     />
                   </div>
                   <div>
@@ -279,8 +251,8 @@ export default function Contact() {
                       value={form.email}
                       onChange={(e) => handleEmailChange(e.target.value)}
                       placeholder="e.g. aayush@organization.com"
-                      className={`w-full px-3.5 py-2.5 rounded-lg bg-white border text-xs text-[#172033] focus:outline-none ${
-                        emailWarning ? 'border-amber-500' : 'border-[#E2E8F0] focus:border-[#2563EB]'
+                      className={`w-full px-3.5 py-2.5 rounded-lg bg-[#F8FAFC] border text-xs text-[#0F1E2E] focus:outline-none ${
+                        emailWarning ? 'border-amber-500' : 'border-[#E2E8F0] focus:border-[#0284C7]'
                       }`}
                     />
                     {emailWarning && (
@@ -299,7 +271,7 @@ export default function Contact() {
                       value={form.organization}
                       onChange={(e) => setForm({ ...form, organization: e.target.value })}
                       placeholder="e.g. University / Enterprise Name"
-                      className="w-full px-3.5 py-2.5 rounded-lg bg-white border border-[#E2E8F0] text-xs text-[#172033] focus:outline-none focus:border-[#2563EB]"
+                      className="w-full px-3.5 py-2.5 rounded-lg bg-[#F8FAFC] border border-[#E2E8F0] text-xs text-[#0F1E2E] focus:outline-none focus:border-[#0284C7]"
                     />
                   </div>
                   <div>
@@ -311,7 +283,7 @@ export default function Contact() {
                       value={form.phone}
                       onChange={(e) => setForm({ ...form, phone: e.target.value })}
                       placeholder="+977 98XXXXXXXX"
-                      className="w-full px-3.5 py-2.5 rounded-lg bg-white border border-[#E2E8F0] text-xs text-[#172033] focus:outline-none focus:border-[#2563EB]"
+                      className="w-full px-3.5 py-2.5 rounded-lg bg-[#F8FAFC] border border-[#E2E8F0] text-xs text-[#0F1E2E] focus:outline-none focus:border-[#0284C7]"
                     />
                   </div>
                 </div>
@@ -326,14 +298,14 @@ export default function Contact() {
                     value={form.query}
                     onChange={(e) => setForm({ ...form, query: e.target.value })}
                     placeholder="Describe your enterprise requirements, research collaboration, or cohort inquiries..."
-                    className="w-full px-3.5 py-2.5 rounded-lg bg-white border border-[#E2E8F0] text-xs text-[#172033] focus:outline-none focus:border-[#2563EB] leading-relaxed"
+                    className="w-full px-3.5 py-2.5 rounded-lg bg-[#F8FAFC] border border-[#E2E8F0] text-xs text-[#0F1E2E] focus:outline-none focus:border-[#0284C7] leading-relaxed"
                   />
                 </div>
 
                 <button
                   type="submit"
                   disabled={isSubmitting || !form.name || !form.email || !form.query}
-                  className="w-full rounded-lg py-3 bg-[#2563EB] hover:bg-[#1D4ED8] text-white font-semibold text-xs shadow-subtle flex items-center justify-center gap-2 transition-colors disabled:opacity-50"
+                  className="w-full rounded-lg py-3 bg-[#15803D] hover:bg-[#166534] text-white font-semibold text-xs shadow-subtle flex items-center justify-center gap-2 transition-colors disabled:opacity-50"
                 >
                   {isSubmitting ? (
                     <span>Submitting Inquiry...</span>

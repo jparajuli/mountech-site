@@ -82,7 +82,7 @@ export default function AiSolutions({ summaryOnly, initialTab = 'overview', onVi
       id: 'disaster' as AiTabType,
       title: 'AI Disaster Management Framework',
       status: 'Active Telemetry Model',
-      statusColor: 'text-[#0891B2]',
+      statusColor: 'text-[#0284C7]',
       category: 'Geological & Hydrological AI',
       desc: '3-layer early warning architecture combining sensor telemetry, physics-guided hydrodynamic modeling, and automated evacuation broadcast agents.',
       highlights: [
@@ -95,7 +95,7 @@ export default function AiSolutions({ summaryOnly, initialTab = 'overview', onVi
       id: 'agents' as AiTabType,
       title: 'B2B Multi-Agent Workflow Engine',
       status: 'Applied Solution',
-      statusColor: 'text-[#2563EB]',
+      statusColor: 'text-[#15803D]',
       category: 'Autonomous Process Automation',
       desc: 'Directed Acyclic Graph (DAG) multi-agent workflows built for South Asian cross-border trade, customs classification, and logistics routing.',
       highlights: [
@@ -108,7 +108,7 @@ export default function AiSolutions({ summaryOnly, initialTab = 'overview', onVi
       id: 'doc-intel' as AiTabType,
       title: 'Document Intelligence & PII Redaction',
       status: 'Applied Solution',
-      statusColor: 'text-[#2563EB]',
+      statusColor: 'text-[#15803D]',
       category: 'NLP & Vision Tooling',
       desc: 'Document parsing supporting bilingual English-Devanagari text, tabular extraction, and air-gapped PII redaction.',
       highlights: [
@@ -121,7 +121,7 @@ export default function AiSolutions({ summaryOnly, initialTab = 'overview', onVi
       id: 'sovereign' as AiTabType,
       title: 'Applied Sovereign AI (R&D Pilot)',
       status: 'Active R&D Pilot',
-      statusColor: 'text-[#6366F1]',
+      statusColor: 'text-[#0284C7]',
       category: 'Research & Infrastructure Pilot',
       desc: 'Ongoing research exploration into hosting fine-tuned open-weight models on Nepal’s green hydroelectric compute with specialized Devanagari tokenizers.',
       highlights: [
@@ -138,25 +138,25 @@ export default function AiSolutions({ summaryOnly, initialTab = 'overview', onVi
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6">
             <div className="max-w-2xl space-y-3">
-              <div className="flex flex-wrap items-center gap-2 text-xs font-mono text-[#64748B]">
-                <span className="font-semibold text-[#2563EB]">Strategic Portfolio Pillar</span>
+              <div className="flex flex-wrap items-center gap-2 text-xs font-mono text-[#5A6D7E]">
+                <span className="font-semibold text-[#15803D]">Applied AI &amp; Research</span>
                 <span aria-hidden="true">·</span>
                 <span>Capacity Building in Nepal</span>
               </div>
 
-              <h2 className="font-display text-3xl sm:text-4xl font-extrabold text-[#172033] tracking-tight">
-                Promoting AI Solutions &amp; Capacity Building
+              <h2 className="font-display text-3xl sm:text-4xl font-extrabold text-[#0F1E2E] tracking-tight">
+                AI Solutions &amp; Applied Research
               </h2>
 
-              <p className="text-[#64748B] text-base leading-relaxed">
-                Bridging the gap between global AI advancements and local implementation by delivering tailored AI education, workforce upskilling, and enterprise solution adoption across Nepal.
+              <p className="text-[#5A6D7E] text-base leading-relaxed">
+                Bridging global AI advancements and local implementation through tailored enterprise systems, disaster telemetry, and focused R&amp;D pilots.
               </p>
             </div>
 
             <button
               type="button"
               onClick={() => onViewFull?.('overview')}
-              className="rounded-lg px-5 py-2.5 text-xs font-semibold bg-[#101828] hover:bg-[#1E293B] text-white shadow-subtle flex items-center gap-2 self-start md:self-auto transition-colors whitespace-nowrap"
+              className="rounded-lg px-5 py-2.5 text-xs font-semibold bg-[#0B1924] hover:bg-[#122636] text-white shadow-subtle flex items-center gap-2 self-start md:self-auto transition-colors whitespace-nowrap shrink-0"
             >
               <span>Explore Research &amp; AI Lab</span>
               <ArrowRight size={14} />
@@ -167,21 +167,21 @@ export default function AiSolutions({ summaryOnly, initialTab = 'overview', onVi
             {aiInitiatives.map((item) => (
               <div
                 key={item.id}
-                className="p-6 rounded-2xl bg-white border border-[#E2E8F0] hover:border-[#2563EB]/40 transition-colors flex flex-col justify-between space-y-5 shadow-subtle"
+                className="p-6 rounded-2xl bg-white border border-[#E2E8F0] hover:border-[#0284C7]/40 transition-colors flex flex-col justify-between space-y-5 shadow-subtle"
               >
                 <div className="space-y-2.5">
                   <div className="flex items-center justify-between text-xs font-mono">
-                    <span className="text-[#64748B]">{item.category}</span>
+                    <span className="text-[#5A6D7E]">{item.category}</span>
                     <span className={`font-semibold ${item.statusColor}`}>
                       {item.id === 'sovereign' ? 'R&D Pilot' : 'Active'}
                     </span>
                   </div>
 
-                  <h3 className="font-display text-base font-bold text-[#172033] leading-snug">
+                  <h3 className="font-display text-base font-bold text-[#0F1E2E] leading-snug">
                     {item.title}
                   </h3>
 
-                  <p className="text-xs text-[#64748B] leading-relaxed line-clamp-3">
+                  <p className="text-xs text-[#5A6D7E] leading-relaxed line-clamp-3">
                     {item.desc}
                   </p>
                 </div>
@@ -190,7 +190,7 @@ export default function AiSolutions({ summaryOnly, initialTab = 'overview', onVi
                   <button
                     type="button"
                     onClick={() => onViewFull?.(item.id)}
-                    className="w-full py-2 px-3 rounded-lg text-xs font-semibold text-[#2563EB] bg-[#EFF6FF] hover:bg-[#DBEAFE] transition-colors flex items-center justify-between"
+                    className="w-full py-2 px-3 rounded-lg text-xs font-semibold text-[#0284C7] bg-[#F0F9FF] hover:bg-[#E0F2FE] transition-colors flex items-center justify-between whitespace-nowrap shrink-0"
                   >
                     <span>Inspect System</span>
                     <ArrowRight size={12} />
@@ -207,18 +207,18 @@ export default function AiSolutions({ summaryOnly, initialTab = 'overview', onVi
   return (
     <div className="py-16 sm:py-24 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-14">
       <div className="max-w-3xl space-y-4">
-        <div className="flex flex-wrap items-center gap-2 text-xs font-mono text-[#64748B]">
-          <span className="font-semibold text-[#2563EB]">Research &amp; Innovation Hub</span>
+        <div className="flex flex-wrap items-center gap-2 text-xs font-mono text-[#5A6D7E]">
+          <span className="font-semibold text-[#15803D]">Research &amp; Innovation Hub</span>
           <span aria-hidden="true">·</span>
           <span>Applied Systems &amp; Pilots</span>
         </div>
 
-        <h1 className="font-display text-4xl sm:text-5xl lg:text-6xl font-extrabold text-[#172033] tracking-tight">
-          Promoting AI Solutions &amp; Capacity Building in Nepal
+        <h1 className="font-display text-4xl sm:text-5xl lg:text-6xl font-extrabold text-[#0F1E2E] tracking-tight">
+          Applied AI &amp; Research Lab
         </h1>
 
-        <p className="text-base sm:text-lg text-[#64748B] leading-relaxed">
-          Bridging the gap between global AI advancements and local implementation by delivering tailored AI education, workforce upskilling, and enterprise solution adoption across Nepal. Explore our applied systems, interactive sandboxes, and R&amp;D pilots below.
+        <p className="text-base sm:text-lg text-[#5A6D7E] leading-relaxed">
+          Bridging the gap between global AI advancements and local implementation by delivering tailored AI education, workforce upskilling, and enterprise solution adoption across Nepal.
         </p>
       </div>
 
@@ -229,8 +229,8 @@ export default function AiSolutions({ summaryOnly, initialTab = 'overview', onVi
           onClick={() => setActiveTab('overview')}
           className={`px-4 py-2 text-xs font-medium rounded-lg whitespace-nowrap shrink-0 transition-colors ${
             activeTab === 'overview'
-              ? 'bg-[#2563EB] text-white font-semibold'
-              : 'text-[#64748B] hover:text-[#172033]'
+              ? 'bg-[#0284C7] text-white font-semibold'
+              : 'text-[#5A6D7E] hover:text-[#0F1E2E]'
           }`}
         >
           All AI Initiatives
@@ -241,8 +241,8 @@ export default function AiSolutions({ summaryOnly, initialTab = 'overview', onVi
           onClick={() => setActiveTab('disaster')}
           className={`px-4 py-2 text-xs font-medium rounded-lg whitespace-nowrap shrink-0 transition-colors flex items-center gap-1.5 ${
             activeTab === 'disaster'
-              ? 'bg-[#2563EB] text-white font-semibold'
-              : 'text-[#64748B] hover:text-[#172033]'
+              ? 'bg-[#0284C7] text-white font-semibold'
+              : 'text-[#5A6D7E] hover:text-[#0F1E2E]'
           }`}
         >
           <Waves size={13} />
@@ -254,8 +254,8 @@ export default function AiSolutions({ summaryOnly, initialTab = 'overview', onVi
           onClick={() => setActiveTab('agents')}
           className={`px-4 py-2 text-xs font-medium rounded-lg whitespace-nowrap shrink-0 transition-colors flex items-center gap-1.5 ${
             activeTab === 'agents'
-              ? 'bg-[#2563EB] text-white font-semibold'
-              : 'text-[#64748B] hover:text-[#172033]'
+              ? 'bg-[#0284C7] text-white font-semibold'
+              : 'text-[#5A6D7E] hover:text-[#0F1E2E]'
           }`}
         >
           <Bot size={13} />
@@ -267,8 +267,8 @@ export default function AiSolutions({ summaryOnly, initialTab = 'overview', onVi
           onClick={() => setActiveTab('doc-intel')}
           className={`px-4 py-2 text-xs font-medium rounded-lg whitespace-nowrap shrink-0 transition-colors flex items-center gap-1.5 ${
             activeTab === 'doc-intel'
-              ? 'bg-[#2563EB] text-white font-semibold'
-              : 'text-[#64748B] hover:text-[#172033]'
+              ? 'bg-[#0284C7] text-white font-semibold'
+              : 'text-[#5A6D7E] hover:text-[#0F1E2E]'
           }`}
         >
           <FileText size={13} />
@@ -280,8 +280,8 @@ export default function AiSolutions({ summaryOnly, initialTab = 'overview', onVi
           onClick={() => setActiveTab('sovereign')}
           className={`px-4 py-2 text-xs font-medium rounded-lg whitespace-nowrap shrink-0 transition-colors flex items-center gap-1.5 ${
             activeTab === 'sovereign'
-              ? 'bg-[#2563EB] text-white font-semibold'
-              : 'text-[#64748B] hover:text-[#172033]'
+              ? 'bg-[#0284C7] text-white font-semibold'
+              : 'text-[#5A6D7E] hover:text-[#0F1E2E]'
           }`}
         >
           <Cpu size={13} />
@@ -296,28 +296,28 @@ export default function AiSolutions({ summaryOnly, initialTab = 'overview', onVi
             {aiInitiatives.map((item) => (
               <div
                 key={item.id}
-                className="p-8 rounded-2xl bg-white border border-[#E2E8F0] hover:border-[#2563EB]/40 transition-colors space-y-5 shadow-subtle flex flex-col justify-between"
+                className="p-8 rounded-2xl bg-white border border-[#E2E8F0] hover:border-[#0284C7]/40 transition-colors space-y-5 shadow-subtle flex flex-col justify-between"
               >
                 <div className="space-y-3">
                   <div className="flex items-center justify-between text-xs font-mono">
-                    <span className="text-[#64748B]">{item.category}</span>
+                    <span className="text-[#5A6D7E]">{item.category}</span>
                     <span className={`font-semibold ${item.statusColor}`}>
                       {item.status}
                     </span>
                   </div>
 
-                  <h3 className="font-display text-2xl font-bold text-[#172033]">
+                  <h3 className="font-display text-2xl font-bold text-[#0F1E2E]">
                     {item.title}
                   </h3>
 
-                  <p className="text-sm text-[#64748B] leading-relaxed">
+                  <p className="text-sm text-[#5A6D7E] leading-relaxed">
                     {item.desc}
                   </p>
 
                   <div className="space-y-2 pt-3 border-t border-[#E2E8F0]">
                     {item.highlights.map((h, hIdx) => (
                       <div key={hIdx} className="flex items-start gap-2 text-xs text-[#334155]">
-                        <CheckCircle2 size={14} className="text-[#2563EB] shrink-0 mt-0.5" />
+                        <CheckCircle2 size={14} className="text-[#15803D] shrink-0 mt-0.5" />
                         <span>{h}</span>
                       </div>
                     ))}
@@ -328,7 +328,7 @@ export default function AiSolutions({ summaryOnly, initialTab = 'overview', onVi
                   <button
                     type="button"
                     onClick={() => setActiveTab(item.id)}
-                    className="w-full py-2.5 px-4 rounded-lg text-xs font-semibold bg-[#101828] hover:bg-[#1E293B] text-white transition-colors flex items-center justify-center gap-2"
+                    className="w-full py-2.5 px-4 rounded-lg text-xs font-semibold bg-[#0B1924] hover:bg-[#122636] text-white transition-colors flex items-center justify-center gap-2 whitespace-nowrap shrink-0"
                   >
                     <span>Inspect {item.title}</span>
                     <ArrowRight size={13} />
@@ -338,9 +338,9 @@ export default function AiSolutions({ summaryOnly, initialTab = 'overview', onVi
             ))}
           </div>
 
-          <div className="p-6 sm:p-8 rounded-2xl bg-[#EFF6FF] border border-[#BFDBFE] flex flex-col sm:flex-row items-center justify-between gap-4">
+          <div className="p-6 sm:p-8 rounded-2xl bg-[#F0F9FF] border border-[#BAE6FD] flex flex-col sm:flex-row items-center justify-between gap-4">
             <div className="space-y-1">
-              <div className="font-display font-bold text-base text-[#172033]">
+              <div className="font-display font-bold text-base text-[#0F1E2E]">
                 Need a custom AI tool or machine learning pipeline?
               </div>
               <p className="text-xs sm:text-sm text-[#334155] max-w-xl">
@@ -349,7 +349,7 @@ export default function AiSolutions({ summaryOnly, initialTab = 'overview', onVi
             </div>
             <a
               href="#contact"
-              className="rounded-lg px-5 py-2.5 text-xs font-semibold bg-[#2563EB] text-white hover:bg-[#1D4ED8] transition-colors whitespace-nowrap"
+              className="rounded-lg px-5 py-2.5 text-xs font-semibold bg-[#15803D] text-white hover:bg-[#166534] transition-colors whitespace-nowrap shrink-0"
             >
               Discuss Custom Tooling
             </a>
@@ -360,20 +360,20 @@ export default function AiSolutions({ summaryOnly, initialTab = 'overview', onVi
       {/* Disaster Management */}
       {activeTab === 'disaster' && (
         <div className="space-y-6">
-          <div className="p-4 rounded-xl bg-[#EFF6FF] border border-[#BFDBFE] text-xs text-[#172033] flex items-center justify-between gap-4">
+          <div className="p-4 rounded-xl bg-[#F0F9FF] border border-[#BAE6FD] text-xs text-[#0F1E2E] flex items-center justify-between gap-4">
             <div>
               <strong>Applied AI Initiative:</strong> Hydrological Early Warning Telemetry &amp; Physics-Guided Neural Forecasting.
             </div>
             <button
               type="button"
               onClick={() => setActiveTab('overview')}
-              className="font-mono text-xs font-semibold text-[#2563EB] hover:underline whitespace-nowrap"
+              className="font-mono text-xs font-semibold text-[#0284C7] hover:underline whitespace-nowrap shrink-0"
             >
               ← Back to Overview
             </button>
           </div>
 
-          <div className="rounded-2xl overflow-hidden border border-[#1E293B] shadow-elevated">
+          <div className="rounded-2xl overflow-hidden border border-[#1E3345] shadow-elevated">
             <DisasterFramework />
           </div>
         </div>
@@ -383,21 +383,21 @@ export default function AiSolutions({ summaryOnly, initialTab = 'overview', onVi
       {activeTab === 'agents' && (
         <div className="space-y-8">
           <div className="max-w-3xl space-y-2">
-            <div className="text-xs font-mono text-[#2563EB] font-semibold">Autonomous Multi-Agent Workflows</div>
-            <h2 className="text-2xl sm:text-3xl font-bold font-display text-[#172033]">
+            <div className="text-xs font-mono text-[#0284C7] font-semibold">Autonomous Multi-Agent Workflows</div>
+            <h2 className="text-2xl sm:text-3xl font-bold font-display text-[#0F1E2E]">
               Deterministic B2B Agent Workflows
             </h2>
-            <p className="text-sm text-[#64748B] leading-relaxed">
-              Designed to automate complex document processing for South Asian cross-border trade, customs harmonized code classification, and regulatory compliance verification.
+            <p className="text-sm text-[#5A6D7E] leading-relaxed">
+              Automating complex document processing for South Asian cross-border trade, customs harmonized code classification, and compliance verification.
             </p>
           </div>
 
-          <div className="p-6 sm:p-8 rounded-2xl bg-[#101828] text-white border border-[#1E293B] shadow-elevated space-y-6">
+          <div className="p-6 sm:p-8 rounded-2xl bg-[#0B1924] text-white border border-[#1E3345] shadow-elevated space-y-6">
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-white/10 pb-4">
               <div className="space-y-1">
-                <span className="text-xs font-mono text-[#22D3EE]">Interactive Agent Workbench</span>
+                <span className="text-xs font-mono text-[#2EB6E0]">Interactive Agent Workbench</span>
                 <h3 className="text-lg font-bold text-white flex items-center gap-2">
-                  <Bot size={18} className="text-[#22D3EE]" />
+                  <Bot size={18} className="text-[#2EB6E0]" />
                   <span>Customs ASYCUDA &amp; Trade Compliance DAG</span>
                 </h3>
               </div>
@@ -406,7 +406,7 @@ export default function AiSolutions({ summaryOnly, initialTab = 'overview', onVi
                 type="button"
                 onClick={handleRunAgentWorkflow}
                 disabled={isAgentRunning}
-                className="rounded-lg px-5 py-2.5 text-xs font-semibold bg-[#2563EB] hover:bg-[#1D4ED8] text-white flex items-center gap-2 transition-colors disabled:opacity-50 whitespace-nowrap"
+                className="rounded-lg px-5 py-2.5 text-xs font-semibold bg-[#0284C7] hover:bg-[#0369A1] text-white flex items-center gap-2 transition-colors disabled:opacity-50 whitespace-nowrap shrink-0"
               >
                 <Play size={12} className={isAgentRunning ? 'animate-spin' : ''} />
                 <span>{isAgentRunning ? 'Running Agent Graph...' : 'Run Trade Verification DAG'}</span>
@@ -428,15 +428,15 @@ export default function AiSolutions({ summaryOnly, initialTab = 'overview', onVi
                     key={s.step}
                     className={`p-4 rounded-xl border transition-all ${
                       isComplete
-                        ? 'bg-[#182235] border-[#22D3EE]/60 text-white'
+                        ? 'bg-[#122636] border-[#2EB6E0]/60 text-white'
                         : isCurrent
-                        ? 'bg-[#2563EB]/25 border-[#2563EB] text-white'
+                        ? 'bg-[#0284C7]/25 border-[#0284C7] text-white'
                         : 'bg-white/5 border-white/10 text-white/50'
                     }`}
                   >
                     <div className="flex items-center justify-between mb-2">
                       <span className="text-[11px] text-[#94A3B8]">Node 0{s.step}</span>
-                      {isComplete && <CheckCircle2 size={14} className="text-[#22D3EE]" />}
+                      {isComplete && <CheckCircle2 size={14} className="text-[#4ADE80]" />}
                     </div>
                     <div className="font-bold text-white text-xs mb-1">{s.label}</div>
                     <div className="text-[11px] text-[#CBD5E1]">{s.desc}</div>
@@ -445,9 +445,9 @@ export default function AiSolutions({ summaryOnly, initialTab = 'overview', onVi
               })}
             </div>
 
-            <div className="p-4 rounded-xl bg-[#0B1120] border border-white/10 font-mono text-xs text-[#E2E8F0] space-y-1.5">
+            <div className="p-4 rounded-xl bg-[#07121A] border border-white/10 font-mono text-xs text-[#E2E8F0] space-y-1.5">
               <div className="text-[11px] text-[#94A3B8]">Execution Trace Output</div>
-              <div className="text-[#22D3EE]">
+              <div className="text-[#4ADE80]">
                 ✓ Sample invoice NP-88392 mapped to HS Code 8471.50.00 (Processing Units)
               </div>
               <div className="text-[#CBD5E1]">
@@ -458,20 +458,20 @@ export default function AiSolutions({ summaryOnly, initialTab = 'overview', onVi
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 text-xs">
             <div className="p-6 rounded-2xl bg-white border border-[#E2E8F0] space-y-2">
-              <div className="font-bold text-sm text-[#172033]">ASYCUDA Schema Alignment</div>
-              <p className="text-[#64748B] leading-relaxed">
+              <div className="font-bold text-sm text-[#0F1E2E]">ASYCUDA Schema Alignment</div>
+              <p className="text-[#5A6D7E] leading-relaxed">
                 Structures extracted customs line items to fit existing clearing workflows cleanly.
               </p>
             </div>
             <div className="p-6 rounded-2xl bg-white border border-[#E2E8F0] space-y-2">
-              <div className="font-bold text-sm text-[#172033]">Human-in-the-Loop Gateways</div>
-              <p className="text-[#64748B] leading-relaxed">
+              <div className="font-bold text-sm text-[#0F1E2E]">Human-in-the-Loop Gateways</div>
+              <p className="text-[#5A6D7E] leading-relaxed">
                 Uncertain extractions pause automatically for compliance officer review and approval.
               </p>
             </div>
             <div className="p-6 rounded-2xl bg-white border border-[#E2E8F0] space-y-2">
-              <div className="font-bold text-sm text-[#172033]">Deterministic Calculations</div>
-              <p className="text-[#64748B] leading-relaxed">
+              <div className="font-bold text-sm text-[#0F1E2E]">Deterministic Calculations</div>
+              <p className="text-[#5A6D7E] leading-relaxed">
                 Typed validation rules prevent arithmetic drift across tariff and tax summaries.
               </p>
             </div>
@@ -483,18 +483,18 @@ export default function AiSolutions({ summaryOnly, initialTab = 'overview', onVi
       {activeTab === 'doc-intel' && (
         <div className="space-y-8">
           <div className="max-w-3xl space-y-2">
-            <div className="text-xs font-mono text-[#2563EB] font-semibold">Air-Gapped Document Intelligence</div>
-            <h2 className="text-2xl sm:text-3xl font-bold font-display text-[#172033]">
+            <div className="text-xs font-mono text-[#0284C7] font-semibold">Air-Gapped Document Intelligence</div>
+            <h2 className="text-2xl sm:text-3xl font-bold font-display text-[#0F1E2E]">
               Devanagari OCR &amp; PII Redaction Sandbox
             </h2>
-            <p className="text-sm text-[#64748B] leading-relaxed">
+            <p className="text-sm text-[#5A6D7E] leading-relaxed">
               Test our client-side entity masking demonstration. Sensitive national IDs, names, and financial figures are sanitized before downstream model processing.
             </p>
           </div>
 
-          <div className="p-6 sm:p-8 rounded-2xl bg-[#101828] text-white border border-[#1E293B] shadow-elevated space-y-6">
+          <div className="p-6 sm:p-8 rounded-2xl bg-[#0B1924] text-white border border-[#1E3345] shadow-elevated space-y-6">
             <div className="flex items-center justify-between border-b border-white/10 pb-4 text-xs font-mono">
-              <span className="text-[#22D3EE]">PII Redaction Playground</span>
+              <span className="text-[#2EB6E0]">PII Redaction Playground</span>
               <span className="text-[#94A3B8]">Local Browser Execution</span>
             </div>
 
@@ -506,14 +506,14 @@ export default function AiSolutions({ summaryOnly, initialTab = 'overview', onVi
                 rows={3}
                 value={inputText}
                 onChange={(e) => setInputText(e.target.value)}
-                className="w-full p-4 rounded-xl bg-[#0B1120] border border-white/15 text-white font-mono text-xs focus:outline-none focus:border-[#22D3EE] resize-none"
+                className="w-full p-4 rounded-xl bg-[#07121A] border border-white/15 text-white font-mono text-xs focus:outline-none focus:border-[#2EB6E0] resize-none"
               />
 
               <button
                 type="button"
                 onClick={handleSimulateMasking}
                 disabled={isMasking}
-                className="rounded-lg px-6 py-2.5 text-xs font-semibold bg-[#2563EB] hover:bg-[#1D4ED8] text-white flex items-center gap-2 transition-colors disabled:opacity-50"
+                className="rounded-lg px-6 py-2.5 text-xs font-semibold bg-[#0284C7] hover:bg-[#0369A1] text-white flex items-center gap-2 transition-colors disabled:opacity-50 whitespace-nowrap shrink-0"
               >
                 {isMasking ? (
                   <>
@@ -530,20 +530,20 @@ export default function AiSolutions({ summaryOnly, initialTab = 'overview', onVi
             </div>
 
             {pipelineState.processed && (
-              <div className="p-5 rounded-xl bg-[#0B1120] border border-white/10 space-y-3">
-                <div className="flex items-center justify-between text-xs font-mono text-[#22D3EE] border-b border-white/10 pb-2">
+              <div className="p-5 rounded-xl bg-[#07121A] border border-white/10 space-y-3">
+                <div className="flex items-center justify-between text-xs font-mono text-[#4ADE80] border-b border-white/10 pb-2">
                   <span>Sanitized Output</span>
                   <span className="tabular-nums">Latency: {pipelineState.latency}</span>
                 </div>
 
-                <div className="font-mono text-xs text-white/90 leading-relaxed bg-[#101828] p-3.5 rounded-lg border border-white/10">
+                <div className="font-mono text-xs text-white/90 leading-relaxed bg-[#0B1924] p-3.5 rounded-lg border border-white/10">
                   {pipelineState.redactedText}
                 </div>
 
                 <div className="grid grid-cols-3 gap-2 font-mono text-xs pt-1 tabular-nums">
                   <div className="p-2.5 rounded-lg bg-white/5">
                     <div className="text-[#94A3B8] text-[11px]">Redacted Items</div>
-                    <div className="text-[#22D3EE] font-bold">{pipelineState.entitiesRedacted} Fields</div>
+                    <div className="text-[#2EB6E0] font-bold">{pipelineState.entitiesRedacted} Fields</div>
                   </div>
                   <div className="p-2.5 rounded-lg bg-white/5">
                     <div className="text-[#94A3B8] text-[11px]">Approx. Tokens</div>
@@ -551,7 +551,7 @@ export default function AiSolutions({ summaryOnly, initialTab = 'overview', onVi
                   </div>
                   <div className="p-2.5 rounded-lg bg-white/5">
                     <div className="text-[#94A3B8] text-[11px]">External Egress</div>
-                    <div className="text-[#22D3EE] font-bold">0 Bytes Sent</div>
+                    <div className="text-[#4ADE80] font-bold">0 Bytes Sent</div>
                   </div>
                 </div>
               </div>
@@ -563,55 +563,55 @@ export default function AiSolutions({ summaryOnly, initialTab = 'overview', onVi
       {/* Sovereign AI */}
       {activeTab === 'sovereign' && (
         <div className="space-y-8">
-          <div className="p-6 rounded-2xl bg-[#EFF6FF] border border-[#BFDBFE] text-[#172033] space-y-2">
-            <div className="flex items-center gap-2 font-mono text-xs font-bold text-[#2563EB]">
+          <div className="p-6 rounded-2xl bg-[#F0F9FF] border border-[#BAE6FD] text-[#0F1E2E] space-y-2">
+            <div className="flex items-center gap-2 font-mono text-xs font-bold text-[#0284C7]">
               <Cpu size={15} />
               <span>Research &amp; Development Status: Active Pilot Initiative</span>
             </div>
             <p className="text-xs sm:text-sm leading-relaxed text-[#334155]">
-              Sovereign AI is currently in active research and pilot prototyping at MounTech Solution. While our commercial services focus on <strong>Mountech Academy</strong>, <strong>Enterprise Data Science</strong>, and <strong>Technology Consulting</strong>, Project Alpine explores the feasibility of localized language models utilizing Nepal&apos;s hydroelectric compute.
+              Sovereign AI is an active research pilot at MounTech Solution. Project Alpine investigates localized language models running on Nepal&apos;s hydroelectric compute while commercial delivery centers on <strong>Mountech Academy</strong>, <strong>Data Science</strong>, and <strong>Consulting</strong>.
             </p>
           </div>
 
           <div className="max-w-3xl space-y-2">
-            <h2 className="text-2xl sm:text-3xl font-bold font-display text-[#172033]">
+            <h2 className="text-2xl sm:text-3xl font-bold font-display text-[#0F1E2E]">
               Project Alpine: Sovereign AI Exploration Blueprint
             </h2>
-            <p className="text-sm text-[#64748B] leading-relaxed">
+            <p className="text-sm text-[#5A6D7E] leading-relaxed">
               Investigating the technical and economic viability of hosting air-gapped open weights inside Nepal with minimal cross-border telemetry.
             </p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             <div className="p-6 rounded-2xl bg-white border border-[#E2E8F0] space-y-3 shadow-subtle">
-              <div className="text-xs font-mono text-[#2563EB] font-semibold">01 · Benchmarking</div>
-              <h3 className="text-base font-bold text-[#172033]">Devanagari Tokenizer Optimization</h3>
-              <p className="text-xs text-[#64748B] leading-relaxed">
+              <div className="text-xs font-mono text-[#0284C7] font-semibold">01 · Benchmarking</div>
+              <h3 className="text-base font-bold text-[#0F1E2E]">Devanagari Tokenizer Optimization</h3>
+              <p className="text-xs text-[#5A6D7E] leading-relaxed">
                 Generic tokenizers fragment Nepali words excessively. We evaluate custom byte-level BPE vocabularies to reduce token overhead and latency.
               </p>
-              <div className="pt-2 text-xs font-mono text-[#0891B2]">Status: Research Ongoing</div>
+              <div className="pt-2 text-xs font-mono text-[#15803D]">Status: Research Ongoing</div>
             </div>
 
             <div className="p-6 rounded-2xl bg-white border border-[#E2E8F0] space-y-3 shadow-subtle">
-              <div className="text-xs font-mono text-[#2563EB] font-semibold">02 · Compute Sizing</div>
-              <h3 className="text-base font-bold text-[#172033]">Hydroelectric Compute Economics</h3>
-              <p className="text-xs text-[#64748B] leading-relaxed">
+              <div className="text-xs font-mono text-[#0284C7] font-semibold">02 · Compute Sizing</div>
+              <h3 className="text-base font-bold text-[#0F1E2E]">Hydroelectric Compute Economics</h3>
+              <p className="text-xs text-[#5A6D7E] leading-relaxed">
                 Modeling localized inference hardware utilization paired with Nepal&apos;s clean hydroelectric grid capacity.
               </p>
-              <div className="pt-2 text-xs font-mono text-[#6366F1]">Status: Pilot Feasibility</div>
+              <div className="pt-2 text-xs font-mono text-[#0284C7]">Status: Pilot Feasibility</div>
             </div>
 
             <div className="p-6 rounded-2xl bg-white border border-[#E2E8F0] space-y-3 shadow-subtle">
-              <div className="text-xs font-mono text-[#2563EB] font-semibold">03 · Air-Gapped Topologies</div>
-              <h3 className="text-base font-bold text-[#172033]">Zero-Egress Institutional Testing</h3>
-              <p className="text-xs text-[#64748B] leading-relaxed">
+              <div className="text-xs font-mono text-[#0284C7] font-semibold">03 · Air-Gapped Topologies</div>
+              <h3 className="text-base font-bold text-[#0F1E2E]">Zero-Egress Institutional Testing</h3>
+              <p className="text-xs text-[#5A6D7E] leading-relaxed">
                 Designing isolated container topologies with strict firewall policies so sensitive institutional records stay inside organizational boundaries.
               </p>
-              <div className="pt-2 text-xs font-mono text-[#64748B]">Status: Architecture Blueprint</div>
+              <div className="pt-2 text-xs font-mono text-[#5A6D7E]">Status: Architecture Blueprint</div>
             </div>
           </div>
 
-          <div className="p-6 rounded-2xl bg-[#101828] text-white flex flex-col sm:flex-row items-center justify-between gap-4">
+          <div className="p-6 rounded-2xl bg-[#0B1924] text-white flex flex-col sm:flex-row items-center justify-between gap-4">
             <div className="text-xs space-y-1">
               <div className="font-bold text-sm">Interested in collaborating on Applied AI research?</div>
               <p className="text-[#CBD5E1]">
@@ -620,7 +620,7 @@ export default function AiSolutions({ summaryOnly, initialTab = 'overview', onVi
             </div>
             <a
               href="#contact"
-              className="rounded-lg px-5 py-2.5 text-xs font-semibold bg-[#2563EB] hover:bg-[#1D4ED8] text-white transition-colors whitespace-nowrap"
+              className="rounded-lg px-5 py-2.5 text-xs font-semibold bg-[#15803D] hover:bg-[#166534] text-white transition-colors whitespace-nowrap shrink-0"
             >
               Contact Research Lead
             </a>

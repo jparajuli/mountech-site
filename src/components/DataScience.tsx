@@ -38,15 +38,15 @@ export default function DataScience() {
     <section id="datascience" className="py-16 sm:py-24 bg-[#F8FAFC] border-b border-[#E2E8F0]">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="max-w-3xl mb-12 space-y-3">
-          <div className="flex items-center gap-2 text-xs font-mono text-[#2563EB] font-semibold">
+          <div className="flex items-center gap-2 text-xs font-mono text-[#0284C7] font-semibold">
             <span>Data Science &amp; Analytics</span>
             <span aria-hidden="true" className="text-[#94A3B8]">·</span>
-            <span className="text-[#64748B] font-normal">Architecture Matrix</span>
+            <span className="text-[#5A6D7E] font-normal">Architecture Matrix</span>
           </div>
-          <h1 className="font-display text-3xl sm:text-5xl font-extrabold text-[#172033] tracking-tight">
+          <h1 className="font-display text-3xl sm:text-5xl font-extrabold text-[#0F1E2E] tracking-tight">
             Enterprise Data Science &amp; Storage Tiers
           </h1>
-          <p className="text-[#64748B] text-base leading-relaxed">
+          <p className="text-[#5A6D7E] text-base leading-relaxed">
             Delivering robust data engineering, automated analytics metrics, and deterministic predictive models structured for diverse institutional scales.
           </p>
         </div>
@@ -61,26 +61,26 @@ export default function DataScience() {
                 onClick={() => setSelectedTier(idx)}
                 className={`text-left p-7 rounded-2xl border cursor-pointer transition-all ${
                   isSelected
-                    ? 'bg-[#101828] border-[#101828] text-white shadow-elevated'
-                    : 'bg-white border-[#E2E8F0] hover:border-[#2563EB]/50 text-[#172033]'
+                    ? 'bg-[#0B1924] border-[#0B1924] text-white shadow-elevated'
+                    : 'bg-white border-[#E2E8F0] hover:border-[#0284C7]/50 text-[#0F1E2E]'
                 }`}
               >
                 <div className="flex items-center justify-between mb-3 text-xs font-mono">
-                  <span className={isSelected ? 'text-[#22D3EE]' : 'text-[#64748B]'}>
+                  <span className={isSelected ? 'text-[#2EB6E0]' : 'text-[#5A6D7E]'}>
                     Tier 0{idx + 1}
                   </span>
                   {isSelected && (
-                    <span className="font-semibold text-[#22D3EE]">Selected</span>
+                    <span className="font-semibold text-[#4ADE80]">Selected</span>
                   )}
                 </div>
 
-                <h3 className={`font-display text-lg font-bold mb-1 ${isSelected ? 'text-white' : 'text-[#172033]'}`}>
+                <h3 className={`font-display text-lg font-bold mb-1 ${isSelected ? 'text-white' : 'text-[#0F1E2E]'}`}>
                   {s.title}
                 </h3>
-                <div className={`text-xs font-semibold mb-3 ${isSelected ? 'text-[#93C5FD]' : 'text-[#2563EB]'}`}>
+                <div className={`text-xs font-semibold mb-3 ${isSelected ? 'text-[#2EB6E0]' : 'text-[#15803D]'}`}>
                   {s.target}
                 </div>
-                <p className={`text-xs leading-relaxed mb-4 ${isSelected ? 'text-[#CBD5E1]' : 'text-[#64748B]'}`}>
+                <p className={`text-xs leading-relaxed mb-4 ${isSelected ? 'text-[#CBD5E1]' : 'text-[#5A6D7E]'}`}>
                   {s.solution}
                 </p>
 
@@ -88,12 +88,12 @@ export default function DataScience() {
                   isSelected ? 'border-white/10' : 'border-[#E2E8F0]'
                 }`}>
                   <div className="flex justify-between">
-                    <span className={isSelected ? 'text-[#94A3B8]' : 'text-[#64748B]'}>Throughput</span>
+                    <span className={isSelected ? 'text-[#94A3B8]' : 'text-[#5A6D7E]'}>Throughput</span>
                     <span className="font-semibold">{s.throughput}</span>
                   </div>
                   <div className="flex justify-between">
-                    <span className={isSelected ? 'text-[#94A3B8]' : 'text-[#64748B]'}>Core Engine</span>
-                    <span className={isSelected ? 'text-[#22D3EE] font-semibold' : 'text-[#2563EB] font-semibold'}>
+                    <span className={isSelected ? 'text-[#94A3B8]' : 'text-[#5A6D7E]'}>Core Engine</span>
+                    <span className={isSelected ? 'text-[#2EB6E0] font-semibold' : 'text-[#0284C7] font-semibold'}>
                       {s.storage.split('+')[0]}
                     </span>
                   </div>
@@ -106,32 +106,32 @@ export default function DataScience() {
         <div className="bg-white border border-[#E2E8F0] rounded-2xl p-6 sm:p-8 space-y-4 shadow-subtle">
           <div className="flex items-center justify-between flex-wrap gap-4 border-b border-[#E2E8F0] pb-4">
             <div className="flex items-center gap-3">
-              <div className="p-2.5 rounded-xl bg-[#EFF6FF] border border-[#DBEAFE] text-[#2563EB]">
+              <div className="p-2.5 rounded-xl bg-[#F0F9FF] border border-[#BAE6FD] text-[#0284C7]">
                 <Database size={20} />
               </div>
               <div>
-                <h4 className="font-display text-base font-bold text-[#172033]">
+                <h4 className="font-display text-base font-bold text-[#0F1E2E]">
                   {scales[selectedTier].title} Architecture Blueprint
                 </h4>
-                <div className="text-xs font-mono text-[#64748B]">
+                <div className="text-xs font-mono text-[#5A6D7E]">
                   Configured Storage Stack: {scales[selectedTier].storage}
                 </div>
               </div>
             </div>
 
-            <div className="flex flex-wrap items-center gap-3 text-xs font-mono text-[#64748B] tabular-nums">
+            <div className="flex flex-wrap items-center gap-3 text-xs font-mono text-[#5A6D7E] tabular-nums">
               <span>
-                Latency: <strong className="text-[#2563EB]">{scales[selectedTier].latency}</strong>
+                Latency: <strong className="text-[#15803D]">{scales[selectedTier].latency}</strong>
               </span>
               <span aria-hidden="true">·</span>
               <span>
-                Throughput: <strong className="text-[#172033]">{scales[selectedTier].throughput}</strong>
+                Throughput: <strong className="text-[#0F1E2E]">{scales[selectedTier].throughput}</strong>
               </span>
             </div>
           </div>
 
-          <p className="text-xs sm:text-sm text-[#64748B] leading-relaxed">
-            <strong className="text-[#172033]">Target Applications: </strong>
+          <p className="text-xs sm:text-sm text-[#5A6D7E] leading-relaxed">
+            <strong className="text-[#0F1E2E]">Target Applications: </strong>
             {scales[selectedTier].useCase}
           </p>
         </div>

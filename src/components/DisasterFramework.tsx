@@ -155,11 +155,11 @@ export default function DisasterFramework() {
     <section
       id="disaster-framework"
       aria-label="AI Disaster Management Framework"
-      className="py-16 sm:py-20 bg-[#101828] text-white relative overflow-hidden"
+      className="py-16 sm:py-20 bg-[#0B1924] text-white relative overflow-hidden"
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative space-y-12">
         <header className="max-w-3xl space-y-3">
-          <div className="flex flex-wrap items-center gap-2 text-xs font-mono text-[#22D3EE]">
+          <div className="flex flex-wrap items-center gap-2 text-xs font-mono text-[#2EB6E0]">
             <span>Applied AI for Geological Safety</span>
             <span aria-hidden="true" className="text-white/30">·</span>
             <span className="text-[#94A3B8]">3-Layer Architecture</span>
@@ -189,21 +189,21 @@ export default function DisasterFramework() {
                   onClick={() => setActiveLayer(layer.layer)}
                   className={`cursor-pointer rounded-xl p-5 sm:p-6 border transition-all duration-200 ${
                     isActive
-                      ? 'bg-[#182235] border-[#2563EB] shadow-elevated'
+                      ? 'bg-[#122636] border-[#2EB6E0] shadow-elevated'
                       : 'bg-white/[0.03] border-white/10 hover:bg-white/[0.06]'
                   }`}
                 >
                   <div className="flex items-center justify-between gap-2">
                     <div className="flex items-center gap-3">
                       <span
-                        className={`w-7 h-7 rounded-lg flex items-center justify-center font-mono text-xs font-bold tabular-nums ${
-                          isActive ? 'bg-[#2563EB] text-white' : 'bg-white/10 text-white/70'
+                        className={`w-7 h-7 rounded-lg flex items-center justify-center font-mono text-xs font-bold tabular-nums shrink-0 ${
+                          isActive ? 'bg-[#0284C7] text-white' : 'bg-white/10 text-white/70'
                         }`}
                       >
                         {layer.layer}
                       </span>
                       <div>
-                        <span className="text-[11px] font-mono text-[#22D3EE] block">
+                        <span className="text-[11px] font-mono text-[#2EB6E0] block">
                           {layer.layerCode} · {layer.category}
                         </span>
                         <h3 className="font-display text-base sm:text-lg font-bold text-white">
@@ -212,7 +212,7 @@ export default function DisasterFramework() {
                       </div>
                     </div>
 
-                    <span className="text-xs font-mono text-[#94A3B8]">
+                    <span className="text-xs font-mono text-[#4ADE80] shrink-0">
                       {layer.operationalStatus}
                     </span>
                   </div>
@@ -230,7 +230,7 @@ export default function DisasterFramework() {
                         <ul className="space-y-1 text-xs text-white/90">
                           {layer.dataSources.map((ds, idx) => (
                             <li key={idx} className="flex items-start gap-2">
-                              <span className="text-[#22D3EE] font-bold">·</span>
+                              <span className="text-[#4ADE80] font-bold">·</span>
                               <span>{ds}</span>
                             </li>
                           ))}
@@ -246,9 +246,9 @@ export default function DisasterFramework() {
                         </div>
                       </div>
 
-                      <div className="p-3 rounded-lg bg-[#0B1120] border border-white/10 text-xs font-mono flex flex-wrap items-center justify-between gap-2">
+                      <div className="p-3 rounded-lg bg-[#07121A] border border-white/10 text-xs font-mono flex flex-wrap items-center justify-between gap-2">
                         <span className="text-[#94A3B8]">Output Artifact:</span>
-                        <span className="text-[#22D3EE] font-semibold">{layer.outputArtifact}</span>
+                        <span className="text-[#2EB6E0] font-semibold">{layer.outputArtifact}</span>
                       </div>
                     </div>
                   )}
@@ -258,9 +258,9 @@ export default function DisasterFramework() {
           </div>
 
           {/* Hydrological Surge Simulation Console */}
-          <div className="lg:col-span-5 bg-[#0B1120] rounded-2xl p-5 sm:p-6 border border-white/10 space-y-5">
+          <div className="lg:col-span-5 bg-[#07121A] rounded-2xl p-5 sm:p-6 border border-white/10 space-y-5">
             <div className="border-b border-white/10 pb-3">
-              <span className="text-[11px] font-mono text-[#22D3EE] block">
+              <span className="text-[11px] font-mono text-[#2EB6E0] block">
                 Interactive Basin Simulation
               </span>
               <h4 className="font-display text-sm font-bold text-white mt-0.5">
@@ -301,7 +301,7 @@ export default function DisasterFramework() {
 
                       <span
                         className={`text-[11px] font-mono font-semibold ${
-                          isWarning ? 'text-amber-300' : 'text-[#22D3EE]'
+                          isWarning ? 'text-amber-300' : 'text-[#4ADE80]'
                         }`}
                       >
                         {basin.trend} · {basin.riskScore}%
@@ -311,7 +311,7 @@ export default function DisasterFramework() {
                     <div className="w-full bg-white/10 h-1.5 rounded-full overflow-hidden mt-2">
                       <div
                         className={`h-full transition-all duration-500 ${
-                          isWarning ? 'bg-amber-400' : 'bg-[#22D3EE]'
+                          isWarning ? 'bg-amber-400' : 'bg-[#2EB6E0]'
                         }`}
                         style={{
                           width: `${Math.min(100, (basin.currentLevelM / basin.dangerLevelM) * 100)}%`,
@@ -340,7 +340,7 @@ export default function DisasterFramework() {
                 type="button"
                 onClick={handleSimulateSurge}
                 disabled={simulatingCloudburst}
-                className="flex-1 rounded-lg py-2.5 px-3 text-xs font-semibold bg-[#2563EB] hover:bg-[#1D4ED8] text-white transition-colors flex items-center justify-center gap-1.5 disabled:opacity-50"
+                className="flex-1 rounded-lg py-2.5 px-3 text-xs font-semibold bg-[#0284C7] hover:bg-[#0369A1] text-white transition-colors flex items-center justify-center gap-1.5 disabled:opacity-50 whitespace-nowrap shrink-0"
               >
                 <Play size={12} className={simulatingCloudburst ? 'animate-spin' : ''} />
                 <span>
@@ -352,7 +352,7 @@ export default function DisasterFramework() {
                 <button
                   type="button"
                   onClick={handleResetTelemetry}
-                  className="rounded-lg p-2.5 bg-white/10 hover:bg-white/20 text-white transition-colors"
+                  className="rounded-lg p-2.5 bg-white/10 hover:bg-white/20 text-white transition-colors shrink-0"
                   title="Reset Baseline Model"
                   aria-label="Reset Baseline Model"
                 >

@@ -27,22 +27,22 @@ export default function MediaFrame({
   return (
     <div
       className={`relative overflow-hidden ${aspectClass} ${
-        darkFallback ? 'bg-[#101828]' : 'bg-[#EFF6FF]'
+        darkFallback ? 'bg-[#0B1924]' : 'bg-[#F0F9FF]'
       } ${className}`}
     >
       {hasError ? (
         <div
           className={`w-full h-full flex flex-col items-center justify-center p-6 text-center ${
             darkFallback
-              ? 'bg-gradient-to-br from-[#101828] via-[#182235] to-[#1E3A8A]/40 text-[#F8FAFC]'
-              : 'bg-gradient-to-br from-[#EFF6FF] via-white to-[#E0F2FE] text-[#172033]'
+              ? 'bg-gradient-to-br from-[#0B1924] via-[#122636] to-[#0E3A47] text-[#F8FAFC]'
+              : 'bg-gradient-to-br from-[#F0F9FF] via-white to-[#ECFDF5] text-[#0F1E2E]'
           }`}
         >
           <div
             className={`w-12 h-12 rounded-xl flex items-center justify-center mb-3 border ${
               darkFallback
-                ? 'bg-white/5 border-white/10 text-[#22D3EE]'
-                : 'bg-white border-[#E2E8F0] text-[#2563EB]'
+                ? 'bg-white/5 border-white/10 text-[#2EB6E0]'
+                : 'bg-white border-[#E2E8F0] text-[#0284C7]'
             }`}
           >
             <Cpu size={22} />

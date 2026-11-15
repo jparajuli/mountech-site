@@ -3,9 +3,7 @@ import Header from './components/Header';
 import Hero from './components/Hero';
 import About from './components/About';
 import CoreSolutions from './components/CoreSolutions';
-import ApproachSection from './components/ApproachSection';
 import ProjectsSection from './components/ProjectsSection';
-import TechInnovationSection from './components/TechInnovationSection';
 import School from './components/School';
 import DataScience from './components/DataScience';
 import Contact from './components/Contact';
@@ -49,50 +47,29 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col bg-[#F8FAFC] text-[#172033] font-sans antialiased selection:bg-[#2563EB] selection:text-white">
+    <div className="min-h-screen flex flex-col bg-[#F8FAFC] text-[#0F1E2E] font-sans antialiased selection:bg-[#0284C7] selection:text-white">
       <Header route={route} setRoute={setRoute} />
 
       <main className="flex-1">
-        {/* Homepage Storytelling Flow (Sections A - H) */}
+        {/* Streamlined Non-Redundant Homepage */}
         {route.page === 'home' && (
           <>
-            {/* A. Hero Section */}
             <Hero setRoute={setRoute} />
-
-            {/* B. About MounTech */}
-            <About summaryOnly={true} setRoute={setRoute} />
-
-            {/* C. Our Core Expertise */}
             <CoreSolutions
               onSelectSolution={(page, aiTab) => navigate(page, aiTab || 'overview', route.courseId)}
             />
-
-            {/* D. Our Approach */}
-            <ApproachSection onExploreServices={() => navigate('services')} />
-
-            {/* E. Projects and Case Studies */}
             <ProjectsSection
               summaryOnly={true}
               onOpenProject={(page, aiTab) => navigate(page, aiTab || 'overview', route.courseId)}
             />
-
-            {/* F. Technology and Innovation */}
-            <TechInnovationSection
-              onNavigate={(page, aiTab, courseId) =>
-                navigate(page, aiTab || 'overview', courseId || route.courseId)
-              }
-            />
-
-            {/* G. Education & Community */}
             <School summaryOnly={true} route={route} setRoute={setRoute} />
             <Community summaryOnly={true} setRoute={setRoute} />
-
-            {/* H. Collaboration CTA & Contact */}
+            <About summaryOnly={true} setRoute={setRoute} />
             <Contact />
           </>
         )}
 
-        {/* Services Unified View (Consulting + Data Science) */}
+        {/* Services Unified View */}
         {route.page === 'services' && (
           <div>
             <Consulting summaryOnly={false} />
@@ -120,7 +97,7 @@ export default function App() {
           </div>
         )}
 
-        {/* Individual Course Detail */}
+        {/* Course Detail */}
         {route.page === 'course-detail' && (
           <div>
             <School detailOnly={true} route={route} setRoute={setRoute} />
@@ -136,7 +113,7 @@ export default function App() {
           </div>
         )}
 
-        {/* Technology Consulting Page */}
+        {/* Consulting Page */}
         {route.page === 'consulting' && (
           <div>
             <Consulting summaryOnly={false} />
@@ -177,11 +154,10 @@ export default function App() {
         )}
       </main>
 
-      {/* I. Footer */}
-      <footer className="bg-[#101828] text-[#94A3B8] text-xs border-t border-white/10">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-10 pb-14 border-b border-white/10">
-            {/* Brand & Identity */}
+      {/* Footer matched to Logo Alpine Slate + Sky Cyan + Pine Green */}
+      <footer className="bg-[#0B1924] text-[#94A3B8] text-xs border-t border-white/10">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-14">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-10 pb-12 border-b border-white/10">
             <div className="lg:col-span-2 space-y-4">
               <button
                 type="button"
@@ -192,84 +168,81 @@ export default function App() {
               </button>
 
               <p className="text-[#CBD5E1] text-xs leading-relaxed max-w-sm">
-                MounTech Solution advances Applied AI, Enterprise Data Science, Technology Consulting, and Technical Education through Mountech Academy and the MLDSN Nepal ecosystem.
+                Applied AI, Data Science, Technology Consulting, and Technical Education for Nepal.
               </p>
 
-              <div className="text-xs text-[#94A3B8] font-mono pt-1">
+              <div className="text-xs text-[#94A3B8] font-mono">
                 Sanepa Heights, Lalitpur · Kathmandu Valley, Nepal
               </div>
             </div>
 
-            {/* Services & Expertise */}
             <div className="space-y-3">
-              <div className="font-mono text-white text-xs font-semibold">Expertise</div>
+              <div className="font-mono text-white text-xs font-semibold">Core Focus</div>
               <ul className="space-y-2 text-xs">
                 <li>
-                  <button type="button" onClick={() => navigate('school')} className="hover:text-white transition-colors">
+                  <button type="button" onClick={() => navigate('school')} className="hover:text-[#2EB6E0] transition-colors">
                     Mountech Academy
                   </button>
                 </li>
                 <li>
-                  <button type="button" onClick={() => navigate('datascience')} className="hover:text-white transition-colors">
+                  <button type="button" onClick={() => navigate('datascience')} className="hover:text-[#2EB6E0] transition-colors">
                     Data Science &amp; Analytics
                   </button>
                 </li>
                 <li>
-                  <button type="button" onClick={() => navigate('consulting')} className="hover:text-white transition-colors">
+                  <button type="button" onClick={() => navigate('consulting')} className="hover:text-[#2EB6E0] transition-colors">
                     Technology Consulting
                   </button>
                 </li>
                 <li>
-                  <button type="button" onClick={() => navigate('ai')} className="hover:text-[#22D3EE] text-[#93C5FD] transition-colors">
+                  <button type="button" onClick={() => navigate('ai')} className="hover:text-[#4ADE80] text-[#2EB6E0] transition-colors">
                     Research &amp; AI Lab
                   </button>
                 </li>
               </ul>
             </div>
 
-            {/* Projects & AI Portfolio */}
             <div className="space-y-3">
-              <div className="font-mono text-white text-xs font-semibold">Projects &amp; Pilots</div>
+              <div className="font-mono text-white text-xs font-semibold">AI Initiatives</div>
               <ul className="space-y-2 text-xs">
                 <li>
-                  <button type="button" onClick={() => navigate('ai', 'disaster')} className="hover:text-white transition-colors text-left">
+                  <button type="button" onClick={() => navigate('ai', 'disaster')} className="hover:text-[#2EB6E0] transition-colors text-left">
                     Disaster Management AI
                   </button>
                 </li>
                 <li>
-                  <button type="button" onClick={() => navigate('ai', 'agents')} className="hover:text-white transition-colors text-left">
+                  <button type="button" onClick={() => navigate('ai', 'agents')} className="hover:text-[#2EB6E0] transition-colors text-left">
                     B2B Multi-Agent Workflows
                   </button>
                 </li>
                 <li>
-                  <button type="button" onClick={() => navigate('ai', 'doc-intel')} className="hover:text-white transition-colors text-left">
+                  <button type="button" onClick={() => navigate('ai', 'doc-intel')} className="hover:text-[#2EB6E0] transition-colors text-left">
                     Document Intelligence &amp; PII
                   </button>
                 </li>
                 <li>
-                  <button type="button" onClick={() => navigate('ai', 'sovereign')} className="hover:text-white transition-colors text-left">
+                  <button type="button" onClick={() => navigate('ai', 'sovereign')} className="hover:text-[#4ADE80] transition-colors text-left">
                     Sovereign AI (R&amp;D Pilot)
                   </button>
                 </li>
               </ul>
             </div>
 
-            {/* Ecosystem & Contact */}
             <div className="space-y-3">
               <div className="font-mono text-white text-xs font-semibold">Organization</div>
               <ul className="space-y-2 text-xs">
                 <li>
-                  <button type="button" onClick={() => navigate('about')} className="hover:text-white transition-colors">
+                  <button type="button" onClick={() => navigate('about')} className="hover:text-[#2EB6E0] transition-colors">
                     About &amp; Founding Architects
                   </button>
                 </li>
                 <li>
-                  <button type="button" onClick={() => navigate('projects')} className="hover:text-white transition-colors">
-                    Projects &amp; Case Studies
+                  <button type="button" onClick={() => navigate('projects')} className="hover:text-[#2EB6E0] transition-colors">
+                    Projects &amp; Initiatives
                   </button>
                 </li>
                 <li>
-                  <button type="button" onClick={() => navigate('community')} className="hover:text-white transition-colors">
+                  <button type="button" onClick={() => navigate('community')} className="hover:text-[#4ADE80] transition-colors">
                     MLDSN Nepal Community
                   </button>
                 </li>
@@ -278,7 +251,7 @@ export default function App() {
                     href="https://mldsnnepal.org"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center gap-1 text-[#22D3EE] hover:underline"
+                    className="inline-flex items-center gap-1 text-[#4ADE80] hover:underline"
                   >
                     <span>mldsnnepal.org</span>
                     <ExternalLink size={11} />
@@ -288,7 +261,7 @@ export default function App() {
             </div>
           </div>
 
-          <div className="pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs font-mono">
+          <div className="pt-7 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs font-mono">
             <div>© 2026 MounTech Solution (MTS). All rights reserved.</div>
             <div className="flex flex-wrap items-center gap-4 text-[#94A3B8]">
               <a href="mailto:info@mountech.com.np" className="hover:text-white transition-colors">
