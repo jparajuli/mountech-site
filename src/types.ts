@@ -1,3 +1,16 @@
+export type PageRoute =
+  | 'home'
+  | 'about'
+  | 'services'
+  | 'projects'
+  | 'school'
+  | 'course-detail'
+  | 'datascience'
+  | 'consulting'
+  | 'ai'
+  | 'disaster'
+  | 'community';
+
 export interface RouteState {
   page: string;
   courseId: string;

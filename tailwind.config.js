@@ -7,23 +7,19 @@ export default {
   theme: {
     extend: {
       colors: {
-        // Cohere Core Palette Tokens
-        cohere: {
-          ink: '#17171c',          // Near-black primary
-          text: '#212121',         // Primary body text
-          canvas: '#fbfbfa',       // Warm crisp canvas
-          stone: '#eeece7',        // Soft stone card surface
-          sand: '#f5f4f0',         // Subtle background section
-          slate: '#75758a',        // Secondary meta text
-          subtle: '#93939f',       // Muted slate
-          coral: '#ff7759',        // Signature brand warm accent
-          green: '#003c33',        // Deep enterprise green
-          teal: '#00a389',         // Vibrant teal indicator
-          blue: '#1863dc',         // Action blue
-          dark: '#0d1117',         // Deep dark product surface
-          darkcard: '#121721',     // Deep console card
-          darkborder: 'rgba(255, 255, 255, 0.1)',
-          border: 'rgba(0, 0, 0, 0.08)',
+        mt: {
+          navy: '#101828',
+          navySoft: '#182235',
+          blue: '#2563EB',
+          blueDark: '#1D4ED8',
+          cyan: '#22D3EE',
+          indigo: '#6366F1',
+          ice: '#EFF6FF',
+          canvas: '#F8FAFC',
+          surface: '#FFFFFF',
+          ink: '#172033',
+          muted: '#64748B',
+          border: '#E2E8F0',
         },
         bg: 'var(--bg)',
         surface: 'var(--surface)',
@@ -33,19 +29,19 @@ export default {
         accent2: 'var(--accent2)',
         green: 'var(--green)',
         border: 'var(--border)',
-        'border-hover': 'var(--border-hover)',
         text: 'var(--text)',
         'text-sub': 'var(--text-sub)',
         'text-muted': 'var(--text-muted)',
       },
       fontFamily: {
-        sans: ['"Plus Jakarta Sans"', 'Inter', 'sans-serif'],
-        display: ['"Space Grotesk"', '"Plus Jakarta Sans"', 'sans-serif'],
+        sans: ['"Plus Jakarta Sans"', '"Manrope"', '-apple-system', 'sans-serif'],
+        display: ['"Manrope"', '"Plus Jakarta Sans"', 'sans-serif'],
         mono: ['"JetBrains Mono"', 'monospace'],
       },
-      borderRadius: {
-        pill: '9999px',
-        cohere: '18px',
+      boxShadow: {
+        'subtle': '0 1px 2px 0 rgba(16, 24, 40, 0.04)',
+        'elevated': '0 12px 32px -8px rgba(16, 24, 40, 0.08), 0 4px 12px -4px rgba(16, 24, 40, 0.04)',
+        'glow-blue': '0 10px 30px -10px rgba(37, 99, 235, 0.35)',
       },
     },
   },

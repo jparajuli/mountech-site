@@ -1,89 +1,86 @@
 import React, { useState } from 'react';
-import { 
-  Building2, ShieldCheck, Cpu, ArrowRight, 
-  Layers, CheckCircle2, Sliders, Calendar, Sparkles
-} from 'lucide-react';
 
 interface ConsultingProps {
   summaryOnly?: boolean;
   onViewFull?: () => void;
 }
 
-export default function Consulting({ summaryOnly, onViewFull }: ConsultingProps) {
+export default function Consulting({ summaryOnly }: ConsultingProps) {
   const [legacySystem, setLegacySystem] = useState('Monolithic VM / On-Premise Stack');
   const [targetGoal, setTargetGoal] = useState('Automated Workflow & AI Integration');
 
+  const estimatedWeeks =
+    legacySystem.includes('Hybrid') || targetGoal.includes('Lakehouse') ? '6 – 10 Weeks' : '4 – 8 Weeks';
+
   const advisoryServices = [
     {
-      code: "ADVISORY 01",
-      title: "Cloud & Data Infrastructure Modernization",
-      desc: "Guiding enterprise teams on refactoring monolithic architectures, database indexing, lakehouse migrations, and containerized microservices."
+      code: '01',
+      title: 'Cloud & Data Infrastructure Modernization',
+      desc: 'Guiding enterprise teams on refactoring monolithic architectures, database indexing, lakehouse migrations, and containerized microservices.',
     },
     {
-      code: "ADVISORY 02",
-      title: "DevSecOps & Resilient Topologies",
-      desc: "Designing automated CI/CD deployment pipelines, zero-trust network boundaries, container security, and high-availability backup systems."
+      code: '02',
+      title: 'DevSecOps & Resilient Topologies',
+      desc: 'Designing automated CI/CD deployment pipelines, zero-trust network boundaries, container security, and high-availability backup systems.',
     },
     {
-      code: "ADVISORY 03",
-      title: "Enterprise AI & Workflow Integration",
-      desc: "Assisting organizations with evaluating practical AI tool adoption, trade compliance automation, and aligning systems with national data governance."
-    }
+      code: '03',
+      title: 'Enterprise AI & Workflow Integration',
+      desc: 'Assisting organizations with evaluating practical AI tool adoption, trade compliance automation, and aligning systems with institutional data governance.',
+    },
   ];
 
   return (
-    <div className="py-16 sm:py-24 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-16">
-      
-      {/* Header */}
+    <div className={`${summaryOnly ? 'py-16' : 'py-16 sm:py-24'} max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-14`}>
       <div className="max-w-3xl space-y-4">
-        <div className="flex items-center gap-2 text-xs font-mono text-cohere-slate">
-          <span className="font-semibold text-cohere-ink uppercase tracking-wider">Enterprise Advisory</span>
+        <div className="flex items-center gap-2 text-xs font-mono text-[#64748B]">
+          <span className="font-semibold text-[#2563EB]">Enterprise Advisory</span>
           <span aria-hidden="true">·</span>
           <span>MounTech Consulting Group</span>
         </div>
 
-        <h1 className="font-display text-4xl sm:text-6xl font-extrabold text-cohere-ink tracking-tight text-balance">
-          Architecting resilient enterprise futures.
+        <h1 className="font-display text-4xl sm:text-5xl lg:text-6xl font-extrabold text-[#172033] tracking-tight">
+          Architecting resilient enterprise systems.
         </h1>
 
-        <p className="text-lg text-cohere-subtle leading-relaxed">
-          From legacy refactoring to practical AI workflow adoption, our senior systems architects provide hands-on architectural blueprints, modernization audits, and engineering pods.
+        <p className="text-base sm:text-lg text-[#64748B] leading-relaxed">
+          From legacy refactoring to practical AI workflow adoption, our senior systems architects provide architectural blueprints, modernization audits, and dedicated engineering pods.
         </p>
       </div>
 
-      {/* ── INTERACTIVE TRANSFORMATION SCOPE ESTIMATOR ── */}
-      <div className="p-6 sm:p-10 rounded-2xl bg-white border border-black/[0.08] shadow-sm space-y-8">
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-black/[0.06] pb-5">
+      {/* Interactive Transformation Scope Estimator */}
+      <div className="p-6 sm:p-10 rounded-2xl bg-white border border-[#E2E8F0] shadow-subtle space-y-8">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-[#E2E8F0] pb-5">
           <div className="space-y-1">
-            <span className="text-[10px] font-mono text-cohere-coral font-bold uppercase tracking-wider">
-              INTERACTIVE ARCHITECTURE PLANNER
+            <span className="text-xs font-mono text-[#2563EB] font-semibold">
+              Interactive Architecture Planner
             </span>
-            <h2 className="font-display text-xl sm:text-2xl font-bold text-cohere-ink">
+            <h2 className="font-display text-xl sm:text-2xl font-bold text-[#172033]">
               Enterprise Transformation Scope Estimator
             </h2>
           </div>
-          <span className="text-xs font-mono text-cohere-slate">Structured Milestone Delivery</span>
+          <span className="text-xs font-mono text-[#64748B]">Structured Milestone Delivery</span>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-          {/* Current State */}
-          <div className="space-y-2">
-            <label className="text-xs font-mono text-cohere-slate uppercase block font-semibold">
-              1. Current Legacy Foundation
+          <div className="space-y-2.5">
+            <label className="text-xs font-mono text-[#64748B] block font-semibold">
+              1. Current Foundation
             </label>
             <div className="space-y-2">
               {[
                 'Monolithic VM / On-Premise Stack',
                 'Basic SQL Database & Manual ETL',
-                'Hybrid Cloud with Data Fragmentation'
+                'Hybrid Cloud with Data Fragmentation',
               ].map((item) => (
                 <button
                   key={item}
+                  type="button"
                   onClick={() => setLegacySystem(item)}
-                  className={`w-full text-left p-3.5 rounded-xl border text-xs transition-all ${
+                  className={`w-full text-left p-3.5 rounded-xl border text-xs transition-colors ${
                     legacySystem === item
-                      ? 'bg-[#f4f3ef] border-cohere-ink font-bold text-cohere-ink shadow-sm'
-                      : 'bg-white border-black/[0.08] text-cohere-subtle hover:bg-[#faf9f7]'
+                      ? 'bg-[#EFF6FF] border-[#2563EB] font-semibold text-[#172033]'
+                      : 'bg-[#F8FAFC] border-[#E2E8F0] text-[#64748B] hover:text-[#172033]'
                   }`}
                 >
                   {item}
@@ -92,24 +89,24 @@ export default function Consulting({ summaryOnly, onViewFull }: ConsultingProps)
             </div>
           </div>
 
-          {/* Target Milestone */}
-          <div className="space-y-2">
-            <label className="text-xs font-mono text-cohere-slate uppercase block font-semibold">
+          <div className="space-y-2.5">
+            <label className="text-xs font-mono text-[#64748B] block font-semibold">
               2. Target Objective
             </label>
             <div className="space-y-2">
               {[
                 'Automated Workflow & AI Integration',
                 'Containerized Microservices & CI/CD',
-                'Scalable Lakehouse & BI Matrix'
+                'Scalable Lakehouse & BI Matrix',
               ].map((item) => (
                 <button
                   key={item}
+                  type="button"
                   onClick={() => setTargetGoal(item)}
-                  className={`w-full text-left p-3.5 rounded-xl border text-xs transition-all ${
+                  className={`w-full text-left p-3.5 rounded-xl border text-xs transition-colors ${
                     targetGoal === item
-                      ? 'bg-[#f4f3ef] border-cohere-ink font-bold text-cohere-ink shadow-sm'
-                      : 'bg-white border-black/[0.08] text-cohere-subtle hover:bg-[#faf9f7]'
+                      ? 'bg-[#EFF6FF] border-[#2563EB] font-semibold text-[#172033]'
+                      : 'bg-[#F8FAFC] border-[#E2E8F0] text-[#64748B] hover:text-[#172033]'
                   }`}
                 >
                   {item}
@@ -118,22 +115,25 @@ export default function Consulting({ summaryOnly, onViewFull }: ConsultingProps)
             </div>
           </div>
 
-          {/* Scale & Timeline Output */}
-          <div className="p-6 rounded-xl bg-[#f8f7f4] border border-black/[0.08] space-y-4 flex flex-col justify-between">
+          <div className="p-6 rounded-xl bg-[#101828] text-white space-y-5 flex flex-col justify-between">
             <div>
-              <div className="text-[10px] font-mono text-cohere-slate uppercase">ESTIMATED ROADMAP</div>
-              <div className="text-2xl font-bold font-display text-cohere-ink mt-1">4 - 8 Weeks</div>
-              <p className="text-xs text-cohere-subtle mt-1">Phased sprint discovery, architectural design & pilot implementation.</p>
+              <div className="text-xs font-mono text-[#22D3EE]">Estimated Roadmap</div>
+              <div className="text-2xl font-bold font-display text-white mt-1 tabular-nums">
+                {estimatedWeeks}
+              </div>
+              <p className="text-xs text-[#CBD5E1] mt-1.5 leading-relaxed">
+                Phased sprint discovery, architecture design &amp; pilot implementation for {legacySystem.split('/')[0].trim()}.
+              </p>
             </div>
 
-            <div className="pt-3 border-t border-black/[0.06] space-y-1 text-xs">
-              <div className="text-[10px] font-mono text-cohere-slate uppercase">DELIVERY POD</div>
-              <div className="font-semibold text-cohere-ink">1 Principal Architect, 2 Systems Engineers</div>
+            <div className="pt-3 border-t border-white/10 space-y-1 text-xs">
+              <div className="text-xs font-mono text-[#94A3B8]">Recommended Pod</div>
+              <div className="font-semibold text-white">1 Principal Architect · 2 Systems Engineers</div>
             </div>
 
             <a
               href="#contact"
-              className="w-full text-center rounded-full py-2.5 text-xs font-semibold bg-cohere-ink hover:bg-black text-white shadow-sm transition-all"
+              className="w-full text-center rounded-lg py-2.5 px-4 text-xs font-semibold bg-[#2563EB] hover:bg-[#1D4ED8] text-white transition-colors"
             >
               Request Architecture Assessment
             </a>
@@ -141,17 +141,17 @@ export default function Consulting({ summaryOnly, onViewFull }: ConsultingProps)
         </div>
       </div>
 
-      {/* Services Breakdown */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        {advisoryServices.map((service, idx) => (
-          <div key={idx} className="p-7 rounded-2xl bg-white border border-black/[0.08] space-y-3 shadow-sm">
-            <div className="font-mono text-xs text-cohere-coral font-bold">{service.code}</div>
-            <h3 className="text-base font-bold text-cohere-ink">{service.title}</h3>
-            <p className="text-xs text-cohere-subtle leading-relaxed">{service.desc}</p>
+        {advisoryServices.map((service) => (
+          <div key={service.code} className="p-7 rounded-2xl bg-white border border-[#E2E8F0] space-y-3 shadow-subtle">
+            <div className="font-mono text-xs text-[#2563EB] font-bold">
+              {service.code}.
+            </div>
+            <h3 className="font-display text-base font-bold text-[#172033]">{service.title}</h3>
+            <p className="text-xs sm:text-sm text-[#64748B] leading-relaxed">{service.desc}</p>
           </div>
         ))}
       </div>
-
     </div>
   );
 }

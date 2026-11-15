@@ -1,95 +1,118 @@
 import React, { useState, useEffect } from 'react';
 import Header from './components/Header';
 import Hero from './components/Hero';
+import About from './components/About';
 import CoreSolutions from './components/CoreSolutions';
+import ApproachSection from './components/ApproachSection';
+import ProjectsSection from './components/ProjectsSection';
+import TechInnovationSection from './components/TechInnovationSection';
 import School from './components/School';
 import DataScience from './components/DataScience';
 import Contact from './components/Contact';
 import AiSolutions, { AiTabType } from './components/AiSolutions';
 import Consulting from './components/Consulting';
 import Community from './components/Community';
-import About from './components/About';
 import Logo from './components/Logo';
 import { ExternalLink } from 'lucide-react';
 import { RouteState } from './types';
 
 export default function App() {
-  const [route, setRoute] = useState<RouteState>({ page: 'home', courseId: 'ai-agents', aiTab: 'overview' });
+  const [route, setRoute] = useState<RouteState>({
+    page: 'home',
+    courseId: 'ai-agents',
+    aiTab: 'overview',
+  });
 
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
 
-    // Dynamic SEO Metadata Synchronization for indexing
     const titles: Record<string, string> = {
-      home: 'MounTech Solution | Applied AI, Data Science & Technical Education for Nepal',
+      home: 'MounTech Solution | Engineering Intelligence. Empowering Innovation.',
+      about: 'About MounTech Solution | Vision, Principles & Founding Architects',
+      services: 'Services & Consulting | Data Science, AI & Modernization | MounTech Solution',
+      projects: 'Projects & Applied AI Systems | MounTech Solution',
       school: 'Mountech Academy | 40-Hour Applied Engineering & AI Masterclasses',
+      'course-detail': 'Course Syllabus | Mountech Academy',
       datascience: 'Enterprise Data Science & Storage Matrix | MounTech Solution',
       consulting: 'Technology Consulting & Systems Modernization | MounTech Solution',
-      ai: 'AI Solutions & Innovations Hub | MounTech Solution',
+      ai: 'Research & Innovation Hub | MounTech Solution',
       disaster: 'AI Disaster Management Framework | MounTech Solution',
       community: 'MLDSN Community Hub | Machine Learning & Data Science Nepal',
-      about: 'Company Identity & Leadership | MounTech Solution'
     };
 
-    document.title = titles[route.page] || 'MounTech Solution | Applied AI & Data Science for Nepal';
-
-    // Synchronize Meta Description
-    let metaDescription = document.querySelector('meta[name="description"]');
-    if (!metaDescription) {
-      metaDescription = document.createElement('meta');
-      metaDescription.setAttribute('name', 'description');
-      document.head.appendChild(metaDescription);
-    }
-    metaDescription.setAttribute(
-      'content',
-      'Promoting AI Solutions & Capacity Building in Nepal: Bridging the gap between global AI advancements and local implementation by delivering tailored AI education, workforce upskilling, and enterprise solution adoption across Nepal.'
-    );
-
-    // Synchronize Meta Keywords for Search Engines
-    let metaKeywords = document.querySelector('meta[name="keywords"]');
-    if (!metaKeywords) {
-      metaKeywords = document.createElement('meta');
-      metaKeywords.setAttribute('name', 'keywords');
-      document.head.appendChild(metaKeywords);
-    }
-    metaKeywords.setAttribute(
-      'content',
-      'AI Capacity Building Nepal, Tailored AI Education, Workforce Upskilling, Enterprise Solution Adoption, Mountech Academy, Data Science, Technology Consulting, MLDSN Nepal'
-    );
+    document.title =
+      titles[route.page] || 'MounTech Solution | Applied AI & Data Science for Nepal';
   }, [route.page, route.courseId, route.aiTab]);
 
+  const navigate = (page: string, aiTab: AiTabType = 'overview', courseId = 'ai-agents') => {
+    setRoute({ page, courseId, aiTab });
+  };
+
   return (
-    <div className="min-h-screen flex flex-col bg-[#fbfbfa] text-cohere-text font-sans antialiased selection:bg-cohere-coral selection:text-white">
-      {/* Editorial Navigation Header */}
+    <div className="min-h-screen flex flex-col bg-[#F8FAFC] text-[#172033] font-sans antialiased selection:bg-[#2563EB] selection:text-white">
       <Header route={route} setRoute={setRoute} />
-      
-      {/* Main Dynamic Viewport */}
+
       <main className="flex-1">
-        
-        {/* ── HOME LANDING VIEW (STREAMLINED & NON-REDUNDANT) ── */}
+        {/* Homepage Storytelling Flow (Sections A - H) */}
         {route.page === 'home' && (
           <>
+            {/* A. Hero Section */}
             <Hero setRoute={setRoute} />
-            <CoreSolutions onSelectSolution={(page) => setRoute({ page, courseId: route.courseId, aiTab: 'overview' })} />
-            
-            {/* Featured Focus 1: Academy Masterclasses Spotlight */}
-            <School summaryOnly={true} route={route} setRoute={setRoute} />
-            
-            {/* Featured Focus 2: AI Solutions & Capacity Building Spotlight */}
-            <AiSolutions 
-              summaryOnly={true} 
-              onViewFull={(tab?: AiTabType) => setRoute({ page: 'ai', courseId: route.courseId, aiTab: tab || 'overview' })} 
+
+            {/* B. About MounTech */}
+            <About summaryOnly={true} setRoute={setRoute} />
+
+            {/* C. Our Core Expertise */}
+            <CoreSolutions
+              onSelectSolution={(page, aiTab) => navigate(page, aiTab || 'overview', route.courseId)}
             />
-            
-            {/* Non-Profit Ecosystem Alliance */}
+
+            {/* D. Our Approach */}
+            <ApproachSection onExploreServices={() => navigate('services')} />
+
+            {/* E. Projects and Case Studies */}
+            <ProjectsSection
+              summaryOnly={true}
+              onOpenProject={(page, aiTab) => navigate(page, aiTab || 'overview', route.courseId)}
+            />
+
+            {/* F. Technology and Innovation */}
+            <TechInnovationSection
+              onNavigate={(page, aiTab, courseId) =>
+                navigate(page, aiTab || 'overview', courseId || route.courseId)
+              }
+            />
+
+            {/* G. Education & Community */}
+            <School summaryOnly={true} route={route} setRoute={setRoute} />
             <Community summaryOnly={true} setRoute={setRoute} />
-            
-            {/* Enterprise Direct Inquiry & Contact */}
+
+            {/* H. Collaboration CTA & Contact */}
             <Contact />
           </>
         )}
 
-        {/* ── MOUNTECH TECH ACADEMY CATALOG ── */}
+        {/* Services Unified View (Consulting + Data Science) */}
+        {route.page === 'services' && (
+          <div>
+            <Consulting summaryOnly={false} />
+            <DataScience />
+            <Contact />
+          </div>
+        )}
+
+        {/* Projects Full View */}
+        {route.page === 'projects' && (
+          <div>
+            <ProjectsSection
+              summaryOnly={false}
+              onOpenProject={(page, aiTab) => navigate(page, aiTab || 'overview', route.courseId)}
+            />
+            <Contact />
+          </div>
+        )}
+
+        {/* Mountech Academy Catalog */}
         {route.page === 'school' && (
           <div>
             <School route={route} setRoute={setRoute} />
@@ -97,7 +120,7 @@ export default function App() {
           </div>
         )}
 
-        {/* ── DEDICATED INDIVIDUAL COURSE DETAIL PAGE ── */}
+        {/* Individual Course Detail */}
         {route.page === 'course-detail' && (
           <div>
             <School detailOnly={true} route={route} setRoute={setRoute} />
@@ -105,7 +128,7 @@ export default function App() {
           </div>
         )}
 
-        {/* ── DATA SCIENCE & INTELLIGENCE MATRIX ── */}
+        {/* Data Science Page */}
         {route.page === 'datascience' && (
           <div>
             <DataScience />
@@ -113,7 +136,7 @@ export default function App() {
           </div>
         )}
 
-        {/* ── SPECIALIZED ADVISORY & CONSULTING ── */}
+        {/* Technology Consulting Page */}
         {route.page === 'consulting' && (
           <div>
             <Consulting summaryOnly={false} />
@@ -121,29 +144,23 @@ export default function App() {
           </div>
         )}
 
-        {/* ── AI SOLUTIONS & CAPACITY BUILDING HUB ── */}
+        {/* Research & AI Hub */}
         {route.page === 'ai' && (
           <div>
-            <AiSolutions 
-              summaryOnly={false} 
-              initialTab={route.aiTab || 'overview'} 
-            />
+            <AiSolutions summaryOnly={false} initialTab={route.aiTab || 'overview'} />
             <Contact />
           </div>
         )}
 
-        {/* ── SEAMLESS ROUTE FOR DISASTER AI ── */}
+        {/* Direct Disaster AI Route */}
         {route.page === 'disaster' && (
           <div>
-            <AiSolutions 
-              summaryOnly={false} 
-              initialTab="disaster" 
-            />
+            <AiSolutions summaryOnly={false} initialTab="disaster" />
             <Contact />
           </div>
         )}
 
-        {/* ── MLDSN NEPAL COMMUNITY HUB ── */}
+        {/* MLDSN Community Page */}
         {route.page === 'community' && (
           <div>
             <Community summaryOnly={false} setRoute={setRoute} />
@@ -151,202 +168,142 @@ export default function App() {
           </div>
         )}
 
-        {/* ── CORPORATE PROFILE & FOUNDING ARCHITECTS ── */}
+        {/* About Page */}
         {route.page === 'about' && (
           <div>
             <About summaryOnly={false} setRoute={setRoute} />
             <Contact />
           </div>
         )}
-
       </main>
 
-      {/* ── COHERE-STYLE NEAR-BLACK ENTERPRISE FOOTER ── */}
-      <footer className="bg-[#111116] text-[#93939f] text-xs border-t border-white/10">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 lg:py-20">
-          
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-10 pb-16 border-b border-white/10">
-            
-            {/* Column 1: Brand & Identity */}
+      {/* I. Footer */}
+      <footer className="bg-[#101828] text-[#94A3B8] text-xs border-t border-white/10">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-10 pb-14 border-b border-white/10">
+            {/* Brand & Identity */}
             <div className="lg:col-span-2 space-y-4">
-              <button 
-                onClick={() => setRoute({ page: 'home', courseId: 'ai-agents', aiTab: 'overview' })}
+              <button
+                type="button"
+                onClick={() => navigate('home')}
                 className="text-left focus:outline-none"
               >
-                <Logo size={56} theme="dark" />
+                <Logo size={52} theme="dark" />
               </button>
-              
-              <p className="text-white/60 text-xs leading-relaxed max-w-sm">
-                MounTech Solution delivers applied AI, enterprise data science, technical consulting, and professional masterclasses through Mountech Academy, backed by the nationwide MLDSN community.
+
+              <p className="text-[#CBD5E1] text-xs leading-relaxed max-w-sm">
+                MounTech Solution advances Applied AI, Enterprise Data Science, Technology Consulting, and Technical Education through Mountech Academy and the MLDSN Nepal ecosystem.
               </p>
-              
-              <div className="flex items-center gap-3 pt-2">
-                <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/5 border border-white/10 text-white font-mono text-[11px]">
-                  <span>Kathmandu Head Office · Sanepa Heights, Lalitpur</span>
-                </span>
+
+              <div className="text-xs text-[#94A3B8] font-mono pt-1">
+                Sanepa Heights, Lalitpur · Kathmandu Valley, Nepal
               </div>
             </div>
 
-            {/* Column 2: 5 Core Focus Areas */}
+            {/* Services & Expertise */}
             <div className="space-y-3">
-              <div className="font-mono text-white text-[11px] font-bold uppercase tracking-wider">
-                Core Focus Areas
-              </div>
+              <div className="font-mono text-white text-xs font-semibold">Expertise</div>
               <ul className="space-y-2 text-xs">
                 <li>
-                  <button 
-                    onClick={() => setRoute({ page: 'school', courseId: 'ai-agents' })}
-                    className="hover:text-white transition-colors"
-                  >
+                  <button type="button" onClick={() => navigate('school')} className="hover:text-white transition-colors">
                     Mountech Academy
                   </button>
                 </li>
                 <li>
-                  <button 
-                    onClick={() => setRoute({ page: 'datascience', courseId: 'ai-agents' })}
-                    className="hover:text-white transition-colors"
-                  >
-                    Enterprise Data Science
+                  <button type="button" onClick={() => navigate('datascience')} className="hover:text-white transition-colors">
+                    Data Science &amp; Analytics
                   </button>
                 </li>
                 <li>
-                  <button 
-                    onClick={() => setRoute({ page: 'consulting', courseId: 'ai-agents' })}
-                    className="hover:text-white transition-colors"
-                  >
+                  <button type="button" onClick={() => navigate('consulting')} className="hover:text-white transition-colors">
                     Technology Consulting
                   </button>
                 </li>
                 <li>
-                  <button 
-                    onClick={() => setRoute({ page: 'ai', courseId: 'ai-agents', aiTab: 'overview' })}
-                    className="hover:text-white transition-colors text-cohere-coral"
-                  >
-                    AI Solutions & Capacity
-                  </button>
-                </li>
-                <li>
-                  <button 
-                    onClick={() => setRoute({ page: 'community', courseId: 'ai-agents' })}
-                    className="hover:text-white transition-colors"
-                  >
-                    MLDSN Community Hub
+                  <button type="button" onClick={() => navigate('ai')} className="hover:text-[#22D3EE] text-[#93C5FD] transition-colors">
+                    Research &amp; AI Lab
                   </button>
                 </li>
               </ul>
             </div>
 
-            {/* Column 3: AI Innovations */}
+            {/* Projects & AI Portfolio */}
             <div className="space-y-3">
-              <div className="font-mono text-white text-[11px] font-bold uppercase tracking-wider">
-                AI Portfolio
-              </div>
+              <div className="font-mono text-white text-xs font-semibold">Projects &amp; Pilots</div>
               <ul className="space-y-2 text-xs">
                 <li>
-                  <button 
-                    onClick={() => setRoute({ page: 'ai', courseId: 'ai-agents', aiTab: 'disaster' })}
-                    className="hover:text-white transition-colors text-left"
-                  >
+                  <button type="button" onClick={() => navigate('ai', 'disaster')} className="hover:text-white transition-colors text-left">
                     Disaster Management AI
                   </button>
                 </li>
                 <li>
-                  <button 
-                    onClick={() => setRoute({ page: 'ai', courseId: 'ai-agents', aiTab: 'agents' })}
-                    className="hover:text-white transition-colors text-left"
-                  >
+                  <button type="button" onClick={() => navigate('ai', 'agents')} className="hover:text-white transition-colors text-left">
                     B2B Multi-Agent Workflows
                   </button>
                 </li>
                 <li>
-                  <button 
-                    onClick={() => setRoute({ page: 'ai', courseId: 'ai-agents', aiTab: 'doc-intel' })}
-                    className="hover:text-white transition-colors text-left"
-                  >
-                    Document Intelligence & PII
+                  <button type="button" onClick={() => navigate('ai', 'doc-intel')} className="hover:text-white transition-colors text-left">
+                    Document Intelligence &amp; PII
                   </button>
                 </li>
                 <li>
-                  <button 
-                    onClick={() => setRoute({ page: 'ai', courseId: 'ai-agents', aiTab: 'sovereign' })}
-                    className="hover:text-white transition-colors text-left flex items-center gap-1.5"
-                  >
-                    <span>Sovereign AI</span>
-                    <span className="text-[10px] text-cohere-coral font-mono px-1.5 py-0.2 rounded bg-cohere-coral/10">R&D Pilot</span>
+                  <button type="button" onClick={() => navigate('ai', 'sovereign')} className="hover:text-white transition-colors text-left">
+                    Sovereign AI (R&amp;D Pilot)
                   </button>
                 </li>
               </ul>
             </div>
 
-            {/* Column 4: Institutional & Community */}
+            {/* Ecosystem & Contact */}
             <div className="space-y-3">
-              <div className="font-mono text-white text-[11px] font-bold uppercase tracking-wider">
-                Ecosystem
-              </div>
+              <div className="font-mono text-white text-xs font-semibold">Organization</div>
               <ul className="space-y-2 text-xs">
                 <li>
-                  <button 
-                    onClick={() => setRoute({ page: 'about', courseId: 'ai-agents' })}
-                    className="hover:text-white transition-colors"
-                  >
-                    Founding Architects & Team
+                  <button type="button" onClick={() => navigate('about')} className="hover:text-white transition-colors">
+                    About &amp; Founding Architects
                   </button>
                 </li>
                 <li>
-                  <button 
-                    onClick={() => setRoute({ page: 'about', courseId: 'ai-agents' })}
-                    className="hover:text-white transition-colors"
-                  >
-                    Guiding Principles
+                  <button type="button" onClick={() => navigate('projects')} className="hover:text-white transition-colors">
+                    Projects &amp; Case Studies
                   </button>
                 </li>
                 <li>
-                  <button 
-                    onClick={() => setRoute({ page: 'community', courseId: 'ai-agents' })}
-                    className="hover:text-white transition-colors"
-                  >
-                    MLDSN Nepal Non-Profit
+                  <button type="button" onClick={() => navigate('community')} className="hover:text-white transition-colors">
+                    MLDSN Nepal Community
                   </button>
                 </li>
                 <li>
-                  <a 
-                    href="https://mldsnnepal.org" 
-                    target="_blank" 
+                  <a
+                    href="https://mldsnnepal.org"
+                    target="_blank"
                     rel="noopener noreferrer"
-                    className="flex items-center gap-1 text-cohere-teal hover:underline"
+                    className="inline-flex items-center gap-1 text-[#22D3EE] hover:underline"
                   >
                     <span>mldsnnepal.org</span>
-                    <ExternalLink size={10} />
+                    <ExternalLink size={11} />
                   </a>
                 </li>
               </ul>
             </div>
-
           </div>
 
-          {/* Bottom Bar */}
-          <div className="pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-[11px] font-mono">
-            <div>
-              © 2026 MounTech Solution (MTS). All rights reserved.
-            </div>
-            <div className="flex items-center gap-4 text-white/50">
-              <button 
-                onClick={() => setRoute({ page: 'ai', courseId: 'ai-agents', aiTab: 'sovereign' })}
-                className="hover:text-white transition-colors"
-              >
-                Sovereign AI Pilot
-              </button>
-              <span>•</span>
-              <a href="#contact" className="hover:text-white transition-colors">
-                Contact Advisory
-              </a>
-              <span>•</span>
+          <div className="pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs font-mono">
+            <div>© 2026 MounTech Solution (MTS). All rights reserved.</div>
+            <div className="flex flex-wrap items-center gap-4 text-[#94A3B8]">
               <a href="mailto:info@mountech.com.np" className="hover:text-white transition-colors">
                 info@mountech.com.np
               </a>
+              <span aria-hidden="true">·</span>
+              <a href="mailto:aimldsn@gmail.com" className="hover:text-white transition-colors">
+                aimldsn@gmail.com
+              </a>
+              <span aria-hidden="true">·</span>
+              <a href="#contact" className="hover:text-white transition-colors">
+                Contact Desk
+              </a>
             </div>
           </div>
-
         </div>
       </footer>
     </div>

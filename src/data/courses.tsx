@@ -13,6 +13,7 @@ export interface SyllabusModule {
 export interface Course {
   id: string;
   title: string;
+  category: 'Agentic AI & Systems' | 'Data & Engineering' | 'Security & Cloud' | 'Emerging Tech';
   instructor: string;
   methodology: string;
   costLocal: string;
@@ -28,12 +29,13 @@ export const courses: Course[] = [
   {
     id: "ai-agents",
     title: "Agentic AI & Multi-Agent Systems",
+    category: "Agentic AI & Systems",
     instructor: "Jhanak Parajuli (Founder & Multi-Agent Systems Architect)",
     methodology: "Case-study driven engineering paired with deep sandbox notebook implementation. 30% theory and conceptual boundaries, 70% direct programmatic orchestration and deployment.",
     costLocal: "10000 NPR",
     costGlobal: "100 USD",
-    accentColor: "var(--accent2)",
-    icon: <Brain size={22} style={{ color: 'var(--accent2)' }} />,
+    accentColor: "#2563EB",
+    icon: <Brain size={20} className="text-[#2563EB]" />,
     learn: [
       "Constructing dense vector spaces and optimizing multi-layered Retrieval-Augmented Generation (RAG).",
       "Orchestrating stateful, multi-agent execution graphs using deterministic guardrails.",
@@ -50,12 +52,13 @@ export const courses: Course[] = [
   {
     id: "generative-ai-transformers",
     title: "Generative AI & Transformer Architectures",
+    category: "Agentic AI & Systems",
     instructor: "Dr. Amit Thapa (Chief AI Systems Scientist)",
     methodology: "Deep mathematical derivation of attention matrices combined with raw PyTorch construction of structural transformer blocks from absolute zero-dependency modules.",
     costLocal: "10000 NPR",
     costGlobal: "100 USD",
-    accentColor: "var(--accent2)",
-    icon: <AiIcon size={22} style={{ color: 'var(--accent2)' }} />,
+    accentColor: "#2563EB",
+    icon: <AiIcon size={20} className="text-[#2563EB]" />,
     learn: [
       "Building multi-head self-attention mechanisms and causal mask blocks from vanilla tensor arrays.",
       "Fine-tuning foundational frontier models using parameter-efficient fine-tuning (PEFT, LoRA, QLoRA).",
@@ -72,12 +75,13 @@ export const courses: Course[] = [
   {
     id: "mlops-production-lifecycle",
     title: "Production MLOps Lifecycle Engineering",
+    category: "Agentic AI & Systems",
     instructor: "Ecosystem Data Platform Core",
     methodology: "Production-grade automated model testing cycles. 100% focused on continuous execution flows, drift telemetry assertion tracking, and isolated champion/challenger rollouts.",
     costLocal: "10000 NPR",
     costGlobal: "100 USD",
-    accentColor: "var(--accent2)",
-    icon: <Activity size={22} style={{ color: 'var(--accent2)' }} />,
+    accentColor: "#2563EB",
+    icon: <Activity size={20} className="text-[#2563EB]" />,
     learn: [
       "Structuring completely automated model assembly and pipeline validation scripts.",
       "Deploying online and offline feature store layers with automated data lineage version logs.",
@@ -94,12 +98,13 @@ export const courses: Course[] = [
   {
     id: "sovereign-defense",
     title: "Sovereign Infrastructure Defense & Threat Hunting",
+    category: "Security & Cloud",
     instructor: "MTS Cybersecurity Assurance Lab",
     methodology: "100% blue-team laboratory simulation environment. Focuses on setting up real-time endpoint observability, kernel-level logging auditing, and automated incident mitigation playbooks.",
     costLocal: "10000 NPR",
     costGlobal: "100 USD",
-    accentColor: "var(--accent)",
-    icon: <Shield size={22} style={{ color: 'var(--accent)' }} />,
+    accentColor: "#6366F1",
+    icon: <Shield size={20} className="text-[#6366F1]" />,
     learn: [
       "Configuring zero-trust network boundary rules and micro-segmenting container grids.",
       "Writing advanced SIEM correlations to discover low-and-slow root access exploits.",
@@ -116,12 +121,13 @@ export const courses: Course[] = [
   {
     id: "offensive-penetration",
     title: "Offensive Security & Advanced Penetration Testing",
+    category: "Security & Cloud",
     instructor: "MTS Offensive Operations Cell",
     methodology: "Tactile red-team sandbox capture-the-flag environments. Moving from automated web perimeter assessments into advanced scripting of zero-dependency manual exploit payloads.",
     costLocal: "10000 NPR",
     costGlobal: "100 USD",
-    accentColor: "var(--accent)",
-    icon: <Lock size={22} style={{ color: 'var(--accent)' }} />,
+    accentColor: "#6366F1",
+    icon: <Lock size={20} className="text-[#6366F1]" />,
     learn: [
       "Discovering logical configuration bypass flows across complex microservice token maps.",
       "Compiling tailored shellcode payloads that avoid static signature detection layers.",
@@ -138,12 +144,13 @@ export const courses: Course[] = [
   {
     id: "adv-software",
     title: "Advanced Software Engineering & Scale",
+    category: "Data & Engineering",
     instructor: "Er. Sunil Pokhrel (Principal Systems Infrastructure Engineer)",
     methodology: "Low-level system sandbox compilation combined with continuous peer-reviewed code auditing. Focused entirely on backend architecture resilience, zero-dependency engineering, and concurrency safety.",
     costLocal: "10000 NPR",
     costGlobal: "100 USD",
-    accentColor: "var(--accent)",
-    icon: <Code size={22} style={{ color: 'var(--accent)' }} />,
+    accentColor: "#0EA5E9",
+    icon: <Code size={20} className="text-[#0EA5E9]" />,
     learn: [
       "Mastering memory safety models, custom pointers, and structural asynchronous patterns.",
       "Architecting highly concurrent network sockets and distributed cache fabrics.",
@@ -160,12 +167,13 @@ export const courses: Course[] = [
   {
     id: "blockchain",
     title: "Blockchain Technologies & Consensus Engines",
+    category: "Emerging Tech",
     instructor: "Dr. Ramesh Adhikari (Principal Ledger Researcher)",
     methodology: "Cryptographic sandbox assembly combined with rigorous gas-optimization profiling. 100% focused on smart contract design, network verification, and zero-knowledge proof applications.",
     costLocal: "10000 NPR",
     costGlobal: "100 USD",
-    accentColor: "var(--accent)",
-    icon: <Link size={22} style={{ color: 'var(--accent)' }} />,
+    accentColor: "#0891B2",
+    icon: <Link size={20} className="text-[#0891B2]" />,
     learn: [
       "Writing type-safe smart contracts using Solidity and Rust for Ethereum and Solana ecosystems.",
       "Deconstructing distributed consensus mechanisms and multi-node validation protocols.",
@@ -182,12 +190,13 @@ export const courses: Course[] = [
   {
     id: "quantum",
     title: "Quantum Computing Foundations",
+    category: "Emerging Tech",
     instructor: "Prof. Kiran Sharma (Quantum Physics & Mathematical Computation Specialist)",
     methodology: "Mathematical modeling verified via remote programmatic execution on absolute physical IBM Quantum processing arrays. Focused on quantum logic gate implementation and simulation runtimes.",
     costLocal: "10000 NPR",
     costGlobal: "100 USD",
-    accentColor: "var(--green)",
-    icon: <Cpu size={22} style={{ color: 'var(--green)' }} />,
+    accentColor: "#0891B2",
+    icon: <Cpu size={20} className="text-[#0891B2]" />,
     learn: [
       "Manipulating pure quantum states using linear algebra, Dirac notation, and Bloch spheres.",
       "Programming complete quantum circuit maps using IBM Qiskit software development frameworks.",
@@ -204,12 +213,13 @@ export const courses: Course[] = [
   {
     id: "prog-basics",
     title: "Programming Basics & Algorithmic Logic",
+    category: "Data & Engineering",
     instructor: "Er. Sunil Pokhrel (Principal Systems Infrastructure Engineer)",
     methodology: "Zero-slide, immediate tactile terminal interaction. Building continuous code construction mechanics from core principles, avoiding automated block tools or copy-paste tutorials.",
     costLocal: "10000 NPR",
     costGlobal: "100 USD",
-    accentColor: "var(--accent)",
-    icon: <Terminal size={22} style={{ color: 'var(--accent)' }} />,
+    accentColor: "#0EA5E9",
+    icon: <Terminal size={20} className="text-[#0EA5E9]" />,
     learn: [
       "Deconstructing problems logically into clean execution steps and pseudo-code structures.",
       "Mastering memory variable allocations, conditional routes, and recursive loop pipelines.",
@@ -226,12 +236,13 @@ export const courses: Course[] = [
   {
     id: "data-engineering",
     title: "Data Engineering & Production Pipelines",
+    category: "Data & Engineering",
     instructor: "Anjali Shrestha (Lead Data Platform Architect)",
     methodology: "Tactile data architecture simulation. Setting up distributed logging infrastructures, high-throughput aggregation steps, and data validations inside an isolated workspace context.",
     costLocal: "10000 NPR",
     costGlobal: "100 USD",
-    accentColor: "var(--green)",
-    icon: <Database size={22} style={{ color: 'var(--green)' }} />,
+    accentColor: "#0EA5E9",
+    icon: <Database size={20} className="text-[#0EA5E9]" />,
     learn: [
       "Architecting transactional extract, transform, and load (ETL) schedules with strict schema checking rules.",
       "Setting up high-volume distributed messaging hubs capable of multi-consumer routing handlers.",
@@ -248,12 +259,13 @@ export const courses: Course[] = [
   {
     id: "devops-cloud",
     title: "Cloud-Native Operations & DevSecOps",
+    category: "Security & Cloud",
     instructor: "Er. Sunil Pokhrel (Principal Systems Infrastructure Engineer)",
     methodology: "Declarative infrastructure configuration execution. Zero application dashboard mouse clicks; everything is automated via terminal scripts, strict text manifest structures, and monitoring webhooks.",
     costLocal: "10000 NPR",
     costGlobal: "100 USD",
-    accentColor: "var(--accent)",
-    icon: <Server size={22} style={{ color: 'var(--accent)' }} />,
+    accentColor: "#6366F1",
+    icon: <Server size={20} className="text-[#6366F1]" />,
     learn: [
       "Isolating code engines into lightweight container layers with optimized caching structures.",
       "Managing live multi-pod networking loops with automated configuration parameters.",
@@ -270,12 +282,13 @@ export const courses: Course[] = [
   {
     id: "fullstack-react",
     title: "Advanced Full-Stack Engineering (React & Node.js)",
+    category: "Data & Engineering",
     instructor: "Elena Vance (Head of GovTech Systems Integration)",
     methodology: "Tactile production ecosystem optimization. Building production applications focused heavily on bundle shrinking, data caching protocols, and event tracking loops.",
     costLocal: "10000 NPR",
     costGlobal: "100 USD",
-    accentColor: "var(--accent2)",
-    icon: <Layers size={22} style={{ color: 'var(--accent2)' }} />,
+    accentColor: "#0EA5E9",
+    icon: <Layers size={20} className="text-[#0EA5E9]" />,
     learn: [
       "Mastering React rendering lifecycles, memory hook constraints, and virtual DOM tracking layers.",
       "Designing decoupled service routers processing database transactions with pool managers.",
@@ -298,6 +311,7 @@ export const getCourseById = (id: string): Course | undefined => {
 export const categories: string[] = [
   "All",
   "Agentic AI & Systems",
-  "Cloud & DevSecOps",
-  "Full-Stack Engineering"
+  "Data & Engineering",
+  "Security & Cloud",
+  "Emerging Tech"
 ];

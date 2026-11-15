@@ -3,28 +3,21 @@
 @tailwind utilities;
 
 :root {
-  --bg: #fbfbfa;
-  --surface: #ffffff;
-  --card: #f5f4f0;
-  --card-hover: #eeece7;
-  --border: rgba(0, 0, 0, 0.08);
-  --border-hover: rgba(0, 0, 0, 0.16);
-  --accent: #17171c;
-  --accent-dim: rgba(23, 23, 28, 0.06);
-  --accent-glow: rgba(255, 119, 89, 0.25);
-  --accent2: #ff7759;
-  --accent2-dim: rgba(255, 119, 89, 0.1);
-  --green: #003c33;
-  --green-dim: rgba(0, 60, 51, 0.08);
-  --text: #17171c;
-  --text-sub: #4b4b58;
-  --text-muted: #75758a;
+  --bg: #F8FAFC;
+  --surface: #FFFFFF;
+  --card: #EFF6FF;
+  --border: #E2E8F0;
+  --accent: #2563EB;
+  --accent-dim: rgba(37, 99, 235, 0.08);
+  --accent2: #22D3EE;
+  --green: #0D9488;
+  --text: #172033;
+  --text-sub: #334155;
+  --text-muted: #64748B;
 }
 
 *, *::before, *::after {
   box-sizing: border-box;
-  margin: 0;
-  padding: 0;
 }
 
 html {
@@ -32,59 +25,85 @@ html {
 }
 
 body {
-  background: var(--bg);
-  color: var(--text);
-  font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background-color: #F8FAFC;
+  color: #172033;
+  font-family: 'Plus Jakarta Sans', 'Manrope', -apple-system, BlinkMacSystemFont, sans-serif;
   overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   line-height: 1.6;
 }
 
-/* Custom Minimalist Scrollbar */
+/* Balanced Display Headlines */
+h1, h2, .text-balance {
+  text-wrap: balance;
+}
+
+.tabular-nums {
+  font-variant-numeric: tabular-nums;
+}
+
+/* Focus Accessibility */
+:focus-visible {
+  outline: 2px solid #2563EB;
+  outline-offset: 2px;
+}
+
+/* Custom Scrollbar */
 ::-webkit-scrollbar {
   width: 6px;
   height: 6px;
 }
 ::-webkit-scrollbar-track {
-  background: #fbfbfa;
+  background: #F8FAFC;
 }
 ::-webkit-scrollbar-thumb {
-  background: rgba(0, 0, 0, 0.15);
+  background: #CBD5E1;
   border-radius: 9999px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: rgba(0, 0, 0, 0.3);
+  background: #94A3B8;
 }
 
-/* Cohere Editorial Grid lines */
-.cohere-grid-bg {
-  background-image: 
-    linear-gradient(rgba(0, 0, 0, 0.03) 1px, transparent 1px), 
-    linear-gradient(90deg, rgba(0, 0, 0, 0.03) 1px, transparent 1px);
-  background-size: 40px 40px;
+/* Architectural Grid Texture */
+.mt-grid-light {
+  background-image:
+    linear-gradient(rgba(16, 24, 40, 0.035) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(16, 24, 40, 0.035) 1px, transparent 1px);
+  background-size: 48px 48px;
 }
 
-.cohere-dark-grid {
-  background-image: 
-    linear-gradient(rgba(255, 255, 255, 0.04) 1px, transparent 1px), 
-    linear-gradient(90deg, rgba(255, 255, 255, 0.04) 1px, transparent 1px);
-  background-size: 36px 36px;
+.mt-grid-dark {
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.045) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.045) 1px, transparent 1px);
+  background-size: 48px 48px;
 }
 
-/* Four-Stop Cohere Brand Aura */
-.cohere-gradient-aura {
-  background: radial-gradient(circle at 50% 30%, rgba(255, 119, 89, 0.08) 0%, rgba(168, 85, 247, 0.06) 40%, rgba(59, 130, 246, 0.04) 70%, transparent 100%);
+.mt-hero-gradient {
+  background:
+    radial-gradient(ellipse 70% 55% at 75% 15%, rgba(37, 99, 235, 0.24) 0%, transparent 65%),
+    radial-gradient(ellipse 55% 45% at 15% 85%, rgba(34, 211, 238, 0.12) 0%, transparent 60%),
+    linear-gradient(180deg, #101828 0%, #0F172A 100%);
 }
 
-.cohere-gradient-text {
-  background: linear-gradient(135deg, #17171c 30%, #ff7759 70%, #7c3aed 100%);
+.mt-gradient-text {
+  background: linear-gradient(135deg, #2563EB 0%, #22D3EE 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
 
 button, a {
-  cursor: pointer;
   touch-action: manipulation;
-  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
 }

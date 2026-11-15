@@ -1,22 +1,21 @@
 import React, { useState, useEffect } from 'react';
 import { Course } from '../data/courses';
-import { 
-  EmailVerificationService, 
-  EmailValidationResult 
+import {
+  EmailVerificationService,
+  EmailValidationResult
 } from '../services/emailVerification';
-import { 
-  PaymentVerificationService, 
-  GATEWAY_METADATA 
+import {
+  PaymentVerificationService,
+  GATEWAY_METADATA
 } from '../services/paymentVerification';
 import { DatabaseService } from '../services/database';
-import { 
-  PaymentGatewayType, 
-  EnrollmentRecord 
+import {
+  PaymentGatewayType,
+  EnrollmentRecord
 } from '../types';
-import { 
-  X, CheckCircle2, ShieldCheck, ArrowRight, Lock, 
-  RefreshCw, AlertCircle, Printer, Calendar, MessageSquare, 
-  Upload, FileText, Check, Copy, ChevronRight, User, CreditCard, Mail
+import {
+  X, CheckCircle2, ShieldCheck, ArrowRight, Lock,
+  RefreshCw, AlertCircle, Printer, Calendar, Upload, Check, Copy, Mail
 } from 'lucide-react';
 
 interface SecureEnrollmentModalProps {
@@ -34,7 +33,6 @@ export default function SecureEnrollmentModal({
 }: SecureEnrollmentModalProps) {
   const [step, setStep] = useState<ModalStep>('details');
 
-  // Candidate Details
   const [form, setForm] = useState({
     name: '',
     email: '',
@@ -44,11 +42,9 @@ export default function SecureEnrollmentModal({
     notes: ''
   });
 
-  // Validation
   const [emailValidation, setEmailValidation] = useState<EmailValidationResult>({ isValid: false });
   const [emailTouched, setEmailTouched] = useState(false);
 
-  // Payment Selection & Reference
   const [gateway, setGateway] = useState<PaymentGatewayType>('esewa');
   const [transactionRef, setTransactionRef] = useState('');
   const [refError, setRefError] = useState('');
@@ -57,11 +53,9 @@ export default function SecureEnrollmentModal({
   const [savedEnrollment, setSavedEnrollment] = useState<EnrollmentRecord | null>(null);
   const [copiedPassId, setCopiedPassId] = useState(false);
 
-  // Email Validation on change
   useEffect(() => {
     if (form.email) {
-      const res = EmailVerificationService.validate(form.email);
-      setEmailValidation(res);
+      setEmailValidation(EmailVerificationService.validate(form.email));
     } else {
       setEmailValidation({ isValid: false });
     }
@@ -69,7 +63,6 @@ export default function SecureEnrollmentModal({
 
   if (!isOpen || !course) return null;
 
-  // Step 1 -> Step 2
   const handleProceedToPayment = (e: React.FormEvent) => {
     e.preventDefault();
     setEmailTouched(true);
@@ -87,7 +80,6 @@ export default function SecureEnrollmentModal({
     setStep('payment');
   };
 
-  // Step 2 -> Step 3 -> Verification & Confirmation
   const handleCompleteEnrollment = async (e: React.FormEvent) => {
     e.preventDefault();
     const val = PaymentVerificationService.validateReference(gateway, transactionRef);
@@ -101,7 +93,6 @@ export default function SecureEnrollmentModal({
     setIsVerifying(true);
 
     try {
-      // Execute payment verification clearance
       const result = await PaymentVerificationService.verifyPayment({
         courseId: course.id,
         courseTitle: course.title,
@@ -114,7 +105,6 @@ export default function SecureEnrollmentModal({
       });
 
       if (result.verified) {
-        // Save verified student record into persistent database
         const record = await DatabaseService.saveEnrollment({
           receiptId: result.receiptId,
           courseId: course.id,
@@ -137,7 +127,7 @@ export default function SecureEnrollmentModal({
         setRefError(result.message || 'Payment reference verification could not be confirmed. Please check the code and retry.');
         setStep('payment');
       }
-    } catch (err) {
+    } catch {
       setRefError('Network or clearing error. Please re-enter your reference code and retry.');
       setStep('payment');
     } finally {
@@ -145,12 +135,11 @@ export default function SecureEnrollmentModal({
     }
   };
 
-  // Download real .ics calendar invite
   const handleDownloadCalendar = () => {
     if (!course) return;
     const startDate = new Date();
-    startDate.setDate(startDate.getDate() + 14); // Scheduled cohort start in 2 weeks
-    startDate.setHours(18, 30, 0, 0); // 6:30 PM NPT
+    startDate.setDate(startDate.getDate() + 14);
+    startDate.setHours(18, 30, 0, 0);
 
     const icsContent = [
       'BEGIN:VCALENDAR',
@@ -190,7 +179,6 @@ export default function SecureEnrollmentModal({
     window.print();
   };
 
-  // Official admissions concierge link (direct email to admissions coordinator)
   const admissionsEmailUrl = `mailto:aimldsn@gmail.com?subject=${encodeURIComponent(
     `Admission Confirmation: ${savedEnrollment?.receiptId || ''} - ${course.title}`
   )}&body=${encodeURIComponent(
@@ -198,39 +186,40 @@ export default function SecureEnrollmentModal({
   )}`;
 
   return (
-    <div className="fixed inset-0 z-50 bg-black/65 backdrop-blur-sm flex items-center justify-center p-3 sm:p-5 animate-in fade-in duration-150">
-      <div 
-        className="bg-white rounded-3xl border border-black/[0.12] max-w-xl w-full p-6 sm:p-8 shadow-2xl relative max-h-[92vh] overflow-y-auto space-y-6"
+    <div className="fixed inset-0 z-50 bg-[#101828]/70 backdrop-blur-sm flex items-center justify-center p-3 sm:p-5">
+      <div
+        className="bg-white rounded-2xl border border-[#E2E8F0] max-w-xl w-full p-6 sm:p-8 shadow-elevated relative max-h-[92vh] overflow-y-auto space-y-6"
         onClick={(e) => e.stopPropagation()}
       >
-        {/* Close button */}
         <button
+          type="button"
           onClick={onClose}
-          className="absolute top-5 right-5 p-2 rounded-xl text-cohere-slate hover:text-cohere-ink hover:bg-black/5 transition-all"
+          aria-label="Close enrollment dialog"
+          className="absolute top-5 right-5 p-2 rounded-lg text-[#64748B] hover:text-[#172033] hover:bg-[#F8FAFC] transition-colors"
         >
           <X size={18} />
         </button>
 
         {/* Stepper Header */}
-        <div className="space-y-3">
-          <div className="flex items-center justify-between">
-            <span className="font-mono text-[10px] uppercase font-bold text-cohere-coral tracking-wider flex items-center gap-1.5">
+        <div className="space-y-3 pr-8">
+          <div className="flex items-center justify-between text-xs font-mono">
+            <span className="font-semibold text-[#2563EB] flex items-center gap-1.5">
               <ShieldCheck size={14} />
-              <span>MOUNTECH TECH ACADEMY ADMISSION</span>
+              <span>Mountech Academy Admission</span>
             </span>
-            <span className="font-mono text-xs text-cohere-slate">
-              {step === 'details' && 'Step 1 of 3: Registration'}
-              {step === 'payment' && 'Step 2 of 3: Payment'}
+            <span className="text-[#64748B]">
+              {step === 'details' && 'Step 1 of 3 · Registration'}
+              {step === 'payment' && 'Step 2 of 3 · Payment'}
               {step === 'verifying' && 'Processing Clearance'}
-              {step === 'confirmed' && 'Admission Confirmed'}
+              {step === 'confirmed' && 'Confirmed'}
             </span>
           </div>
 
-          <div className="h-1 w-full bg-black/5 rounded-full overflow-hidden">
-            <div 
-              className="h-full bg-cohere-ink transition-all duration-300"
+          <div className="h-1.5 w-full bg-[#EFF6FF] rounded-full overflow-hidden">
+            <div
+              className="h-full bg-[#2563EB] transition-all duration-300"
               style={{
-                width: 
+                width:
                   step === 'details' ? '33%' :
                   step === 'payment' ? '66%' :
                   step === 'verifying' ? '85%' : '100%'
@@ -240,34 +229,32 @@ export default function SecureEnrollmentModal({
         </div>
 
         {/* Course Summary Banner */}
-        <div className="p-4 rounded-2xl bg-cohere-stone border border-black/[0.06] flex items-center justify-between gap-4">
+        <div className="p-4 rounded-xl bg-[#EFF6FF]/70 border border-[#BFDBFE] flex items-center justify-between gap-4">
           <div>
-            <span className="text-[10px] font-mono uppercase text-cohere-slate">
-              ACADEMY MASTERCLASS • 40-HOUR COHORT
-            </span>
-            <h3 className="font-bold text-sm text-cohere-ink">{course.title}</h3>
-            <p className="text-[11px] text-cohere-subtle">
-              Lead Faculty: {course.instructor} • Next Cohort: November 2026
+            <div className="text-[11px] font-mono text-[#2563EB]">
+              Academy Masterclass · 40-Hour Cohort
+            </div>
+            <h3 className="font-bold text-sm text-[#172033]">{course.title}</h3>
+            <p className="text-xs text-[#64748B]">
+              Lead Faculty: {course.instructor.split('(')[0]}
             </p>
           </div>
-          <div className="text-right flex-shrink-0">
-            <div className="font-display font-extrabold text-base text-cohere-ink">
+          <div className="text-right shrink-0">
+            <div className="font-display font-extrabold text-base text-[#172033] tabular-nums">
               {course.costLocal}
             </div>
-            <div className="text-[10px] font-mono text-cohere-slate">
+            <div className="text-[11px] font-mono text-[#64748B] tabular-nums">
               {course.costGlobal}
             </div>
           </div>
         </div>
 
-        {/* ══════════════════════════════════════════════════════════════════
-            STEP 1: CANDIDATE REGISTRATION DETAILS
-           ══════════════════════════════════════════════════════════════════ */}
+        {/* STEP 1 */}
         {step === 'details' && (
-          <form onSubmit={handleProceedToPayment} className="space-y-4 pt-1">
+          <form onSubmit={handleProceedToPayment} className="space-y-4">
             <div className="space-y-3">
               <div>
-                <label className="block text-xs font-mono text-cohere-slate mb-1 uppercase">
+                <label className="block text-xs font-medium text-[#334155] mb-1">
                   Full Legal / Certificate Name *
                 </label>
                 <input
@@ -276,13 +263,13 @@ export default function SecureEnrollmentModal({
                   value={form.name}
                   onChange={(e) => setForm({ ...form, name: e.target.value })}
                   placeholder="e.g. Suman Adhikari"
-                  className="w-full px-3.5 py-2.5 rounded-xl bg-cohere-stone border border-black/[0.08] text-xs text-cohere-ink focus:outline-none focus:border-cohere-ink"
+                  className="w-full px-3.5 py-2.5 rounded-lg bg-[#F8FAFC] border border-[#E2E8F0] text-xs text-[#172033] focus:outline-none focus:border-[#2563EB]"
                 />
               </div>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 <div>
-                  <label className="block text-xs font-mono text-cohere-slate mb-1 uppercase">
+                  <label className="block text-xs font-medium text-[#334155] mb-1">
                     Email Address *
                   </label>
                   <input
@@ -292,30 +279,30 @@ export default function SecureEnrollmentModal({
                     onChange={(e) => setForm({ ...form, email: e.target.value })}
                     onBlur={() => setEmailTouched(true)}
                     placeholder="e.g. suman@tech.com.np"
-                    className={`w-full px-3.5 py-2.5 rounded-xl bg-cohere-stone border text-xs text-cohere-ink focus:outline-none ${
+                    className={`w-full px-3.5 py-2.5 rounded-lg bg-[#F8FAFC] border text-xs text-[#172033] focus:outline-none ${
                       emailTouched && !emailValidation.isValid
-                        ? 'border-amber-400'
-                        : 'border-black/[0.08] focus:border-cohere-ink'
+                        ? 'border-amber-500'
+                        : 'border-[#E2E8F0] focus:border-[#2563EB]'
                     }`}
                   />
                   {emailTouched && emailValidation.suggestion && (
                     <button
                       type="button"
                       onClick={() => setForm({ ...form, email: `${form.email.split('@')[0]}@${emailValidation.suggestion}` })}
-                      className="text-[10px] font-mono text-cohere-coral hover:underline mt-1 block"
+                      className="text-[11px] font-mono text-[#2563EB] hover:underline mt-1 block"
                     >
                       Did you mean @{emailValidation.suggestion}? Click to correct.
                     </button>
                   )}
                   {emailTouched && emailValidation.error && !emailValidation.suggestion && (
-                    <div className="text-[10px] text-amber-700 mt-1 font-mono">
+                    <div className="text-[11px] text-amber-700 mt-1">
                       {emailValidation.error}
                     </div>
                   )}
                 </div>
 
                 <div>
-                  <label className="block text-xs font-mono text-cohere-slate mb-1 uppercase">
+                  <label className="block text-xs font-medium text-[#334155] mb-1">
                     Phone / WhatsApp Number *
                   </label>
                   <input
@@ -324,20 +311,20 @@ export default function SecureEnrollmentModal({
                     value={form.phone}
                     onChange={(e) => setForm({ ...form, phone: e.target.value })}
                     placeholder="+977 98XXXXXXXX"
-                    className="w-full px-3.5 py-2.5 rounded-xl bg-cohere-stone border border-black/[0.08] text-xs text-cohere-ink focus:outline-none focus:border-cohere-ink"
+                    className="w-full px-3.5 py-2.5 rounded-lg bg-[#F8FAFC] border border-[#E2E8F0] text-xs text-[#172033] focus:outline-none focus:border-[#2563EB]"
                   />
                 </div>
               </div>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 <div>
-                  <label className="block text-xs font-mono text-cohere-slate mb-1 uppercase">
+                  <label className="block text-xs font-medium text-[#334155] mb-1">
                     Technical Experience
                   </label>
                   <select
                     value={form.experience}
                     onChange={(e) => setForm({ ...form, experience: e.target.value })}
-                    className="w-full px-3.5 py-2.5 rounded-xl bg-cohere-stone border border-black/[0.08] text-xs text-cohere-ink focus:outline-none focus:border-cohere-ink"
+                    className="w-full px-3.5 py-2.5 rounded-lg bg-[#F8FAFC] border border-[#E2E8F0] text-xs text-[#172033] focus:outline-none focus:border-[#2563EB]"
                   >
                     <option>Beginner (0-1 years)</option>
                     <option>Intermediate (1-3 years)</option>
@@ -347,47 +334,44 @@ export default function SecureEnrollmentModal({
                 </div>
 
                 <div>
-                  <label className="block text-xs font-mono text-cohere-slate mb-1 uppercase">
+                  <label className="block text-xs font-medium text-[#334155] mb-1">
                     Organization / College (Optional)
                   </label>
                   <input
                     type="text"
                     value={form.organization}
                     onChange={(e) => setForm({ ...form, organization: e.target.value })}
-                    placeholder="e.g. IOE Pulchowk / Ncell"
-                    className="w-full px-3.5 py-2.5 rounded-xl bg-cohere-stone border border-black/[0.08] text-xs text-cohere-ink focus:outline-none focus:border-cohere-ink"
+                    placeholder="e.g. IOE Pulchowk / Organization"
+                    className="w-full px-3.5 py-2.5 rounded-lg bg-[#F8FAFC] border border-[#E2E8F0] text-xs text-[#172033] focus:outline-none focus:border-[#2563EB]"
                   />
                 </div>
               </div>
             </div>
 
-            {/* Privacy & Cohort Notice */}
-            <div className="p-3.5 rounded-xl bg-cohere-stone/70 border border-black/[0.06] flex items-start gap-2.5 text-xs text-cohere-subtle leading-relaxed">
-              <Lock size={15} className="text-cohere-teal flex-shrink-0 mt-0.5" />
+            <div className="p-3.5 rounded-xl bg-[#F8FAFC] border border-[#E2E8F0] flex items-start gap-2.5 text-xs text-[#64748B] leading-relaxed">
+              <Lock size={15} className="text-[#2563EB] shrink-0 mt-0.5" />
               <span>
-                Your registration guarantees priority seat reservation. Official syllabus, repository invitations, and calendar invites are issued immediately upon confirmation.
+                Your registration reserves a priority cohort seat. Syllabus details, repository access, and calendar invites are issued upon payment reference verification.
               </span>
             </div>
 
             <button
               type="submit"
               disabled={!form.name.trim() || !form.phone.trim() || (emailTouched && !emailValidation.isValid)}
-              className="w-full rounded-full py-3.5 text-xs font-bold bg-cohere-ink hover:bg-black text-white shadow-md shadow-black/10 flex items-center justify-center gap-2 transition-all disabled:opacity-50"
+              className="w-full rounded-lg py-3 text-xs font-semibold bg-[#2563EB] hover:bg-[#1D4ED8] text-white shadow-subtle flex items-center justify-center gap-2 transition-colors disabled:opacity-50"
             >
-              <span>Continue to Payment & Tuition Settlement</span>
+              <span>Continue to Payment &amp; Settlement</span>
               <ArrowRight size={14} />
             </button>
           </form>
         )}
 
-        {/* ══════════════════════════════════════════════════════════════════
-            STEP 2: PAYMENT METHOD & TRANSACTION VOUCHER CLEARANCE
-           ══════════════════════════════════════════════════════════════════ */}
+        {/* STEP 2 */}
         {step === 'payment' && (
-          <form onSubmit={handleCompleteEnrollment} className="space-y-5 pt-1">
+          <form onSubmit={handleCompleteEnrollment} className="space-y-5">
             <div>
-              <label className="block text-xs font-mono text-cohere-slate mb-2 uppercase">
-                Select Official Payment Gateway *
+              <label className="block text-xs font-medium text-[#334155] mb-2">
+                Select Payment Gateway *
               </label>
               <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
                 {(['esewa', 'khalti', 'connectips', 'card'] as PaymentGatewayType[]).map((gt) => (
@@ -399,14 +383,14 @@ export default function SecureEnrollmentModal({
                       setTransactionRef('');
                       setRefError('');
                     }}
-                    className={`p-3 rounded-xl border text-center transition-all ${
+                    className={`p-3 rounded-lg border text-center transition-colors ${
                       gateway === gt
-                        ? 'border-cohere-ink bg-cohere-ink text-white font-bold shadow-sm'
-                        : 'border-black/[0.08] bg-cohere-stone text-cohere-slate hover:text-cohere-ink'
+                        ? 'border-[#2563EB] bg-[#2563EB] text-white font-semibold'
+                        : 'border-[#E2E8F0] bg-[#F8FAFC] text-[#64748B] hover:text-[#172033]'
                     }`}
                   >
                     <div className="text-xs capitalize">{gt === 'connectips' ? 'ConnectIPS' : gt}</div>
-                    <div className="text-[9px] opacity-75 font-mono">
+                    <div className="text-[10px] opacity-80 font-mono">
                       {gt === 'esewa' ? 'eSewa Pay' : gt === 'khalti' ? 'Khalti Pay' : gt === 'connectips' ? 'Interbank' : 'Visa / MC'}
                     </div>
                   </button>
@@ -414,63 +398,57 @@ export default function SecureEnrollmentModal({
               </div>
             </div>
 
-            {/* Official Merchant Details Card */}
-            <div className="p-4 rounded-2xl bg-cohere-stone border border-black/[0.08] space-y-3">
-              <div className="flex items-center justify-between border-b border-black/[0.06] pb-2">
-                <span className="font-mono text-[10px] text-cohere-slate uppercase">
-                  OFFICIAL BENEFICIARY ACCOUNT
-                </span>
-                <span className="text-[10px] font-mono font-semibold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded border border-emerald-200">
-                  VERIFIED MERCHANT
-                </span>
+            <div className="p-4 rounded-xl bg-[#F8FAFC] border border-[#E2E8F0] space-y-2.5">
+              <div className="flex items-center justify-between border-b border-[#E2E8F0] pb-2 text-xs font-mono">
+                <span className="text-[#64748B]">Official Beneficiary Account</span>
+                <span className="font-semibold text-[#2563EB]">Verified Merchant</span>
               </div>
 
               {gateway === 'esewa' && (
-                <div className="space-y-1.5 text-xs text-cohere-ink">
+                <div className="space-y-1.5 text-xs text-[#172033]">
                   <div><strong>Beneficiary:</strong> MounTech Solutions Pvt. Ltd.</div>
-                  <div><strong>eSewa ID / Mobile:</strong> <span className="font-mono font-bold bg-white px-2 py-0.5 rounded border border-black/10">xxxxxx</span></div>
-                  <div><strong>Tuition Payable:</strong> <span className="font-bold text-cohere-ink">{course.costLocal}</span></div>
-                  <div className="text-[11px] text-cohere-subtle pt-1">
-                    Send funds via your eSewa App to the official MounTech merchant account. In Remarks, enter: <em>{form.name.split(' ')[0]} - {course.id}</em>
+                  <div><strong>eSewa ID / Mobile:</strong> <span className="font-mono font-bold bg-white px-2 py-0.5 rounded border border-[#E2E8F0]">xxxxxx</span></div>
+                  <div><strong>Tuition Payable:</strong> <span className="font-bold tabular-nums">{course.costLocal}</span></div>
+                  <div className="text-[11px] text-[#64748B] pt-1">
+                    Send tuition via eSewa and include remarks: <em>{form.name.split(' ')[0]} - {course.id}</em>
                   </div>
                 </div>
               )}
 
               {gateway === 'khalti' && (
-                <div className="space-y-1.5 text-xs text-cohere-ink">
+                <div className="space-y-1.5 text-xs text-[#172033]">
                   <div><strong>Beneficiary:</strong> MounTech Academy Nepal</div>
-                  <div><strong>Khalti ID / Mobile:</strong> <span className="font-mono font-bold bg-white px-2 py-0.5 rounded border border-black/10">xxxxxx</span></div>
-                  <div><strong>Tuition Payable:</strong> <span className="font-bold text-cohere-ink">{course.costLocal}</span></div>
-                  <div className="text-[11px] text-cohere-subtle pt-1">
-                    Transfer tuition via Khalti app and copy the Khalti Transaction ID.
+                  <div><strong>Khalti ID / Mobile:</strong> <span className="font-mono font-bold bg-white px-2 py-0.5 rounded border border-[#E2E8F0]">xxxxxx</span></div>
+                  <div><strong>Tuition Payable:</strong> <span className="font-bold tabular-nums">{course.costLocal}</span></div>
+                  <div className="text-[11px] text-[#64748B] pt-1">
+                    Transfer tuition via Khalti app and enter the Khalti Transaction ID below.
                   </div>
                 </div>
               )}
 
               {gateway === 'connectips' && (
-                <div className="space-y-1.5 text-xs text-cohere-ink">
+                <div className="space-y-1.5 text-xs text-[#172033]">
                   <div><strong>Bank:</strong> Standard Chartered Bank Nepal Ltd.</div>
                   <div><strong>Account Name:</strong> MounTech Solutions Pvt. Ltd.</div>
-                  <div><strong>Account Number:</strong> <span className="font-mono font-bold bg-white px-2 py-0.5 rounded border border-black/10">xxxxxx</span></div>
+                  <div><strong>Account Number:</strong> <span className="font-mono font-bold bg-white px-2 py-0.5 rounded border border-[#E2E8F0]">xxxxxx</span></div>
                   <div><strong>Branch:</strong> Sanepa / Lalitpur Branch (SWIFT: xxxxxx)</div>
-                  <div><strong>Tuition Payable:</strong> <span className="font-bold text-cohere-ink">{course.costLocal}</span></div>
+                  <div><strong>Tuition Payable:</strong> <span className="font-bold tabular-nums">{course.costLocal}</span></div>
                 </div>
               )}
 
               {gateway === 'card' && (
-                <div className="space-y-1.5 text-xs text-cohere-ink">
-                  <div><strong>Merchant:</strong> MounTech Enclave (Stripe / International Card)</div>
-                  <div><strong>International Tuition:</strong> <span className="font-bold text-cohere-ink">{course.costGlobal}</span></div>
-                  <div className="text-[11px] text-cohere-subtle pt-1">
-                    Enter the Payment Reference from your card receipt or international wire invoice.
+                <div className="space-y-1.5 text-xs text-[#172033]">
+                  <div><strong>Merchant:</strong> MounTech International Tuition</div>
+                  <div><strong>International Tuition:</strong> <span className="font-bold tabular-nums">{course.costGlobal}</span></div>
+                  <div className="text-[11px] text-[#64748B] pt-1">
+                    Enter the Payment Reference from your card receipt or wire confirmation.
                   </div>
                 </div>
               )}
             </div>
 
-            {/* Transaction Reference Input */}
             <div>
-              <label className="block text-xs font-mono text-cohere-slate uppercase mb-1">
+              <label className="block text-xs font-medium text-[#334155] mb-1">
                 Transaction ID / Voucher Code *
               </label>
               <input
@@ -482,37 +460,36 @@ export default function SecureEnrollmentModal({
                   if (refError) setRefError('');
                 }}
                 placeholder={GATEWAY_METADATA[gateway].placeholderRef}
-                className="w-full px-3.5 py-2.5 rounded-xl bg-cohere-stone border border-black/[0.08] text-xs font-mono text-cohere-ink focus:outline-none focus:border-cohere-ink"
+                className="w-full px-3.5 py-2.5 rounded-lg bg-[#F8FAFC] border border-[#E2E8F0] text-xs font-mono text-[#172033] focus:outline-none focus:border-[#2563EB]"
               />
-              <p className="text-[10px] text-cohere-slate mt-1 font-mono">
+              <p className="text-[11px] text-[#64748B] mt-1">
                 {GATEWAY_METADATA[gateway].helperText}
               </p>
 
               {refError && (
-                <div className="mt-2 p-2 rounded-lg bg-rose-50 border border-rose-200 text-xs text-rose-800 flex items-center gap-1.5">
-                  <AlertCircle size={14} className="text-rose-600 flex-shrink-0" />
+                <div className="mt-2 p-2.5 rounded-lg bg-rose-50 border border-rose-200 text-xs text-rose-800 flex items-center gap-1.5">
+                  <AlertCircle size={14} className="text-rose-600 shrink-0" />
                   <span>{refError}</span>
                 </div>
               )}
             </div>
 
-            {/* Optional Voucher Screenshot Upload */}
             <div>
-              <label className="block text-xs font-mono text-cohere-slate uppercase mb-1">
+              <label className="block text-xs font-medium text-[#334155] mb-1">
                 Payment Slip / Receipt Screenshot (Optional)
               </label>
-              <label className="border border-dashed border-black/[0.15] hover:border-black/30 rounded-xl p-3 flex items-center justify-center gap-2 cursor-pointer bg-cohere-stone/40 text-xs text-cohere-slate transition-colors">
+              <label className="border border-dashed border-[#CBD5E1] hover:border-[#2563EB] rounded-lg p-3 flex items-center justify-center gap-2 cursor-pointer bg-[#F8FAFC] text-xs text-[#64748B] transition-colors">
                 <Upload size={14} />
                 <span>{selectedFile ? selectedFile.name : 'Upload Screenshot (PNG, JPG, PDF)'}</span>
-                <input 
-                  type="file" 
-                  accept="image/*,.pdf" 
-                  className="hidden" 
+                <input
+                  type="file"
+                  accept="image/*,.pdf"
+                  className="hidden"
                   onChange={(e) => {
                     if (e.target.files && e.target.files[0]) {
                       setSelectedFile(e.target.files[0]);
                     }
-                  }} 
+                  }}
                 />
               </label>
             </div>
@@ -521,135 +498,122 @@ export default function SecureEnrollmentModal({
               <button
                 type="button"
                 onClick={() => setStep('details')}
-                className="text-xs font-mono text-cohere-slate hover:text-cohere-ink underline"
+                className="text-xs font-medium text-[#64748B] hover:text-[#172033] underline"
               >
-                ← Back to Candidate Details
+                ← Back to Details
               </button>
 
               <button
                 type="submit"
-                disabled={!transactionRef.trim()}
-                className="rounded-full px-6 py-3 text-xs font-bold bg-cohere-ink hover:bg-black text-white shadow-md shadow-black/10 flex items-center gap-2 transition-all disabled:opacity-50"
+                disabled={!transactionRef.trim() || isVerifying}
+                className="rounded-lg px-5 py-2.5 text-xs font-semibold bg-[#2563EB] hover:bg-[#1D4ED8] text-white shadow-subtle flex items-center gap-2 transition-colors disabled:opacity-50"
               >
                 <ShieldCheck size={14} />
-                <span>Confirm & Reserve Admission</span>
+                <span>Confirm &amp; Reserve Admission</span>
               </button>
             </div>
           </form>
         )}
 
-        {/* ══════════════════════════════════════════════════════════════════
-            STEP 3: CLEARANCE PROCESSING
-           ══════════════════════════════════════════════════════════════════ */}
+        {/* STEP 3 */}
         {step === 'verifying' && (
           <div className="py-10 text-center space-y-4">
-            <div className="w-14 h-14 rounded-full bg-cohere-ink text-white flex items-center justify-center mx-auto shadow-md">
-              <RefreshCw size={24} className="animate-spin" />
+            <div className="w-12 h-12 rounded-xl bg-[#2563EB] text-white flex items-center justify-center mx-auto">
+              <RefreshCw size={22} className="animate-spin" />
             </div>
-            <h4 className="font-bold text-lg text-cohere-ink">
-              Verifying Payment & Seat Allocation
+            <h4 className="font-bold text-lg text-[#172033]">
+              Verifying Payment &amp; Seat Allocation
             </h4>
-            <p className="text-xs text-cohere-subtle max-w-sm mx-auto leading-relaxed">
-              Recording your transaction reference with {GATEWAY_METADATA[gateway].name} and issuing your official MounTech Academy admission pass...
+            <p className="text-xs text-[#64748B] max-w-sm mx-auto leading-relaxed">
+              Validating your transaction reference with {GATEWAY_METADATA[gateway].name} and generating your official Mountech Academy admission pass.
             </p>
           </div>
         )}
 
-        {/* ══════════════════════════════════════════════════════════════════
-            STEP 4: CONFIRMED ADMISSION PASS & STUDENT ONBOARDING
-           ══════════════════════════════════════════════════════════════════ */}
+        {/* STEP 4 */}
         {step === 'confirmed' && savedEnrollment && (
-          <div className="space-y-6 pt-1">
+          <div className="space-y-5">
             <div className="text-center space-y-2">
-              <div className="w-14 h-14 rounded-full bg-emerald-100 border border-emerald-300 text-emerald-800 flex items-center justify-center mx-auto shadow-sm">
-                <CheckCircle2 size={32} />
+              <div className="w-12 h-12 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-700 flex items-center justify-center mx-auto">
+                <CheckCircle2 size={26} />
               </div>
-              <h4 className="text-xl sm:text-2xl font-bold text-cohere-ink">
-                Admission Confirmed & Seat Reserved
+              <h4 className="text-xl font-bold text-[#172033]">
+                Admission Confirmed &amp; Seat Reserved
               </h4>
-              <p className="text-xs text-cohere-subtle max-w-sm mx-auto">
-                Welcome to the cohort! Your student pass has been authenticated and registered in the academy ledger.
+              <p className="text-xs text-[#64748B] max-w-sm mx-auto">
+                Your enrollment pass has been verified and stored in the academy ledger.
               </p>
             </div>
 
-            {/* Official Academy Pass Card */}
-            <div className="p-5 rounded-2xl bg-cohere-stone border border-black/[0.1] space-y-4 shadow-sm relative overflow-hidden">
-              <div className="flex items-center justify-between border-b border-black/[0.08] pb-3">
+            <div className="p-5 rounded-xl bg-[#F8FAFC] border border-[#E2E8F0] space-y-4">
+              <div className="flex items-center justify-between border-b border-[#E2E8F0] pb-3">
                 <div>
-                  <div className="text-[10px] font-mono text-cohere-slate uppercase">OFFICIAL ADMISSION PASS</div>
-                  <div className="font-mono text-lg font-bold text-cohere-ink flex items-center gap-1.5">
+                  <div className="text-[11px] font-mono text-[#64748B]">Official Admission Pass</div>
+                  <div className="font-mono text-base font-bold text-[#172033] flex items-center gap-1.5">
                     <span>{savedEnrollment.receiptId}</span>
                     <button
                       type="button"
                       onClick={() => handleCopyPassId(savedEnrollment.receiptId)}
-                      className="p-1 text-cohere-slate hover:text-cohere-ink"
+                      className="p-1 text-[#64748B] hover:text-[#2563EB]"
                       title="Copy Pass ID"
                     >
                       {copiedPassId ? <Check size={14} className="text-emerald-600" /> : <Copy size={14} />}
                     </button>
                   </div>
                 </div>
-                <span className="px-2.5 py-1 rounded-full text-[10px] font-mono uppercase bg-emerald-100 text-emerald-800 font-bold border border-emerald-300">
-                  SEAT RESERVED
+                <span className="text-xs font-mono font-semibold text-emerald-700">
+                  Seat Reserved
                 </span>
               </div>
 
               <div className="grid grid-cols-2 gap-3 text-xs">
                 <div>
-                  <div className="text-[10px] font-mono text-cohere-slate uppercase">STUDENT PARTICIPANT</div>
-                  <div className="font-bold text-cohere-ink">{savedEnrollment.studentName}</div>
-                  <div className="text-[11px] font-mono text-cohere-subtle truncate">{savedEnrollment.studentEmail}</div>
+                  <div className="text-[11px] font-mono text-[#64748B]">Participant</div>
+                  <div className="font-bold text-[#172033]">{savedEnrollment.studentName}</div>
+                  <div className="text-[11px] font-mono text-[#64748B] truncate">{savedEnrollment.studentEmail}</div>
                 </div>
 
                 <div>
-                  <div className="text-[10px] font-mono text-cohere-slate uppercase">COHORT LAB</div>
-                  <div className="font-semibold text-cohere-ink line-clamp-1">{savedEnrollment.courseTitle}</div>
-                  <div className="text-[11px] font-mono text-cohere-subtle">Tuition: {savedEnrollment.tuitionPaid}</div>
+                  <div className="text-[11px] font-mono text-[#64748B]">Cohort</div>
+                  <div className="font-semibold text-[#172033] line-clamp-1">{savedEnrollment.courseTitle}</div>
+                  <div className="text-[11px] font-mono text-[#64748B] tabular-nums">Tuition: {savedEnrollment.tuitionPaid}</div>
                 </div>
 
                 <div>
-                  <div className="text-[10px] font-mono text-cohere-slate uppercase">PAYMENT SETTLEMENT</div>
-                  <div className="font-mono font-bold text-cohere-ink">{savedEnrollment.paymentMethod.toUpperCase()}</div>
-                  <div className="text-[10px] font-mono text-cohere-slate truncate">Ref: {savedEnrollment.transactionId}</div>
+                  <div className="text-[11px] font-mono text-[#64748B]">Payment Method</div>
+                  <div className="font-mono font-bold text-[#172033]">{savedEnrollment.paymentMethod.toUpperCase()}</div>
+                  <div className="text-[11px] font-mono text-[#64748B] truncate">Ref: {savedEnrollment.transactionId}</div>
                 </div>
 
                 <div>
-                  <div className="text-[10px] font-mono text-cohere-slate uppercase">SCHEDULE</div>
-                  <div className="font-semibold text-cohere-ink">40h Live Interactive</div>
-                  <div className="text-[10px] font-mono text-cohere-slate">Weekends & Evenings NPT</div>
+                  <div className="text-[11px] font-mono text-[#64748B]">Schedule</div>
+                  <div className="font-semibold text-[#172033]">40h Live Interactive</div>
+                  <div className="text-[11px] font-mono text-[#64748B]">Weekends &amp; Evenings NPT</div>
                 </div>
-              </div>
-
-              <div className="pt-2 border-t border-black/[0.06] text-[10px] font-mono text-cohere-slate flex items-center justify-between">
-                <span>ISSUED: {new Date(savedEnrollment.enrolledAt).toLocaleDateString()}</span>
-                <span>MOUNTECH TECH ACADEMY KATHMANDU</span>
               </div>
             </div>
 
-            {/* Next Steps for Student */}
-            <div className="p-4 rounded-xl bg-cohere-stone/50 border border-black/[0.06] text-xs text-cohere-subtle space-y-1.5">
-              <span className="font-semibold text-cohere-ink block">Next Onboarding Steps:</span>
-              <p>• A syllabus guide and repository access token have been dispatched to <strong>{savedEnrollment.studentEmail}</strong>.</p>
-              <p>• Add the cohort dates to your calendar or connect with your cohort coordinator below.</p>
+            <div className="p-4 rounded-xl bg-[#EFF6FF]/60 border border-[#BFDBFE] text-xs text-[#334155] space-y-1">
+              <span className="font-semibold text-[#172033] block">Next Onboarding Steps</span>
+              <p>A syllabus guide and repository access invite have been queued for <strong>{savedEnrollment.studentEmail}</strong>.</p>
             </div>
 
-            {/* Action Buttons */}
             <div className="space-y-2.5">
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
                 <button
                   type="button"
                   onClick={handleDownloadCalendar}
-                  className="py-2.5 px-4 rounded-full bg-cohere-stone hover:bg-[#e4e2dc] text-cohere-ink font-semibold text-xs border border-black/[0.08] flex items-center justify-center gap-2 transition-all"
+                  className="py-2.5 px-4 rounded-lg bg-[#F8FAFC] hover:bg-[#EFF6FF] text-[#172033] font-semibold text-xs border border-[#E2E8F0] flex items-center justify-center gap-2 transition-colors"
                 >
-                  <Calendar size={14} className="text-cohere-coral" />
+                  <Calendar size={14} className="text-[#2563EB]" />
                   <span>Add to Calendar (.ics)</span>
                 </button>
 
                 <a
                   href={admissionsEmailUrl}
-                  className="py-2.5 px-4 rounded-full bg-emerald-50 hover:bg-emerald-100 text-emerald-900 font-semibold text-xs border border-emerald-200 flex items-center justify-center gap-2 transition-all"
+                  className="py-2.5 px-4 rounded-lg bg-[#EFF6FF] hover:bg-[#DBEAFE] text-[#1D4ED8] font-semibold text-xs border border-[#BFDBFE] flex items-center justify-center gap-2 transition-colors"
                 >
-                  <Mail size={14} className="text-emerald-600" />
+                  <Mail size={14} />
                   <span>Admissions Coordinator</span>
                 </a>
               </div>
@@ -658,24 +622,23 @@ export default function SecureEnrollmentModal({
                 <button
                   type="button"
                   onClick={handlePrint}
-                  className="flex-1 py-3 px-4 rounded-full bg-white hover:bg-cohere-stone text-cohere-ink font-semibold text-xs border border-black/[0.12] flex items-center justify-center gap-2 transition-all"
+                  className="flex-1 py-2.5 px-4 rounded-lg bg-white hover:bg-[#F8FAFC] text-[#172033] font-semibold text-xs border border-[#E2E8F0] flex items-center justify-center gap-2 transition-colors"
                 >
                   <Printer size={14} />
-                  <span>Print / Save PDF Pass</span>
+                  <span>Print / Save PDF</span>
                 </button>
 
                 <button
                   type="button"
                   onClick={onClose}
-                  className="flex-1 py-3 rounded-full bg-cohere-ink hover:bg-black text-white font-bold text-xs shadow-sm transition-all"
+                  className="flex-1 py-2.5 rounded-lg bg-[#101828] hover:bg-[#1E293B] text-white font-semibold text-xs transition-colors"
                 >
-                  Close & Complete
+                  Close
                 </button>
               </div>
             </div>
           </div>
         )}
-
       </div>
     </div>
   );

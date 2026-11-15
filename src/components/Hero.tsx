@@ -1,165 +1,190 @@
 import React, { useState } from 'react';
-import { 
-  ArrowRight, Database, Cpu, GraduationCap, 
-  CheckCircle2, ArrowUpRight, BarChart3, Users, BookOpen
+import { motion, useReducedMotion } from 'framer-motion';
+import {
+  ArrowRight, ArrowUpRight, BarChart3, Cpu, GraduationCap
 } from 'lucide-react';
+import { MEDIA_ASSETS } from '../assets/media';
+import MediaFrame from './MediaFrame';
 
 interface HeroProps {
-  setRoute?: (route: { page: string; courseId: string; aiTab?: 'overview' | 'disaster' | 'sovereign' | 'agents' | 'doc-intel' }) => void;
+  setRoute?: (route: {
+    page: string;
+    courseId: string;
+    aiTab?: 'overview' | 'disaster' | 'sovereign' | 'agents' | 'doc-intel';
+  }) => void;
 }
 
 export default function Hero({ setRoute }: HeroProps) {
-  const [activeTab, setActiveTab] = useState<'academy' | 'datascience' | 'ai'>('academy');
+  const [activeTab, setActiveTab] = useState<'ai' | 'datascience' | 'academy'>('ai');
+  const shouldReduceMotion = useReducedMotion();
+
+  const scrollToSolutions = () => {
+    const el = document.getElementById('core-expertise');
+    if (el) {
+      el.scrollIntoView({ behavior: 'smooth' });
+    } else {
+      setRoute?.({ page: 'services', courseId: 'ai-agents', aiTab: 'overview' });
+    }
+  };
+
+  const scrollToContact = () => {
+    const el = document.getElementById('contact');
+    if (el) {
+      el.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
 
   return (
-    <section className="relative overflow-hidden bg-cohere-canvas pt-12 pb-16 sm:pt-18 sm:pb-24 border-b border-black/[0.06]">
-      {/* Subtle Cohere Grid & Background Atmosphere */}
-      <div className="absolute inset-0 cohere-grid-bg opacity-60 pointer-events-none" />
-      <div className="absolute top-0 right-1/4 w-96 h-96 bg-cohere-coral/[0.04] rounded-full blur-3xl pointer-events-none" />
+    <section className="relative overflow-hidden mt-hero-gradient text-[#F8FAFC] border-b border-white/10">
+      <div className="absolute inset-0 mt-grid-dark opacity-70 pointer-events-none" />
 
-      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        
-        {/* ── MONUMENTAL EDITORIAL HERO STATEMENT ── */}
-        <div className="max-w-4xl space-y-5">
-          
-          {/* Subtle Unboxed Kicker Metadata */}
-          <div className="flex flex-wrap items-center gap-2 text-xs font-mono text-cohere-slate">
-            <span className="font-semibold text-cohere-ink uppercase tracking-wider">MounTech Solution</span>
-            <span aria-hidden="true">·</span>
-            <span>Est. 2018 in Kathmandu</span>
-            <span aria-hidden="true">·</span>
-            <span className="text-cohere-coral font-semibold">Promoting AI Solutions & Capacity Building</span>
-          </div>
+      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-14 pb-16 sm:pt-20 sm:pb-24 space-y-12">
+        {/* Two-column balanced hero split */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-stretch">
+          {/* Left Narrative */}
+          <motion.div
+            initial={shouldReduceMotion ? false : { opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1] }}
+            className="lg:col-span-6 flex flex-col justify-center space-y-6"
+          >
+            <div className="flex flex-wrap items-center gap-2 text-xs font-mono text-[#94A3B8]">
+              <span className="text-[#22D3EE] font-medium">MounTech Solution</span>
+              <span aria-hidden="true">·</span>
+              <span>Applied AI &amp; Data Science</span>
+              <span aria-hidden="true">·</span>
+              <span>Kathmandu, Nepal</span>
+            </div>
 
-          {/* Monumental Headline */}
-          <h1 className="font-display text-4xl sm:text-6xl lg:text-7xl font-extrabold text-cohere-ink tracking-[-0.04em] leading-[1.06] text-balance">
-            Applied AI, Data Science & Technical Education for Nepal.
-          </h1>
+            <h1 className="font-display text-4xl sm:text-5xl lg:text-[3.5rem] font-extrabold tracking-tight leading-[1.08] text-[#F8FAFC] text-balance">
+              Engineering Intelligence.{' '}
+              <span className="text-[#22D3EE]">Empowering Innovation.</span>
+            </h1>
 
-          {/* Core Mandate Body Text */}
-          <p className="text-base sm:text-lg text-cohere-subtle max-w-2xl font-normal leading-relaxed">
-            Bridging the gap between global AI advancements and local implementation by delivering tailored AI education, workforce upskilling, and enterprise solution adoption across Nepal.
-          </p>
+            <p className="text-base sm:text-lg text-[#CBD5E1] leading-relaxed max-w-xl">
+              MounTech Solution applies artificial intelligence, data science, and engineering research to build resilient systems and technical capacity for Nepal. We bridge global AI advancements with local implementation across enterprise consulting, applied systems, and Mountech Academy.
+            </p>
 
-          {/* Conversion Funnel CTA Paths */}
-          <div className="pt-2 flex flex-wrap items-center gap-3">
-            <button
-              id="cta-mountech-academy"
-              onClick={() => setRoute?.({ page: 'school', courseId: 'ai-agents' })}
-              className="rounded-full px-6 py-3 text-sm font-semibold bg-cohere-ink hover:bg-black text-white shadow-md shadow-black/10 transition-all flex items-center gap-2 group active:scale-95 whitespace-nowrap"
-            >
-              <GraduationCap size={16} />
-              <span>Explore Mountech Academy</span>
-              <ArrowRight size={14} className="group-hover:translate-x-0.5 transition-transform" />
-            </button>
+            <div className="pt-1 flex flex-wrap items-center gap-3.5">
+              <button
+                type="button"
+                id="cta-explore-solutions"
+                onClick={scrollToSolutions}
+                className="px-6 py-3 rounded-lg text-sm font-semibold bg-[#2563EB] hover:bg-[#1D4ED8] text-white shadow-glow-blue transition-all flex items-center gap-2 whitespace-nowrap shrink-0"
+              >
+                <span>Explore Our Solutions</span>
+                <ArrowRight size={15} />
+              </button>
 
-            <button
-              id="cta-enterprise-consulting"
-              onClick={() => setRoute?.({ page: 'consulting', courseId: 'ai-agents' })}
-              className="rounded-full px-6 py-3 text-sm font-semibold bg-white hover:bg-cohere-stone text-cohere-ink border border-black/[0.1] transition-all active:scale-95 flex items-center gap-2 whitespace-nowrap"
-            >
-              <span>Enterprise Consulting</span>
-              <ArrowUpRight size={14} className="text-cohere-slate" />
-            </button>
+              <button
+                type="button"
+                id="cta-lets-collaborate"
+                onClick={scrollToContact}
+                className="px-6 py-3 rounded-lg text-sm font-semibold bg-white/10 hover:bg-white/15 text-[#F8FAFC] border border-white/15 transition-all flex items-center gap-2 whitespace-nowrap shrink-0"
+              >
+                <span>Let&apos;s Collaborate</span>
+                <ArrowUpRight size={15} className="text-[#22D3EE]" />
+              </button>
+            </div>
+          </motion.div>
 
-            <button
-              onClick={() => setRoute?.({ page: 'ai', courseId: 'ai-agents', aiTab: 'overview' })}
-              className="px-4 py-3 text-xs font-mono text-cohere-slate hover:text-cohere-ink flex items-center gap-1.5 transition-colors whitespace-nowrap"
-            >
-              <Cpu size={14} className="text-cohere-coral" />
-              <span>AI Tools & Initiatives</span>
-              <ArrowUpRight size={12} />
-            </button>
-          </div>
-
+          {/* Right Architectural Hero Graphic */}
+          <motion.div
+            initial={shouldReduceMotion ? false : { opacity: 0, scale: 0.98 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.55, delay: 0.08, ease: [0.16, 1, 0.3, 1] }}
+            className="lg:col-span-6 flex items-stretch"
+          >
+            <div className="w-full rounded-2xl overflow-hidden border border-white/15 bg-[#0B1120] shadow-elevated flex flex-col">
+              <MediaFrame
+                src={MEDIA_ASSETS.heroAiNetwork}
+                alt="Abstract computational neural network transitioning into Himalayan topographic contours"
+                title="Applied AI & Computational Systems for Nepal"
+                aspectClass="aspect-[16/9] lg:h-full lg:min-h-[340px]"
+                eager={true}
+                darkFallback={true}
+                className="flex-1"
+              />
+              <div className="px-5 py-3.5 bg-[#101828]/95 border-t border-white/10 flex flex-wrap items-center justify-between gap-2 text-xs text-[#94A3B8]">
+                <span className="font-medium text-[#F8FAFC]">Promoting AI Solutions &amp; Capacity Building in Nepal</span>
+                <span className="font-mono text-[#22D3EE]">Research · Engineering · Education</span>
+              </div>
+            </div>
+          </motion.div>
         </div>
 
-        {/* ── LIGHTWEIGHT INTERACTIVE CAPABILITY SPOTLIGHT ── */}
-        <div className="mt-12 rounded-2xl bg-white border border-black/[0.08] shadow-sm overflow-hidden">
-          
-          {/* Segmented Tab Bar */}
-          <div className="px-4 sm:px-6 py-3 border-b border-black/[0.06] bg-[#f8f7f4] flex flex-wrap items-center justify-between gap-3">
-            <div className="flex items-center gap-1">
+        {/* Full-width below-split interactive capability selector */}
+        <div className="rounded-2xl bg-[#182235]/85 backdrop-blur-md border border-white/10 overflow-hidden">
+          <div className="px-4 sm:px-6 py-3 border-b border-white/10 flex flex-wrap items-center justify-between gap-3">
+            <div className="flex items-center gap-1.5 overflow-x-auto">
               <button
-                onClick={() => setActiveTab('academy')}
-                className={`px-3.5 py-1.5 rounded-lg text-xs font-mono font-medium transition-all flex items-center gap-2 ${
-                  activeTab === 'academy'
-                    ? 'bg-white text-cohere-ink font-semibold shadow-sm'
-                    : 'text-cohere-slate hover:text-cohere-ink'
-                }`}
-              >
-                <GraduationCap size={14} className="text-cohere-teal" />
-                <span>Mountech Academy (40h)</span>
-              </button>
-
-              <button
-                onClick={() => setActiveTab('datascience')}
-                className={`px-3.5 py-1.5 rounded-lg text-xs font-mono font-medium transition-all flex items-center gap-2 ${
-                  activeTab === 'datascience'
-                    ? 'bg-white text-cohere-ink font-semibold shadow-sm'
-                    : 'text-cohere-slate hover:text-cohere-ink'
-                }`}
-              >
-                <BarChart3 size={14} className="text-[#38bdf8]" />
-                <span>Enterprise Data Science</span>
-              </button>
-
-              <button
+                type="button"
                 onClick={() => setActiveTab('ai')}
-                className={`px-3.5 py-1.5 rounded-lg text-xs font-mono font-medium transition-all flex items-center gap-2 ${
+                className={`px-3.5 py-2 rounded-lg text-xs font-medium transition-colors flex items-center gap-2 whitespace-nowrap shrink-0 ${
                   activeTab === 'ai'
-                    ? 'bg-white text-cohere-ink font-semibold shadow-sm'
-                    : 'text-cohere-slate hover:text-cohere-ink'
+                    ? 'bg-[#2563EB] text-white'
+                    : 'text-[#CBD5E1] hover:text-white hover:bg-white/5'
                 }`}
               >
-                <Cpu size={14} className="text-cohere-coral" />
-                <span>AI Solutions & Tools</span>
+                <Cpu size={14} />
+                <span>Applied AI Systems</span>
+              </button>
+              <button
+                type="button"
+                onClick={() => setActiveTab('datascience')}
+                className={`px-3.5 py-2 rounded-lg text-xs font-medium transition-colors flex items-center gap-2 whitespace-nowrap shrink-0 ${
+                  activeTab === 'datascience'
+                    ? 'bg-[#2563EB] text-white'
+                    : 'text-[#CBD5E1] hover:text-white hover:bg-white/5'
+                }`}
+              >
+                <BarChart3 size={14} />
+                <span>Data Science &amp; Analytics</span>
+              </button>
+              <button
+                type="button"
+                onClick={() => setActiveTab('academy')}
+                className={`px-3.5 py-2 rounded-lg text-xs font-medium transition-colors flex items-center gap-2 whitespace-nowrap shrink-0 ${
+                  activeTab === 'academy'
+                    ? 'bg-[#2563EB] text-white'
+                    : 'text-[#CBD5E1] hover:text-white hover:bg-white/5'
+                }`}
+              >
+                <GraduationCap size={14} />
+                <span>Mountech Academy (40h)</span>
               </button>
             </div>
 
-            <span className="text-[11px] font-mono text-cohere-slate hidden sm:inline">
-              Core Strategic Offerings
+            <span className="text-xs text-[#94A3B8] hidden sm:inline">
+              Core Engineering &amp; Education Focus
             </span>
           </div>
 
-          {/* Tab Content Display */}
-          <div className="p-6 sm:p-8">
-            {activeTab === 'academy' && (
+          <div className="p-6 sm:p-7">
+            {activeTab === 'ai' && (
               <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
-                <div className="lg:col-span-8 space-y-3">
-                  <div className="text-[10px] font-mono text-cohere-teal font-bold uppercase tracking-wider">
-                    APPLIED TECHNICAL EDUCATION
-                  </div>
-                  <h3 className="text-xl sm:text-2xl font-bold font-display text-cohere-ink">
-                    40-Hour Intensive Engineering Masterclasses
-                  </h3>
-                  <p className="text-xs sm:text-sm text-cohere-subtle leading-relaxed">
-                    Designed by systems engineers to bridge global AI advancements with local production code. Cohorts gain practical mastery in building multi-agent systems, fine-tuning transformer models, and architecting zero-trust cloud infrastructure.
+                <div className="lg:col-span-9 space-y-2">
+                  <h2 className="font-display text-lg sm:text-xl font-bold text-white">
+                    Hydrological Early Warning, Multi-Agent Workflows &amp; Devanagari Document AI
+                  </h2>
+                  <p className="text-sm text-[#CBD5E1] leading-relaxed">
+                    Operational AI frameworks spanning 3-layer river basin surge modeling, ASYCUDA customs classification DAGs, air-gapped PII redaction, and our active Sovereign AI research pilot.
                   </p>
-                  <div className="pt-2 flex flex-wrap gap-2 text-xs font-mono text-cohere-ink/80">
-                    <span className="px-2.5 py-1 rounded-md bg-[#f4f3ef] border border-black/[0.04]">
-                      ✓ Small Mentored Cohorts
-                    </span>
-                    <span className="px-2.5 py-1 rounded-md bg-[#f4f3ef] border border-black/[0.04]">
-                      ✓ Production Capstones
-                    </span>
-                    <span className="px-2.5 py-1 rounded-md bg-[#f4f3ef] border border-black/[0.04]">
-                      ✓ MLDSN Verified Credentials
-                    </span>
+                  <div className="pt-1 flex flex-wrap items-center gap-2 text-xs text-[#94A3B8]">
+                    <span>DHM Sensor Telemetry</span>
+                    <span aria-hidden="true">·</span>
+                    <span>Deterministic B2B Agents</span>
+                    <span aria-hidden="true">·</span>
+                    <span>Project Alpine R&amp;D Pilot</span>
                   </div>
                 </div>
-
-                <div className="lg:col-span-4 p-5 rounded-xl bg-[#f8f7f4] border border-black/[0.06] space-y-3 text-center sm:text-left">
-                  <div className="text-xs font-mono text-cohere-slate">CURRENT STATUS</div>
-                  <div className="text-base font-bold text-cohere-ink">Admissions Active</div>
-                  <p className="text-[11px] text-cohere-subtle leading-relaxed">
-                    Explore upcoming intakes for Agentic Systems and Generative Transformers.
-                  </p>
+                <div className="lg:col-span-3 flex lg:justify-end">
                   <button
-                    onClick={() => setRoute?.({ page: 'school', courseId: 'ai-agents' })}
-                    className="w-full py-2.5 px-4 rounded-lg bg-cohere-ink hover:bg-black text-white text-xs font-semibold transition-all flex items-center justify-center gap-1.5"
+                    type="button"
+                    onClick={() => setRoute?.({ page: 'ai', courseId: 'ai-agents', aiTab: 'overview' })}
+                    className="px-5 py-2.5 rounded-lg text-xs font-semibold bg-white text-[#101828] hover:bg-[#EFF6FF] transition-colors flex items-center gap-2 whitespace-nowrap shrink-0"
                   >
-                    <span>View Academy Syllabus</span>
+                    <span>Explore AI Lab</span>
                     <ArrowRight size={13} />
                   </button>
                 </div>
@@ -168,38 +193,26 @@ export default function Hero({ setRoute }: HeroProps) {
 
             {activeTab === 'datascience' && (
               <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
-                <div className="lg:col-span-8 space-y-3">
-                  <div className="text-[10px] font-mono text-[#0284c7] font-bold uppercase tracking-wider">
-                    SCALABLE DATA ENGINEERING
-                  </div>
-                  <h3 className="text-xl sm:text-2xl font-bold font-display text-cohere-ink">
-                    Enterprise Data Science & Storage Tiers
-                  </h3>
-                  <p className="text-xs sm:text-sm text-cohere-subtle leading-relaxed">
-                    From lightweight SMB dashboards to multi-node analytical lakehouses, we build robust data pipelines, low-latency OLAP querying, and deterministic business intelligence structured for diverse institutional complexities.
+                <div className="lg:col-span-9 space-y-2">
+                  <h2 className="font-display text-lg sm:text-xl font-bold text-white">
+                    Scalable ETL Pipelines, Vector OLAP &amp; Enterprise Data Platforms
+                  </h2>
+                  <p className="text-sm text-[#CBD5E1] leading-relaxed">
+                    Structured data architectures calibrated for small businesses through national-scale analytical workloads using PostgreSQL, DuckDB, ClickHouse, Qdrant, and Apache Iceberg.
                   </p>
-                  <div className="pt-2 flex flex-wrap gap-2 text-xs font-mono text-cohere-ink/80">
-                    <span className="px-2.5 py-1 rounded-md bg-[#f4f3ef] border border-black/[0.04]">
-                      ✓ Automated ETL Ingestion
-                    </span>
-                    <span className="px-2.5 py-1 rounded-md bg-[#f4f3ef] border border-black/[0.04]">
-                      ✓ Sub-20ms OLAP Queries
-                    </span>
-                    <span className="px-2.5 py-1 rounded-md bg-[#f4f3ef] border border-black/[0.04]">
-                      ✓ Strict Role-Based Governance
-                    </span>
+                  <div className="pt-1 flex flex-wrap items-center gap-2 text-xs text-[#94A3B8]">
+                    <span>Automated ETL Pipelines</span>
+                    <span aria-hidden="true">·</span>
+                    <span>Low-Latency OLAP</span>
+                    <span aria-hidden="true">·</span>
+                    <span>Systems Modernization</span>
                   </div>
                 </div>
-
-                <div className="lg:col-span-4 p-5 rounded-xl bg-[#f8f7f4] border border-black/[0.06] space-y-3 text-center sm:text-left">
-                  <div className="text-xs font-mono text-cohere-slate">ARCHITECTURE TIERS</div>
-                  <div className="text-base font-bold text-cohere-ink">SMB to Enterprise</div>
-                  <p className="text-[11px] text-cohere-subtle leading-relaxed">
-                    Tailored architectures supporting DuckDB, ClickHouse, and modern data warehouses.
-                  </p>
+                <div className="lg:col-span-3 flex lg:justify-end">
                   <button
+                    type="button"
                     onClick={() => setRoute?.({ page: 'datascience', courseId: 'ai-agents' })}
-                    className="w-full py-2.5 px-4 rounded-lg bg-cohere-ink hover:bg-black text-white text-xs font-semibold transition-all flex items-center justify-center gap-1.5"
+                    className="px-5 py-2.5 rounded-lg text-xs font-semibold bg-white text-[#101828] hover:bg-[#EFF6FF] transition-colors flex items-center gap-2 whitespace-nowrap shrink-0"
                   >
                     <span>Inspect Data Tiers</span>
                     <ArrowRight size={13} />
@@ -208,51 +221,37 @@ export default function Hero({ setRoute }: HeroProps) {
               </div>
             )}
 
-            {activeTab === 'ai' && (
+            {activeTab === 'academy' && (
               <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
-                <div className="lg:col-span-8 space-y-3">
-                  <div className="text-[10px] font-mono text-cohere-coral font-bold uppercase tracking-wider">
-                    APPLIED AUTOMATION & RESILIENCE
-                  </div>
-                  <h3 className="text-xl sm:text-2xl font-bold font-display text-cohere-ink">
-                    AI Disaster Management & Multi-Agent Workflows
-                  </h3>
-                  <p className="text-xs sm:text-sm text-cohere-subtle leading-relaxed">
-                    Our AI portfolio consolidates production tools: the 3-layer hydrological flood early warning monitor, deterministic B2B trade compliance swarms, and air-gapped document intelligence—alongside our sovereign AI R&D pilot.
+                <div className="lg:col-span-9 space-y-2">
+                  <h2 className="font-display text-lg sm:text-xl font-bold text-white">
+                    40-Hour Applied Engineering Masterclasses &amp; Workforce Upskilling
+                  </h2>
+                  <p className="text-sm text-[#CBD5E1] leading-relaxed">
+                    Cohort-based technical education covering Agentic AI, Transformer architectures, MLOps, Cybersecurity, Cloud DevSecOps, and Data Engineering—paired with the MLDSN Nepal network.
                   </p>
-                  <div className="pt-2 flex flex-wrap gap-2 text-xs font-mono text-cohere-ink/80">
-                    <span className="px-2.5 py-1 rounded-md bg-[#f4f3ef] border border-black/[0.04]">
-                      ✓ Hydrology Telemetry Monitor
-                    </span>
-                    <span className="px-2.5 py-1 rounded-md bg-[#f4f3ef] border border-black/[0.04]">
-                      ✓ Customs ASYCUDA Automation
-                    </span>
-                    <span className="px-2.5 py-1 rounded-md bg-[#f4f3ef] border border-black/[0.04]">
-                      ✓ Devanagari Document OCR
-                    </span>
+                  <div className="pt-1 flex flex-wrap items-center gap-2 text-xs text-[#94A3B8]">
+                    <span>30% Foundations · 70% Labs</span>
+                    <span aria-hidden="true">·</span>
+                    <span>12 Intensive Tracks</span>
+                    <span aria-hidden="true">·</span>
+                    <span>Live Faculty Mentorship</span>
                   </div>
                 </div>
-
-                <div className="lg:col-span-4 p-5 rounded-xl bg-[#f8f7f4] border border-black/[0.06] space-y-3 text-center sm:text-left">
-                  <div className="text-xs font-mono text-cohere-slate">AI TOOLS PORTAL</div>
-                  <div className="text-base font-bold text-cohere-ink">Interactive Hub</div>
-                  <p className="text-[11px] text-cohere-subtle leading-relaxed">
-                    Test the flood surge model, PII sanitizer, and trade verification DAG.
-                  </p>
+                <div className="lg:col-span-3 flex lg:justify-end">
                   <button
-                    onClick={() => setRoute?.({ page: 'ai', courseId: 'ai-agents', aiTab: 'overview' })}
-                    className="w-full py-2.5 px-4 rounded-lg bg-cohere-ink hover:bg-black text-white text-xs font-semibold transition-all flex items-center justify-center gap-1.5"
+                    type="button"
+                    onClick={() => setRoute?.({ page: 'school', courseId: 'ai-agents' })}
+                    className="px-5 py-2.5 rounded-lg text-xs font-semibold bg-white text-[#101828] hover:bg-[#EFF6FF] transition-colors flex items-center gap-2 whitespace-nowrap shrink-0"
                   >
-                    <span>Launch AI Tools Hub</span>
+                    <span>Browse Academy</span>
                     <ArrowRight size={13} />
                   </button>
                 </div>
               </div>
             )}
           </div>
-
         </div>
-
       </div>
     </section>
   );

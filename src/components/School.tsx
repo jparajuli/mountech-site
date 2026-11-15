@@ -1,12 +1,12 @@
 import React, { useState, useMemo } from 'react';
-import { 
-  courses, categories, getCourseById, Course, SyllabusModule 
+import {
+  courses, categories, getCourseById, Course, SyllabusModule
 } from '../data/courses';
-import { 
-  BookOpen, Clock, Calendar, CheckCircle2, 
-  ArrowRight, Search, Sparkles, Filter, X, CreditCard, ShieldCheck, ArrowUpRight
-} from 'lucide-react';
+import { ArrowRight, Search } from 'lucide-react';
 import SecureEnrollmentModal from './SecureEnrollmentModal';
+import { MEDIA_ASSETS } from '../assets/media';
+import MediaFrame from './MediaFrame';
+import { RevealBlock, InteractiveCard } from './MotionPrimitives';
 
 interface SchoolProps {
   summaryOnly?: boolean;
@@ -18,21 +18,22 @@ interface SchoolProps {
 export default function School({ summaryOnly, detailOnly, route, setRoute }: SchoolProps) {
   const [selectedCategory, setSelectedCategory] = useState<string>('All');
   const [searchQuery, setSearchQuery] = useState<string>('');
-  
-  // Secure Enrollment Modal State
   const [isEnrollModalOpen, setIsEnrollModalOpen] = useState<boolean>(false);
   const [enrollCourse, setEnrollCourse] = useState<Course | null>(null);
 
-  // Filtering
   const filteredCourses = useMemo(() => {
+    const q = searchQuery.trim().toLowerCase();
     return courses.filter((c: Course) => {
-      const matchesSearch = c.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                            c.methodology.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                            c.instructor.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                            c.learn.some(l => l.toLowerCase().includes(searchQuery.toLowerCase()));
-      return matchesSearch;
+      const matchesCategory = selectedCategory === 'All' || c.category === selectedCategory;
+      const matchesSearch =
+        !q ||
+        c.title.toLowerCase().includes(q) ||
+        c.methodology.toLowerCase().includes(q) ||
+        c.instructor.toLowerCase().includes(q) ||
+        c.learn.some((l) => l.toLowerCase().includes(q));
+      return matchesCategory && matchesSearch;
     });
-  }, [searchQuery]);
+  }, [selectedCategory, searchQuery]);
 
   const activeCourse = useMemo(() => {
     return getCourseById(route.courseId) || courses[0];
@@ -43,116 +44,140 @@ export default function School({ summaryOnly, detailOnly, route, setRoute }: Sch
     setIsEnrollModalOpen(true);
   };
 
-  // ──── SUMMARY PREVIEW (FOR HOME PAGE) ────
   if (summaryOnly) {
     return (
-      <section className="py-20 sm:py-28 bg-cohere-canvas border-b border-black/[0.06]">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          
-          <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6">
-            <div className="max-w-2xl space-y-3">
-              <div className="flex flex-wrap items-center gap-2 text-xs font-mono text-cohere-slate">
-                <span className="font-semibold text-cohere-coral uppercase tracking-wider">AI Capacity Building &amp; Upskilling</span>
-                <span aria-hidden="true">·</span>
-                <span>Mountech Academy</span>
-              </div>
-              <h2 className="font-display text-3xl sm:text-4xl font-extrabold text-cohere-ink tracking-tight">
-                Tailored AI Education &amp; Workforce Upskilling
-              </h2>
-              <p className="text-cohere-subtle text-sm sm:text-base leading-relaxed">
-                Bridging the gap between global AI advancements and local implementation by delivering tailored 40-hour engineering cohorts, corporate upskilling, and enterprise solution readiness across Nepal.
-              </p>
-            </div>
+      <section className="py-20 sm:py-28 bg-white border-b border-[#E2E8F0]">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
+          <RevealBlock>
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-stretch">
+              <div className="lg:col-span-6 flex flex-col justify-center space-y-4">
+                <div className="flex flex-wrap items-center gap-2 text-xs font-mono text-[#64748B]">
+                  <span className="font-semibold text-[#2563EB]">Education &amp; Capacity Building</span>
+                  <span aria-hidden="true">·</span>
+                  <span>Mountech Academy</span>
+                </div>
 
-            <button
-              onClick={() => setRoute({ page: 'school', courseId: 'ai-agents' })}
-              className="rounded-full px-6 py-3 text-xs font-semibold bg-cohere-ink hover:bg-black text-white shadow-sm flex items-center gap-2 self-start md:self-auto transition-all"
-            >
-              <span>View All 10+ Masterclasses</span>
-              <ArrowRight size={14} />
-            </button>
-          </div>
+                <h2 className="font-display text-3xl sm:text-4xl font-extrabold text-[#172033] tracking-tight">
+                  Tailored AI Education &amp; Workforce Upskilling
+                </h2>
+
+                <p className="text-base text-[#64748B] leading-relaxed">
+                  Bridging the gap between global AI advancements and local implementation by delivering tailored 40-hour engineering cohorts, executive workshops, and enterprise solution readiness across Nepal.
+                </p>
+
+                <div className="flex flex-wrap items-center gap-3 text-xs text-[#334155] pt-1">
+                  <span>30% Theory · 70% Hands-On Labs</span>
+                  <span aria-hidden="true">·</span>
+                  <span>12 Specialized Engineering Tracks</span>
+                </div>
+
+                <div className="pt-2">
+                  <button
+                    type="button"
+                    onClick={() => setRoute({ page: 'school', courseId: 'ai-agents' })}
+                    className="px-6 py-3 rounded-lg text-xs font-semibold bg-[#2563EB] hover:bg-[#1D4ED8] text-white shadow-subtle inline-flex items-center gap-2 transition-colors whitespace-nowrap"
+                  >
+                    <span>Explore All 12 Masterclasses</span>
+                    <ArrowRight size={14} />
+                  </button>
+                </div>
+              </div>
+
+              <div className="lg:col-span-6 flex">
+                <div className="w-full rounded-2xl overflow-hidden border border-[#E2E8F0] bg-[#F8FAFC] flex flex-col shadow-subtle">
+                  <MediaFrame
+                    src={MEDIA_ASSETS.academyWorkshop}
+                    alt="Engineers participating in a Mountech Academy applied AI workshop in Nepal"
+                    title="Mountech Academy Technical Seminar"
+                    aspectClass="aspect-[4/3] lg:h-full lg:min-h-[300px]"
+                    className="flex-1"
+                  />
+                </div>
+              </div>
+            </div>
+          </RevealBlock>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {courses.slice(0, 3).map((c: Course) => (
-              <div
+              <InteractiveCard
                 key={c.id}
-                className="p-7 rounded-2xl bg-cohere-stone/60 border border-black/[0.08] hover:border-black/[0.2] transition-all flex flex-col justify-between space-y-6"
+                className="p-7 rounded-2xl bg-[#F8FAFC] border border-[#E2E8F0] hover:border-[#2563EB]/50 transition-all flex flex-col justify-between space-y-6"
               >
                 <div className="space-y-3">
-                  <div className="flex items-center justify-between">
-                    <span className="font-mono text-[10px] uppercase px-2.5 py-1 rounded-full bg-white border border-black/[0.08] text-cohere-slate">
-                      40h Cohort
-                    </span>
-                    <span className="font-mono text-xs font-bold text-cohere-ink">{c.costLocal}</span>
+                  <div className="flex items-center justify-between text-xs font-mono text-[#64748B]">
+                    <span>40h Cohort · {c.category}</span>
+                    <span className="font-bold text-[#172033] tabular-nums">{c.costLocal}</span>
                   </div>
 
-                  <h3 className="text-lg font-bold text-cohere-ink leading-snug">{c.title}</h3>
-                  <p className="text-xs text-cohere-subtle leading-relaxed line-clamp-2">{c.methodology}</p>
+                  <h3 className="font-display text-lg font-bold text-[#172033] leading-snug">
+                    {c.title}
+                  </h3>
+                  <p className="text-xs text-[#64748B] leading-relaxed line-clamp-2">
+                    {c.methodology}
+                  </p>
                 </div>
 
-                <div className="pt-4 border-t border-black/[0.06] flex items-center justify-between">
-                  <div>
-                    <div className="text-[10px] font-mono text-cohere-slate">INSTRUCTOR</div>
-                    <div className="text-xs font-bold text-cohere-ink line-clamp-1">{c.instructor.split('(')[0]}</div>
+                <div className="pt-4 border-t border-[#E2E8F0] flex items-center justify-between gap-3">
+                  <div className="min-w-0">
+                    <div className="text-[11px] font-mono text-[#64748B]">Faculty</div>
+                    <div className="text-xs font-semibold text-[#172033] truncate">
+                      {c.instructor.split('(')[0]}
+                    </div>
                   </div>
 
                   <button
-                    onClick={() => {
-                      setRoute({ page: 'course-detail', courseId: c.id });
-                    }}
-                    className="rounded-full px-4 py-2 text-xs font-semibold bg-white hover:bg-cohere-ink hover:text-white border border-black/[0.12] transition-all"
+                    type="button"
+                    onClick={() => setRoute({ page: 'course-detail', courseId: c.id })}
+                    className="px-4 py-2 rounded-lg text-xs font-semibold bg-white hover:bg-[#101828] hover:text-white text-[#172033] border border-[#E2E8F0] transition-colors whitespace-nowrap shrink-0"
                   >
                     View Syllabus
                   </button>
                 </div>
-              </div>
+              </InteractiveCard>
             ))}
           </div>
-
         </div>
       </section>
     );
   }
 
-  // ──── DEDICATED INDIVIDUAL COURSE DETAIL PAGE ────
   if (detailOnly) {
     return (
       <div className="py-16 sm:py-24 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
-        
-        {/* Back breadcrumb */}
         <button
+          type="button"
           onClick={() => setRoute({ page: 'school', courseId: activeCourse.id })}
-          className="text-xs font-mono text-cohere-slate hover:text-cohere-ink flex items-center gap-1.5 transition-colors"
+          className="text-xs font-mono text-[#64748B] hover:text-[#2563EB] flex items-center gap-1.5 transition-colors"
         >
           <span>← Back to Academy Masterclasses</span>
         </button>
 
-        {/* Course Header */}
         <div className="space-y-4">
-          <div className="flex items-center gap-2 flex-wrap">
-            <span className="font-mono text-xs uppercase px-3 py-1 rounded-full bg-cohere-stone border border-black/[0.08] text-cohere-ink font-semibold">
-              40-Hour Intensive Cohort
-            </span>
-            <span className="font-mono text-xs text-cohere-slate">• 30% Theory • 70% Production Labs</span>
+          <div className="flex items-center gap-2 flex-wrap text-xs font-mono text-[#64748B]">
+            <span className="font-semibold text-[#2563EB]">{activeCourse.category}</span>
+            <span aria-hidden="true">·</span>
+            <span>40-Hour Intensive Cohort</span>
+            <span aria-hidden="true">·</span>
+            <span>30% Theory · 70% Production Labs</span>
           </div>
 
-          <h1 className="font-display text-3xl sm:text-5xl font-extrabold text-cohere-ink tracking-tight">
+          <h1 className="font-display text-3xl sm:text-5xl font-extrabold text-[#172033] tracking-tight">
             {activeCourse.title}
           </h1>
 
-          <p className="text-base sm:text-lg text-cohere-subtle leading-relaxed max-w-3xl">
+          <p className="text-base sm:text-lg text-[#64748B] leading-relaxed max-w-3xl">
             {activeCourse.methodology}
           </p>
 
-          <div className="pt-2 text-xs font-mono text-cohere-slate">
-            Instructor: <strong className="text-cohere-ink">{activeCourse.instructor}</strong>
+          <div className="pt-1 text-xs font-mono text-[#64748B]">
+            Instructor: <strong className="text-[#172033]">{activeCourse.instructor}</strong>
           </div>
 
           <div className="pt-4 flex flex-wrap items-center gap-4">
             <button
+              type="button"
               onClick={() => handleOpenEnroll(activeCourse)}
-              className="rounded-full px-7 py-3.5 text-xs font-semibold bg-cohere-ink hover:bg-black text-white shadow-sm flex items-center gap-2"
+              className="rounded-lg px-7 py-3.5 text-xs font-semibold bg-[#2563EB] hover:bg-[#1D4ED8] text-white shadow-subtle flex items-center gap-2 transition-colors whitespace-nowrap tabular-nums"
             >
               <span>Enroll in Masterclass ({activeCourse.costLocal} / {activeCourse.costGlobal})</span>
               <ArrowRight size={14} />
@@ -160,20 +185,19 @@ export default function School({ summaryOnly, detailOnly, route, setRoute }: Sch
           </div>
         </div>
 
-        {/* 40-Hour Module Breakdown */}
-        <div className="p-8 rounded-2xl bg-cohere-stone/60 border border-black/[0.08] space-y-6">
-          <h2 className="font-display text-xl font-bold text-cohere-ink">
-            40-Hour Curriculum & Lab Syllabus
+        <div className="p-6 sm:p-8 rounded-2xl bg-[#EFF6FF]/60 border border-[#BFDBFE] space-y-6">
+          <h2 className="font-display text-xl font-bold text-[#172033]">
+            40-Hour Curriculum &amp; Lab Syllabus
           </h2>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {activeCourse.syllabus.map((mod: SyllabusModule, idx: number) => (
-              <div key={idx} className="p-5 rounded-xl bg-white border border-black/[0.06] space-y-2">
-                <div className="font-mono text-[10px] text-cohere-coral font-bold uppercase">
+              <div key={idx} className="p-5 rounded-xl bg-white border border-[#E2E8F0] space-y-2.5">
+                <div className="font-mono text-xs text-[#2563EB] font-semibold">
                   {mod.hours}
                 </div>
-                <h3 className="text-sm font-bold text-cohere-ink">{mod.title}</h3>
-                <ul className="space-y-1 text-xs text-cohere-subtle leading-relaxed list-disc list-inside">
+                <h3 className="text-sm font-bold text-[#172033]">{mod.title}</h3>
+                <ul className="space-y-1.5 text-xs text-[#64748B] leading-relaxed list-disc list-inside">
                   {mod.topics.map((t: string, tIdx: number) => (
                     <li key={tIdx}>{t}</li>
                   ))}
@@ -183,7 +207,6 @@ export default function School({ summaryOnly, detailOnly, route, setRoute }: Sch
           </div>
         </div>
 
-        {/* Secure Enrollment Modal */}
         <SecureEnrollmentModal
           course={enrollCourse}
           isOpen={isEnrollModalOpen}
@@ -193,38 +216,47 @@ export default function School({ summaryOnly, detailOnly, route, setRoute }: Sch
     );
   }
 
-  // ──── FULL ACADEMY CATALOG VIEW ────
   return (
     <div className="py-16 sm:py-24 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
-      
-      {/* Header */}
-      <div className="max-w-3xl space-y-4">
-        <div className="flex flex-wrap items-center gap-2 text-xs font-mono text-cohere-slate">
-          <span className="font-semibold text-cohere-coral uppercase tracking-wider">Strategic Portfolio Pillar</span>
-          <span aria-hidden="true">·</span>
-          <span>Tailored AI Education &amp; Upskilling</span>
-          <span aria-hidden="true">·</span>
-          <span>Nationwide Capacity</span>
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+        <div className="lg:col-span-7 space-y-4">
+          <div className="flex flex-wrap items-center gap-2 text-xs font-mono text-[#64748B]">
+            <span className="font-semibold text-[#2563EB]">Strategic Portfolio Pillar</span>
+            <span aria-hidden="true">·</span>
+            <span>Tailored AI Education &amp; Upskilling</span>
+          </div>
+          <h1 className="font-display text-4xl sm:text-5xl lg:text-6xl font-extrabold text-[#172033] tracking-tight">
+            Mountech Academy
+          </h1>
+          <p className="text-base sm:text-lg text-[#64748B] leading-relaxed max-w-2xl">
+            Bridging the gap between global AI advancements and local implementation by delivering tailored 40-hour AI education, workforce upskilling, and applied engineering cohorts across Nepal.
+          </p>
         </div>
-        <h1 className="font-display text-4xl sm:text-6xl font-extrabold text-cohere-ink tracking-tight">
-          Mountech Academy
-        </h1>
-        <p className="text-lg text-cohere-subtle leading-relaxed">
-          Bridging the gap between global AI advancements and local implementation by delivering tailored AI education, workforce upskilling, and enterprise engineering masterclasses across Nepal.
-        </p>
+
+        <div className="lg:col-span-5">
+          <div className="rounded-2xl overflow-hidden border border-[#E2E8F0] shadow-subtle">
+            <MediaFrame
+              src={MEDIA_ASSETS.academyWorkshop}
+              alt="Mountech Academy engineering training workshop"
+              title="Mountech Academy Cohorts"
+              aspectClass="aspect-[4/3]"
+            />
+          </div>
+        </div>
       </div>
 
       {/* Filter & Search Bar */}
-      <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-4 pt-4 border-t border-black/[0.06]">
-        <div className="flex items-center gap-1.5 overflow-x-auto pb-2 sm:pb-0">
+      <div className="flex flex-col md:flex-row items-stretch md:items-center justify-between gap-4 pt-6 border-t border-[#E2E8F0]">
+        <div className="flex items-center gap-1.5 p-1 bg-white border border-[#E2E8F0] rounded-xl overflow-x-auto">
           {categories.map((cat: string) => (
             <button
               key={cat}
+              type="button"
               onClick={() => setSelectedCategory(cat)}
-              className={`rounded-full px-4 py-2 text-xs font-semibold whitespace-nowrap transition-all ${
+              className={`rounded-lg px-3.5 py-2 text-xs font-medium whitespace-nowrap shrink-0 transition-colors ${
                 selectedCategory === cat
-                  ? 'bg-cohere-ink text-white shadow-sm'
-                  : 'bg-cohere-stone text-cohere-slate hover:text-cohere-ink hover:bg-[#e6e4df]'
+                  ? 'bg-[#2563EB] text-white font-semibold'
+                  : 'text-[#64748B] hover:text-[#172033] hover:bg-[#F8FAFC]'
               }`}
             >
               {cat}
@@ -232,69 +264,82 @@ export default function School({ summaryOnly, detailOnly, route, setRoute }: Sch
           ))}
         </div>
 
-        {/* Search Bar */}
-        <div className="relative min-w-[240px]">
-          <Search size={15} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-cohere-slate" />
+        <div className="relative min-w-[260px]">
+          <Search size={15} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-[#64748B]" />
           <input
             type="text"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            placeholder="Search syllabus topics..."
-            className="w-full pl-9 pr-4 py-2 rounded-full bg-cohere-stone border border-black/[0.08] text-xs text-cohere-ink focus:outline-none focus:border-cohere-ink"
+            placeholder="Search syllabus topics or faculty..."
+            className="w-full pl-9 pr-4 py-2.5 rounded-xl bg-white border border-[#E2E8F0] text-xs text-[#172033] focus:outline-none focus:border-[#2563EB]"
           />
         </div>
       </div>
 
       {/* Courses Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {filteredCourses.map((c: Course) => (
-          <div
-            key={c.id}
-            className="p-7 rounded-2xl bg-white border border-black/[0.08] hover:border-black/[0.2] transition-all flex flex-col justify-between space-y-6 shadow-sm"
-          >
-            <div className="space-y-3">
-              <div className="flex items-center justify-between">
-                <span className="font-mono text-[10px] uppercase px-2.5 py-1 rounded-full bg-cohere-stone border border-black/[0.08] text-cohere-slate font-medium">
-                  40h Intensive
-                </span>
-                <span className="font-mono text-xs font-bold text-cohere-ink">{c.costLocal}</span>
-              </div>
-
-              <h3 className="text-lg font-bold text-cohere-ink leading-snug">{c.title}</h3>
-              <p className="text-xs text-cohere-subtle leading-relaxed line-clamp-2">{c.methodology}</p>
-              
-              <div className="space-y-1 pt-2 border-t border-black/[0.04]">
-                <div className="text-[10px] font-mono text-cohere-slate">KEY OUTCOME:</div>
-                <p className="text-xs text-cohere-ink leading-relaxed line-clamp-2">{c.achieve}</p>
-              </div>
-            </div>
-
-            <div className="pt-4 border-t border-black/[0.06] flex items-center justify-between">
-              <div>
-                <div className="text-[10px] font-mono text-cohere-slate">GLOBAL SEATS</div>
-                <div className="text-sm font-bold text-cohere-ink">{c.costGlobal}</div>
-              </div>
-
-              <div className="flex items-center gap-2">
-                <button
-                  onClick={() => setRoute({ page: 'course-detail', courseId: c.id })}
-                  className="rounded-full px-3.5 py-1.5 text-xs font-semibold bg-cohere-stone hover:bg-black hover:text-white transition-colors"
-                >
-                  Syllabus
-                </button>
-                <button
-                  onClick={() => handleOpenEnroll(c)}
-                  className="rounded-full px-4 py-1.5 text-xs font-semibold bg-cohere-ink hover:bg-black text-white transition-colors"
-                >
-                  Enroll
-                </button>
-              </div>
-            </div>
+      {filteredCourses.length === 0 ? (
+        <div className="p-12 rounded-2xl bg-white border border-[#E2E8F0] text-center space-y-2">
+          <div className="font-display text-base font-bold text-[#172033]">
+            No matching courses found
           </div>
-        ))}
-      </div>
+          <p className="text-xs text-[#64748B]">
+            Try clearing the search query or switching to &quot;All&quot; tracks.
+          </p>
+        </div>
+      ) : (
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {filteredCourses.map((c: Course) => (
+            <InteractiveCard
+              key={c.id}
+              className="p-7 rounded-2xl bg-white border border-[#E2E8F0] hover:border-[#2563EB]/50 hover:shadow-elevated transition-all flex flex-col justify-between space-y-6"
+            >
+              <div className="space-y-3">
+                <div className="flex items-center justify-between text-xs font-mono text-[#64748B]">
+                  <span>40h Cohort · {c.category}</span>
+                  <span className="font-bold text-[#172033] tabular-nums">{c.costLocal}</span>
+                </div>
 
-      {/* Secure Enrollment Modal */}
+                <h3 className="font-display text-lg font-bold text-[#172033] leading-snug">
+                  {c.title}
+                </h3>
+                <p className="text-xs text-[#64748B] leading-relaxed line-clamp-2">
+                  {c.methodology}
+                </p>
+
+                <div className="space-y-1 pt-2 border-t border-[#E2E8F0]">
+                  <div className="text-[11px] font-mono text-[#64748B]">Capstone Outcome</div>
+                  <p className="text-xs text-[#334155] leading-relaxed line-clamp-2">{c.achieve}</p>
+                </div>
+              </div>
+
+              <div className="pt-4 border-t border-[#E2E8F0] flex items-center justify-between gap-3">
+                <div>
+                  <div className="text-[11px] font-mono text-[#64748B]">Global Seat</div>
+                  <div className="text-sm font-bold text-[#172033] tabular-nums">{c.costGlobal}</div>
+                </div>
+
+                <div className="flex items-center gap-2">
+                  <button
+                    type="button"
+                    onClick={() => setRoute({ page: 'course-detail', courseId: c.id })}
+                    className="rounded-lg px-3.5 py-2 text-xs font-semibold bg-[#F8FAFC] hover:bg-[#EFF6FF] text-[#172033] border border-[#E2E8F0] transition-colors whitespace-nowrap"
+                  >
+                    Syllabus
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => handleOpenEnroll(c)}
+                    className="rounded-lg px-4 py-2 text-xs font-semibold bg-[#2563EB] hover:bg-[#1D4ED8] text-white transition-colors whitespace-nowrap"
+                  >
+                    Enroll
+                  </button>
+                </div>
+              </div>
+            </InteractiveCard>
+          ))}
+        </div>
+      )}
+
       <SecureEnrollmentModal
         course={enrollCourse}
         isOpen={isEnrollModalOpen}

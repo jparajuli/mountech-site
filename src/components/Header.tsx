@@ -1,156 +1,167 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Logo from './Logo';
-import { Menu, X, ArrowUpRight, ChevronDown } from 'lucide-react';
+import { Menu, X, ArrowRight } from 'lucide-react';
 
 interface HeaderProps {
-  route: { page: string; courseId: string };
-  setRoute: (route: { page: string; courseId: string }) => void;
+  route: { page: string; courseId: string; aiTab?: string };
+  setRoute: (route: { page: string; courseId: string; aiTab?: 'overview' | 'disaster' | 'sovereign' | 'agents' | 'doc-intel' }) => void;
 }
 
 export default function Header({ route, setRoute }: HeaderProps) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 12);
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => window.removeEventListener('scroll', onScroll);
+  }, []);
 
   const navItems = [
-    { label: "Academy", page: "school" },
-    { label: "Data Science", page: "datascience" },
-    { label: "Consulting", page: "consulting" },
-    { label: "AI", page: "ai" },
-    { label: "Community", page: "community" },
+    { label: 'About', page: 'about', activePages: ['about'] },
+    { label: 'Services', page: 'services', activePages: ['services', 'datascience', 'consulting'] },
+    { label: 'Research', page: 'ai', activePages: ['ai', 'disaster'] },
+    { label: 'Projects', page: 'projects', activePages: ['projects'] },
+    { label: 'Education', page: 'school', activePages: ['school', 'course-detail', 'community'] },
   ];
 
   const handleNavClick = (page: string) => {
-    setRoute({ page, courseId: route.courseId });
+    setRoute({ page, courseId: route.courseId || 'ai-agents', aiTab: 'overview' });
     setMobileMenuOpen(false);
   };
 
+  const handleCollaborateClick = () => {
+    setMobileMenuOpen(false);
+    const el = document.getElementById('contact');
+    if (el) {
+      el.scrollIntoView({ behavior: 'smooth' });
+    } else {
+      handleNavClick('home');
+      setTimeout(() => {
+        document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' });
+      }, 120);
+    }
+  };
+
   return (
-    <header className="sticky top-0 z-50 bg-[#fbfbfa]/95 backdrop-blur-md border-b border-black/[0.06] transition-all">
+    <header
+      className={`sticky top-0 z-50 transition-all duration-200 border-b ${
+        scrolled
+          ? 'bg-white/95 backdrop-blur-md border-[#E2E8F0] shadow-subtle'
+          : 'bg-white/90 backdrop-blur-sm border-[#E2E8F0]/80'
+      }`}
+    >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-16 sm:h-18 gap-8">
-          
-          {/* Zone 1: Brand Wordmark */}
-          <button 
+        <div className="flex items-center justify-between h-16 gap-8">
+          {/* Zone 1: Brand Logo */}
+          <button
+            type="button"
             onClick={() => handleNavClick('home')}
-            className="flex items-center gap-2 text-left focus:outline-none shrink-0"
+            className="flex items-center text-left focus:outline-none shrink-0"
+            aria-label="MounTech Solution Home"
           >
-            <Logo size={48} />
+            <Logo size={42} />
           </button>
 
           {/* Zone 2: 5 Clean Single-Line Nav Links */}
-          <nav className="hidden md:flex items-center gap-1 lg:gap-2">
+          <nav className="hidden md:flex items-center gap-6 lg:gap-7" aria-label="Primary navigation">
             {navItems.map((item) => {
-              const isActive = route.page === item.page;
+              const isActive = item.activePages.includes(route.page);
               return (
                 <button
                   key={item.page}
+                  type="button"
                   onClick={() => handleNavClick(item.page)}
-                  className={`px-3.5 py-1.5 rounded-full text-[13px] font-medium whitespace-nowrap transition-all ${
-                    isActive 
-                      ? 'text-cohere-ink bg-black/[0.06] font-semibold' 
-                      : 'text-cohere-slate hover:text-cohere-ink hover:bg-black/[0.03]'
+                  className={`relative py-2 text-sm font-medium whitespace-nowrap shrink-0 transition-colors ${
+                    isActive
+                      ? 'text-[#2563EB] font-semibold'
+                      : 'text-[#64748B] hover:text-[#172033]'
                   }`}
                 >
-                  {item.label}
+                  <span>{item.label}</span>
+                  {isActive && (
+                    <span
+                      aria-hidden="true"
+                      className="absolute inset-x-0 bottom-0 h-0.5 bg-[#2563EB] rounded-full"
+                    />
+                  )}
                 </button>
               );
             })}
-            <button
-              onClick={() => handleNavClick('about')}
-              className={`px-3.5 py-1.5 rounded-full text-[13px] font-medium whitespace-nowrap transition-all ${
-                route.page === 'about'
-                  ? 'text-cohere-ink bg-black/[0.06] font-semibold'
-                  : 'text-cohere-slate hover:text-cohere-ink hover:bg-black/[0.03]'
-              }`}
-            >
-              About
-            </button>
           </nav>
 
-          {/* Zone 3: 1 Primary Action */}
-          <div className="hidden sm:flex items-center gap-3 shrink-0">
-            <a
-              href="https://mldsnnepal.org"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-[12px] font-mono text-cohere-slate hover:text-cohere-ink flex items-center gap-1 px-3 py-1.5 transition-colors whitespace-nowrap"
-            >
-              <span>mldsnnepal.org</span>
-              <ArrowUpRight size={12} />
-            </a>
-
+          {/* Zone 3: Primary Action */}
+          <div className="hidden md:flex items-center shrink-0">
             <button
-              onClick={() => {
-                const el = document.getElementById('contact');
-                if (el) {
-                  el.scrollIntoView({ behavior: 'smooth' });
-                } else {
-                  handleNavClick('home');
-                  setTimeout(() => {
-                    document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' });
-                  }, 100);
-                }
-              }}
-              className="rounded-full px-5 py-2 text-xs font-semibold bg-cohere-ink hover:bg-black text-white shadow-sm transition-all active:scale-95 whitespace-nowrap"
+              type="button"
+              onClick={handleCollaborateClick}
+              className="px-4 py-2 rounded-lg text-xs font-semibold bg-[#2563EB] hover:bg-[#1D4ED8] text-white shadow-subtle transition-colors flex items-center gap-1.5 whitespace-nowrap shrink-0"
             >
-              Contact Advisory
+              <span>Let&apos;s Collaborate</span>
+              <ArrowRight size={13} />
             </button>
           </div>
 
-          {/* Mobile Menu Trigger */}
-          <div className="md:hidden flex items-center gap-2">
+          {/* Mobile Trigger */}
+          <div className="md:hidden flex items-center">
             <button
+              type="button"
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="p-2 rounded-full text-cohere-ink hover:bg-black/5"
+              className="p-2.5 min-h-[44px] min-w-[44px] rounded-lg text-[#172033] hover:bg-[#F8FAFC] flex items-center justify-center"
               aria-label="Toggle navigation menu"
+              aria-expanded={mobileMenuOpen}
             >
               {mobileMenuOpen ? <X size={20} /> : <Menu size={20} />}
             </button>
           </div>
-
         </div>
       </div>
 
       {/* Mobile Drawer */}
       {mobileMenuOpen && (
-        <div className="md:hidden border-b border-black/[0.08] bg-[#fbfbfa] px-4 pt-3 pb-6 space-y-2 animate-in slide-in-from-top-2 duration-200">
-          {navItems.map((item) => (
-            <button
-              key={item.page}
-              onClick={() => handleNavClick(item.page)}
-              className={`block w-full text-left px-4 py-2.5 rounded-xl text-sm font-medium ${
-                route.page === item.page ? 'bg-black/5 text-cohere-ink font-semibold' : 'text-cohere-slate'
-              }`}
-            >
-              {item.label}
-            </button>
-          ))}
+        <div className="md:hidden border-t border-[#E2E8F0] bg-white px-4 pt-3 pb-6 space-y-1.5 shadow-elevated">
           <button
-            onClick={() => handleNavClick('about')}
-            className={`block w-full text-left px-4 py-2.5 rounded-xl text-sm font-medium ${
-              route.page === 'about' ? 'bg-black/5 text-cohere-ink font-semibold' : 'text-cohere-slate'
+            type="button"
+            onClick={() => handleNavClick('home')}
+            className={`block w-full text-left px-3.5 py-2.5 rounded-lg text-sm font-medium ${
+              route.page === 'home' ? 'bg-[#EFF6FF] text-[#2563EB] font-semibold' : 'text-[#334155]'
             }`}
           >
-            About & Leadership
+            Home
           </button>
-          
-          <div className="pt-4 border-t border-black/[0.06] flex flex-col gap-2">
-            <a
-              href="https://mldsnnepal.org"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-xs font-mono text-cohere-slate flex items-center gap-1 px-4 py-2"
-            >
-              <span>MLDSN Community Hub</span>
-              <ArrowUpRight size={13} />
-            </a>
+          {navItems.map((item) => {
+            const isActive = item.activePages.includes(route.page);
+            return (
+              <button
+                key={item.page}
+                type="button"
+                onClick={() => handleNavClick(item.page)}
+                className={`block w-full text-left px-3.5 py-2.5 rounded-lg text-sm font-medium ${
+                  isActive ? 'bg-[#EFF6FF] text-[#2563EB] font-semibold' : 'text-[#334155]'
+                }`}
+              >
+                {item.label}
+              </button>
+            );
+          })}
+          <button
+            type="button"
+            onClick={() => handleNavClick('community')}
+            className={`block w-full text-left px-3.5 py-2.5 rounded-lg text-sm font-medium ${
+              route.page === 'community' ? 'bg-[#EFF6FF] text-[#2563EB] font-semibold' : 'text-[#334155]'
+            }`}
+          >
+            MLDSN Community
+          </button>
+
+          <div className="pt-3 border-t border-[#E2E8F0]">
             <button
-              onClick={() => {
-                setMobileMenuOpen(false);
-                document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' });
-              }}
-              className="w-full rounded-full py-2.5 text-xs font-semibold bg-cohere-ink text-white text-center"
+              type="button"
+              onClick={handleCollaborateClick}
+              className="w-full py-3 px-4 rounded-lg text-sm font-semibold bg-[#2563EB] hover:bg-[#1D4ED8] text-white text-center flex items-center justify-center gap-2"
             >
-              Contact Advisory
+              <span>Let&apos;s Collaborate</span>
+              <ArrowRight size={14} />
             </button>
           </div>
         </div>
