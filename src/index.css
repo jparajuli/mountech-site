@@ -1,0 +1,105 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --bg: #F8FAFC;
+  --surface: #FFFFFF;
+  --card: #F0F9FF;
+  --border: #E2E8F0;
+  --accent: #0284C7;
+  --accent-dim: rgba(2, 132, 199, 0.08);
+  --accent2: #15803D;
+  --green: #15803D;
+  --text: #0F1E2E;
+  --text-sub: #334155;
+  --text-muted: #5A6D7E;
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: #F8FAFC;
+  color: #0F1E2E;
+  font-family: 'Plus Jakarta Sans', 'Manrope', -apple-system, BlinkMacSystemFont, sans-serif;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  line-height: 1.6;
+}
+
+h1, h2, .text-balance {
+  text-wrap: balance;
+}
+
+.tabular-nums {
+  font-variant-numeric: tabular-nums;
+}
+
+:focus-visible {
+  outline: 2px solid #0284C7;
+  outline-offset: 2px;
+}
+
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: #F8FAFC;
+}
+::-webkit-scrollbar-thumb {
+  background: #CBD5E1;
+  border-radius: 9999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #94A3B8;
+}
+
+.mt-grid-light {
+  background-image:
+    linear-gradient(rgba(11, 25, 36, 0.035) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(11, 25, 36, 0.035) 1px, transparent 1px);
+  background-size: 48px 48px;
+}
+
+.mt-grid-dark {
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.04) 1px, transparent 1px);
+  background-size: 48px 48px;
+}
+
+.mt-hero-gradient {
+  background:
+    radial-gradient(ellipse 68% 55% at 78% 18%, rgba(46, 182, 224, 0.18) 0%, transparent 65%),
+    radial-gradient(ellipse 52% 45% at 18% 84%, rgba(22, 163, 74, 0.14) 0%, transparent 60%),
+    linear-gradient(180deg, #0B1924 0%, #0E202E 100%);
+}
+
+.mt-gradient-text {
+  background: linear-gradient(135deg, #2EB6E0 0%, #22C55E 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+button, a {
+  touch-action: manipulation;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
